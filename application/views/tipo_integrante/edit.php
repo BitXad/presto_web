@@ -10,7 +10,7 @@
 					<div class="col-md-6">
 						<label for="tipointeg_nombre" class="control-label">Nombre</label>
 						<div class="form-group">
-							<input type="text" name="tipointeg_nombre" value="<?php echo ($this->input->post('tipointeg_nombre') ? $this->input->post('tipointeg_nombre') : $tipo_integrante['tipointeg_nombre']); ?>" class="form-control" id="tipointeg_nombre" required/>
+							<input type="text" name="tipointeg_nombre" value="<?php echo ($this->input->post('tipointeg_nombre') ? $this->input->post('tipointeg_nombre') : $tipo_integrante['tipointeg_nombre']); ?>" class="form-control" id="tipointeg_nombre" onKeyUp="this.value = this.value.toUpperCase();" required/>
 						</div>
 					</div>
 				</div>

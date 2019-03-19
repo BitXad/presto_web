@@ -10,7 +10,7 @@
                             <div class="col-md-6">
                                     <label for="estado_descripcion" class="control-label"><span class="text-danger">*</span>Descripción</label>
                                     <div class="form-group">
-                                            <input type="text" name="estado_descripcion" value="<?php echo $this->input->post('estado_descripcion'); ?>" class="form-control" id="estado_descripcion" required />
+                                            <input type="text" name="estado_descripcion" value="<?php echo $this->input->post('estado_descripcion'); ?>" class="form-control" id="estado_descripcion" onKeyUp="this.value = this.value.toUpperCase();" required />
                                             <span class="text-danger"><?php echo form_error('estado_descripcion');?></span>
                                     </div>
                             </div>
