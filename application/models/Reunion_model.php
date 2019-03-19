@@ -37,13 +37,13 @@ class Reunion_model extends CI_Model
     {
         $reunion = $this->db->query("
             SELECT
-                *
+                r.*, g.*
 
             FROM
-                `reunion`
+                reunion r, grupo g
 
             WHERE
-                1 = 1
+                r.grupo_id=g.grupo_id
 
             ORDER BY `reunion_id` DESC
         ")->result_array();
