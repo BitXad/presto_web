@@ -27,16 +27,19 @@ class Estado extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('estado_descripcion','Descripción','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        $this->form_validation->set_rules('estado_tipo','Tipo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
         {   
             $params = array(
-				'estado_descripcion' => $this->input->post('estado_descripcion'),
-				'estado_tipo' => $this->input->post('estado_tipo'),
-				'estado_color' => $this->input->post('estado_color'),
+                'estado_descripcion' => $this->input->post('estado_descripcion'),
+                'estado_tipo' => $this->input->post('estado_tipo'),
+                'estado_color' => $this->input->post('estado_color'),
             );
             
             $estado_id = $this->Estado_model->add_estado($params);
-            redirect('estado/index');
+            redirect('estado');
         }
         else
         {            
@@ -55,16 +58,19 @@ class Estado extends CI_Controller{
         
         if(isset($data['estado']['estado_id']))
         {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('estado_descripcion','Descripción','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            $this->form_validation->set_rules('estado_tipo','Tipo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {    
                 $params = array(
-					'estado_descripcion' => $this->input->post('estado_descripcion'),
-					'estado_tipo' => $this->input->post('estado_tipo'),
-					'estado_color' => $this->input->post('estado_color'),
+                    'estado_descripcion' => $this->input->post('estado_descripcion'),
+                    'estado_tipo' => $this->input->post('estado_tipo'),
+                    'estado_color' => $this->input->post('estado_color'),
                 );
 
                 $this->Estado_model->update_estado($estado_id,$params);            
-                redirect('estado/index');
+                redirect('estado');
             }
             else
             {
@@ -74,23 +80,21 @@ class Estado extends CI_Controller{
         }
         else
             show_error('The estado you are trying to edit does not exist.');
-    } 
-
+    }
     /*
-     * Deleting estado
+     * Deleting Estado
      */
     function remove($estado_id)
     {
         $estado = $this->Estado_model->get_estado($estado_id);
 
-        // check if the estado exists before trying to delete it
+        // check if the programa exists before trying to delete it
         if(isset($estado['estado_id']))
         {
             $this->Estado_model->delete_estado($estado_id);
-            redirect('estado/index');
+            redirect('estado');
         }
         else
-            show_error('The estado you are trying to delete does not exist.');
+            show_error('El Estado que intentas eliminar no existe.');
     }
-    
 }

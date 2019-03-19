@@ -45,7 +45,7 @@ class Estado_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `estado_id` DESC
+            ORDER BY `estado_id` 
         ")->result_array();
 
         return $estado;
@@ -76,4 +76,46 @@ class Estado_model extends CI_Model
     {
         return $this->db->delete('estado',array('estado_id'=>$estado_id));
     }
+    /*
+     * Get all estado
+     */
+    function get_all_estado_tipo1()
+    {
+        $estado = $this->db->query("
+            SELECT
+                e.*
+
+            FROM
+                estado e
+
+            WHERE
+                e.estado_tipo = 1
+
+            ORDER BY `estado_id` 
+        ")->result_array();
+
+        return $estado;
+    }
+
+    /*
+     * Get estado
+     */
+    function get_estado_tipo($tipo)
+    {
+        $estado = $this->db->query("
+            SELECT
+                e.*
+
+            FROM
+                estado e
+
+            WHERE
+                e.estado_tipo = ".$tipo."
+
+            ORDER BY `estado_id` 
+        ")->result_array();
+
+        return $estado;
+    }
+
 }
