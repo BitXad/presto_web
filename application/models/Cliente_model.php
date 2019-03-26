@@ -76,4 +76,50 @@ class Cliente_model extends CI_Model
     {
         return $this->db->delete('cliente',array('cliente_id'=>$cliente_id));
     }
+    /*
+     * Verifica si ya hay un cliente registrado con un nombre y apellido
+     */
+    function es_cliente_registrado($nombre, $apellido)
+    {
+        $sql = "SELECT
+                      count(c.cliente_id) as resultado
+                  FROM
+                      cliente c
+                 WHERE
+                      c.cliente_nombre = '".$cliente_nombre."'
+                      and c.cliente_nombre = '".$cliente_apellido."'";
+
+        $cliente = $this->db->query($sql)->row_array();
+        return $cliente['resultado'];
+    }
+    /*
+     * Funcion que busca clientes limitado a 50 clientes
+     */
+    function get_all_cliente_param($parametro, $categoriaestado, $limit)
+    {
+        $sql = "SELECT
+                c.*, e.estado_color, e.`estado_descripcion`,
+                cc.categoria_nombre, concat(a.asesor_nombre, ' ', a.asesor_apellido) as miasesor,
+                a.asesor_telefono, a.asesor_celular, a.asesor_foto, ec.estadocivil_nombre
+            FROM
+                cliente c
+            LEFT JOIN estado e on c.estado_id = e.estado_id
+            LEFT JOIN categoria cc on c.categoria_id = cc.categoria_id
+            LEFT JOIN asesor a on c.asesor_id = a.asesor_id
+            LEFT JOIN estado_civil ec on c.estadocivil_id = ec.estadocivil_id
+            WHERE
+                c.estado_id = e.estado_id
+                and(c.cliente_nombre like '%".$parametro."%' or c.cliente_apellido like '%".$parametro."%'
+                or c.cliente_codigo like '%".$parametro."%'
+                or c.cliente_ci like '%".$parametro."%' or c.cliente_nit like '%".$parametro."%'
+                or c.cliente_razon like '%".$parametro."%') 
+                ".$categoriaestado."
+            GROUP BY
+                c.cliente_id
+            ORDER By c.cliente_id DESC ".$limit;
+
+        $cliente = $this->db->query($sql)->result_array();
+        return $cliente;
+
+    }
 }

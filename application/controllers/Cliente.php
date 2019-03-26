@@ -16,7 +16,17 @@ class Cliente extends CI_Controller{
      */
     function index()
     {
-        $data['cliente'] = $this->Cliente_model->get_all_cliente();
+        $this->load->model('Estado_civil_model');
+        $data['all_estadocivil'] = $this->Estado_civil_model->get_all_estado_civil();
+        
+        $this->load->model('Categoria_model');
+        $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+        
+        $this->load->model('Asesor_model');
+        $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+        
+        $this->load->model('Estado_model');
+        $data['all_estado'] = $this->Estado_model->get_all_estado();
         
         $data['_view'] = 'cliente/index';
         $this->load->view('layouts/main',$data);
@@ -27,11 +37,89 @@ class Cliente extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('cliente_nombre','Cliente Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        $this->form_validation->set_rules('cliente_apellido','Cliente Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+
+        if($this->form_validation->run())     
+        {
+                $nombre = $this->input->post('cliente_nombre');
+                $apellido = $this->input->post('cliente_apellido');
+                $resultado = $this->Cliente_model->es_cliente_registrado($nombre, $apellido);
+                if($resultado > 0){
+                    $this->load->model('Estado_civil_model');
+                    $data['all_estado_civil'] = $this->Estado_civil_model->get_all_estado_civil();
+
+                    $this->load->model('Extencion_model');
+                    $data['all_extencion'] = $this->Extencion_model->get_all_extencion();
+
+                    $this->load->model('Categoria_model');
+                    $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+
+                    $this->load->model('Asesor_model');
+                    $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+                    $data['resultado'] = 1;
+                    
+                    $data['_view'] = 'cliente/add';
+                    $this->load->view('layouts/main',$data);
+                    
+                }else{
+                /* *********************INICIO imagen***************************** */
+                $foto="";
+                if (!empty($_FILES['cliente_foto']['name'])){
+                        $this->load->library('image_lib');
+                        $config['upload_path'] = './resources/images/clientes/';
+                        $img_full_path = $config['upload_path'];
+
+                        $config['allowed_types'] = 'gif|jpeg|jpg|png';
+                        $config['max_size'] = 0;
+                        $config['max_width'] = 8900;
+                        $config['max_height'] = 8900;
+                        
+                        $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
+                        $config['file_name'] = $new_name; //.$extencion;
+                        $config['file_ext_tolower'] = TRUE;
+
+                        $this->load->library('upload', $config);
+                        $this->upload->do_upload('cliente_foto');
+
+                        $img_data = $this->upload->data();
+                        $extension = $img_data['file_ext'];
+                        /* ********************INICIO para resize***************************** */
+                        if ($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
+                            $conf['image_library'] = 'gd2';
+                            $conf['source_image'] = $img_data['full_path'];
+                            $conf['new_image'] = './resources/images/clientes/';
+                            $conf['maintain_ratio'] = TRUE;
+                            $conf['create_thumb'] = FALSE;
+                            $conf['width'] = 800;
+                            $conf['height'] = 600;
+                            $this->image_lib->clear();
+                            $this->image_lib->initialize($conf);
+                            if(!$this->image_lib->resize()){
+                                echo $this->image_lib->display_errors('','');
+                            }
+                        }
+                        /* ********************F I N  para resize***************************** */
+                        $confi['image_library'] = 'gd2';
+                        $confi['source_image'] = './resources/images/clientes/'.$new_name.$extension;
+                        $confi['new_image'] = './resources/images/clientes/'."thumb_".$new_name.$extension;
+                        $confi['maintain_ratio'] = TRUE;
+                        $confi['create_thumb'] = FALSE;
+                        $confi['width'] = 50;
+                        $confi['height'] = 50;
+
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($confi);
+                        $this->image_lib->resize();
+
+                        $foto = $new_name.$extension;
+                    }
+            /* *********************FIN imagen***************************** */
+                    $estado_id = 1;
             $params = array(
 				'estadocivil_id' => $this->input->post('estadocivil_id'),
-				'estado_id' => $this->input->post('estado_id'),
+				'estado_id' => $estado_id,
 				'categoria_id' => $this->input->post('categoria_id'),
 				'asesor_id' => $this->input->post('asesor_id'),
 				'cliente_extencionci' => $this->input->post('cliente_extencionci'),
@@ -45,7 +133,7 @@ class Cliente extends CI_Controller{
 				'cliente_latitud' => $this->input->post('cliente_latitud'),
 				'cliente_longitud' => $this->input->post('cliente_longitud'),
 				'cliente_referencia' => $this->input->post('cliente_referencia'),
-				'cliente_foto' => $this->input->post('cliente_foto'),
+				'cliente_foto' => $foto,
 				'cliente_email' => $this->input->post('cliente_email'),
 				'cliente_fechanac' => $this->input->post('cliente_fechanac'),
 				'cliente_nit' => $this->input->post('cliente_nit'),
@@ -54,20 +142,22 @@ class Cliente extends CI_Controller{
             
             $cliente_id = $this->Cliente_model->add_cliente($params);
             redirect('cliente/index');
+            }
         }
         else
         {
-			$this->load->model('Estado_civil_model');
-			$data['all_estado_civil'] = $this->Estado_civil_model->get_all_estado_civil();
+            $this->load->model('Estado_civil_model');
+            $data['all_estado_civil'] = $this->Estado_civil_model->get_all_estado_civil();
 
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+            $this->load->model('Extencion_model');
+            $data['all_extencion'] = $this->Extencion_model->get_all_extencion();
 
-			$this->load->model('Categoria_model');
-			$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+            $this->load->model('Categoria_model');
+            $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
 
-			$this->load->model('Asesor_model');
-			$data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+            $this->load->model('Asesor_model');
+            $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+            $data['resultado'] = 0;
             
             $data['_view'] = 'cliente/add';
             $this->load->view('layouts/main',$data);
@@ -84,8 +174,78 @@ class Cliente extends CI_Controller{
         
         if(isset($data['cliente']['cliente_id']))
         {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('cliente_nombre','Cliente Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            $this->form_validation->set_rules('cliente_apellido','Cliente Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+
+            if($this->form_validation->run())     
+            {
+                /* *********************INICIO imagen***************************** */
+                $foto="";
+                $foto1= $this->input->post('cliente_foto1');
+                if (!empty($_FILES['cliente_foto']['name']))
+                {
+                    $config['upload_path'] = './resources/images/clientes/';
+                    $config['allowed_types'] = 'gif|jpeg|jpg|png';
+                    $config['max_size'] = 0;
+                    $config['max_width'] = 8900;
+                    $config['max_height'] = 8900;
+
+                    $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
+                    $config['file_name'] = $new_name; //.$extencion;
+                    $config['file_ext_tolower'] = TRUE;
+                    
+                    $this->load->library('image_lib');
+                    $this->image_lib->initialize($config);
+                    
+                    $this->load->library('upload', $config);
+                    $this->upload->do_upload('cliente_foto');
+
+                    $img_data = $this->upload->data();
+                    $extension = $img_data['file_ext'];
+                    /* ********************INICIO para resize***************************** */
+                    if($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
+                        $conf['image_library'] = 'gd2';
+                        $conf['source_image'] = $img_data['full_path'];
+                        $conf['new_image'] = './resources/images/clientes/';
+                        $conf['maintain_ratio'] = TRUE;
+                        $conf['create_thumb'] = FALSE;
+                        $conf['width'] = 800;
+                        $conf['height'] = 600;
+                        
+                        $this->image_lib->initialize($conf);
+                        if(!$this->image_lib->resize()){
+                            echo $this->image_lib->display_errors('','');
+                        }
+                        $this->image_lib->clear();
+                    }
+                    /* ********************F I N  para resize***************************** */
+                    //$directorio = base_url().'resources/imagenes/';
+                    $directorio = $_SERVER['DOCUMENT_ROOT'].'/presto_web/resources/images/clientes/';
+                    if(isset($foto1) && !empty($foto1)){
+                      if(file_exists($directorio.$foto1)){
+                          unlink($directorio.$foto1);
+                          $mimagenthumb = "thumb_".$foto1;
+                          unlink($directorio.$mimagenthumb);
+                      }
+                  }
+                    $confi['image_library'] = 'gd2';
+                    $confi['source_image'] = './resources/images/clientes/'.$new_name.$extension;
+                    $confi['new_image'] = './resources/images/clientes/'."thumb_".$new_name.$extension;
+                    $confi['maintain_ratio'] = TRUE;
+                    $confi['create_thumb'] = FALSE;
+                    $confi['width'] = 50;
+                    $confi['height'] = 50;
+
+                    $this->image_lib->clear();
+                    $this->image_lib->initialize($confi);
+                    $this->image_lib->resize();
+
+                    $foto = $new_name.$extension;
+                }else{
+                    $foto = $foto1;
+                }
+            /* *********************FIN imagen***************************** */
                 $params = array(
 					'estadocivil_id' => $this->input->post('estadocivil_id'),
 					'estado_id' => $this->input->post('estado_id'),
@@ -102,7 +262,7 @@ class Cliente extends CI_Controller{
 					'cliente_latitud' => $this->input->post('cliente_latitud'),
 					'cliente_longitud' => $this->input->post('cliente_longitud'),
 					'cliente_referencia' => $this->input->post('cliente_referencia'),
-					'cliente_foto' => $this->input->post('cliente_foto'),
+					'cliente_foto' => $foto,
 					'cliente_email' => $this->input->post('cliente_email'),
 					'cliente_fechanac' => $this->input->post('cliente_fechanac'),
 					'cliente_nit' => $this->input->post('cliente_nit'),
@@ -114,17 +274,20 @@ class Cliente extends CI_Controller{
             }
             else
             {
-				$this->load->model('Estado_civil_model');
-				$data['all_estado_civil'] = $this->Estado_civil_model->get_all_estado_civil();
+                $this->load->model('Estado_civil_model');
+                $data['all_estado_civil'] = $this->Estado_civil_model->get_all_estado_civil(
+                        );
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_all_estado();
+                
+                $this->load->model('Extencion_model');
+                $data['all_extencion'] = $this->Extencion_model->get_all_extencion();
 
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+                $this->load->model('Categoria_model');
+                $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
 
-				$this->load->model('Categoria_model');
-				$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
-
-				$this->load->model('Asesor_model');
-				$data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+                $this->load->model('Asesor_model');
+                $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
 
                 $data['_view'] = 'cliente/edit';
                 $this->load->view('layouts/main',$data);
@@ -132,5 +295,24 @@ class Cliente extends CI_Controller{
         }
         else
             show_error('The cliente you are trying to edit does not exist.');
+    }
+    /*
+    * buscar clientes limite 50
+    */
+    function buscarclientesparam()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro       = $this->input->post('parametro');
+            $categoriaestado = $this->input->post('categoriaestado');
+            $limit           = $this->input->post('limit');
+            $datos = $this->Cliente_model->get_all_cliente_param($parametro, $categoriaestado, $limit);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }
+        
     }
 }
