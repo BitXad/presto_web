@@ -86,8 +86,8 @@ class Cliente_model extends CI_Model
                   FROM
                       cliente c
                  WHERE
-                      c.cliente_nombre = '".$cliente_nombre."'
-                      and c.cliente_nombre = '".$cliente_apellido."'";
+                      c.cliente_nombre = '".$nombre."'
+                      and c.cliente_apellido = '".$apellido."'";
 
         $cliente = $this->db->query($sql)->row_array();
         return $cliente['resultado'];

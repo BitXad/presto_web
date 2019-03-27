@@ -53,7 +53,8 @@ function mostrar(a) {
 <script type="text/javascript">
     $(document).ready(function(){
         var esnombre = $("#cliente_nombre").val();
-        alert("El Cliente '"+esnombre+"' \n ya se encuentra REGISTRADO");
+        var esapellido = $("#cliente_apellido").val();
+        alert("El Cliente '"+esnombre+" "+esapellido+"' \n ya se encuentra REGISTRADO");
     });
 </script>
 <?php } ?>
