@@ -29,7 +29,32 @@ class Credito_model extends CI_Model
 
         return $credito;
     }
+    function buscar_cliente($cliente_ci)
+    {
+
+        $sql = "select * from cliente where cliente_ci = ".$cliente_ci;        
+        $resultado = $this->db->query($sql)->result_array();
         
+        return $resultado;
+    } 
+
+    function mostrar_garantias($usuario_id)
+    {
+
+        $sql = "select * from garantia_aux where usuario_id = ".$usuario_id;        
+        $resultado = $this->db->query($sql)->result_array();
+        
+        return $resultado;
+    } 
+
+    function crear_garantiaaux($cantidad,$descripcion,$precio,$usuario_id)
+    {
+        $caracteristica = "'".$descripcion."'";
+        $sql = "insert into garantia_aux (estado_id,garantia_cantidad,garantia_descripcion,garantia_precio,garantia_total,usuario_id) VALUES (1,".$cantidad.",".$caracteristica.",". $precio.",".$precio * $cantidad.",".$usuario_id.")";     
+        $resultado = $this->db->query($sql);
+        
+        return $resultado;
+    } 
     /*
      * Get all credito
      */

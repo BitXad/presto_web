@@ -37,13 +37,13 @@ class Garantia_model extends CI_Model
     {
         $garantia = $this->db->query("
             SELECT
-                *
+                g.*, e.estado_color, e.estado_descripcion
 
             FROM
-                `garantia`
+                garantia g, estado e
 
             WHERE
-                1 = 1
+                g.estado_id=e.estado_id
 
             ORDER BY `garantia_id` DESC
         ")->result_array();

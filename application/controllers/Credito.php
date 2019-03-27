@@ -15,13 +15,25 @@ class Credito extends CI_Controller{
      * Listing of credito
      */
     function index()
-    {
+    {   
+        $usuario_id = 1;
+        $data['usuario_id'] = $usuario_id;
         $data['credito'] = $this->Credito_model->get_all_credito();
         
         $data['_view'] = 'credito/index';
         $this->load->view('layouts/main',$data);
     }
 
+    function individual()
+    {   
+        $usuario_id = 1;
+        $data['usuario_id'] = $usuario_id;
+        $data['credito'] = $this->Credito_model->get_all_credito();
+        $this->load->model('Tipo_credito_model');
+        $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+        $data['_view'] = 'credito/individual';
+        $this->load->view('layouts/main',$data);
+    }
     /*
      * Adding a new credito
      */
@@ -72,6 +84,63 @@ class Credito extends CI_Controller{
         }
     }  
 
+    function buscarcliente()
+    {
+        
+                if ($this->input->is_ajax_request()) {       
+                    
+                    $cliente_ci = $this->input->post('cliente_ci');                    
+                    $datos = $this->Credito_model->buscar_cliente($cliente_ci);
+                    echo json_encode($datos);                        
+
+                }
+                else
+                {                 
+                            show_404();
+                }  
+        
+               
+    }
+
+    function garantia_aux()
+    {
+        
+                if ($this->input->is_ajax_request()) {       
+                    
+                    $cantidad = $this->input->post('cantidad');                    
+                    $descripcion = $this->input->post('descripcion');                    
+                    $precio = $this->input->post('precio');                    
+                    $usuario_id = $this->input->post('usuario_id');                    
+                    $this->Credito_model->crear_garantiaaux($cantidad,$descripcion,$precio,$usuario_id);
+                    $datos = $this->Credito_model->mostrar_garantias($usuario_id);
+                    echo json_encode($datos);                        
+
+                }
+                else
+                {                 
+                            show_404();
+                }  
+        
+               
+    }
+    function garantiacredito()
+    {
+    
+
+         if ($this->input->is_ajax_request()) {  
+        $usuario_id = $this->input->post('usuario_id');
+        $datos = $this->Credito_model->mostrar_garantias($usuario_id);
+     if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+     
+    
+    } 
     /*
      * Editing a credito
      */
