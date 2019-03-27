@@ -37,11 +37,11 @@ class Asesor_model extends CI_Model
     {
         $asesor = $this->db->query("
             SELECT
-                *
+                a.*, e.estado_color, e.estado_descripcion
 
             FROM
-                `asesor`
-
+                asesor a
+            LEFT JOIN estado e on a.estado_id = e.estado_id
             WHERE
                 1 = 1
 
@@ -75,5 +75,21 @@ class Asesor_model extends CI_Model
     function delete_asesor($asesor_id)
     {
         return $this->db->delete('asesor',array('asesor_id'=>$asesor_id));
+    }
+    /*
+     * Verifica si ya hay un asesor registrado con un nombre y apellido
+     */
+    function es_asesor_registrado($nombre, $apellido)
+    {
+        $sql = "SELECT
+                      count(a.asesor_id) as resultado
+                  FROM
+                      asesor a
+                 WHERE
+                      a.asesor_nombre = '".$nombre."'
+                      and a.asesor_apellido = '".$apellido."'";
+
+        $asesor = $this->db->query($sql)->row_array();
+        return $asesor['resultado'];
     }
 }

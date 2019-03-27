@@ -118,9 +118,10 @@ function tablaresultadoscliente(limite)
                     var n = registros.length; //tamaño del arreglo de la consulta
                     $("#encontrados").val("- "+n+" -");
                     html = "";
-                    
+                    var colorbaja = "";
                     for (var i = 0; i < n ; i++){
-                        html += "<tr>";
+                        colorbaja = "style='background-color:"+registros[i]["estado_color"]+"'";
+                        html += "<tr "+colorbaja+">";
                         
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td><div id='horizontal'>";
@@ -237,8 +238,10 @@ function tablaresultadoscliente(limite)
                         html += "<b>Cat.: </b>"+escategoria_cliente+"<br>";
                         html += "<b>Ref.: </b>"+referencia+"<br>";
                         html += "</td>";
-                        html += "<td><div id='horizontal'>";
-                        html += "<div id='contieneimg'>";
+                        html += "<td>";
+                        if(registros[i]["asesor_id"] != null && registros[i]["asesor_id"] !="" && registros[i]["asesor_id"] !=0){
+                        html += "<div id='horizontal'>";
+                        html += "<div id='contieneimg' class='no-print'>";
                         var mimagena = "";
                         if(registros[i]["asesor_foto"] != null && registros[i]["asesor_foto"] !=""){
                             mimagena += "<a class='btn  btn-xs' data-toggle='modal' data-target='#mostrarimagena"+i+"' style='padding: 0px;'>";
@@ -258,6 +261,7 @@ function tablaresultadoscliente(limite)
                         html += "<b>Tel.: </b>"+registros[i]["asesor_telefono"]+linea+registros[i]["asesor_telefono"];
                         html += "</div>";
                         html += "</div>";
+                        }
                         html += "</td>";
                         html += "<td style='background-color: "+registros[i]["estado_color"]+";'>"+registros[i]["estado_descripcion"]+"</td>";
                         html += "<td class='no-print'>";
