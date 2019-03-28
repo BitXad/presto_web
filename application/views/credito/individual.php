@@ -102,20 +102,9 @@
                   </div>
                  </div>
                  <div class="col-md-12">
-                  <div class="input-group no-print"> <span class="input-group-addon">Tipo de Prestamo:</span>
-                   
-							<select name="tipocredito_id" class="form-control" id="tipocredito_id">
+                  <div class="input-group no-print"> <span class="input-group-addon">Tipo de Credito:</span>
 							
-								<?php 
-								foreach($all_tipo_credito as $tipo_credito)
-								{
-									$selected = ($tipo_credito['tipocredito_id'] == $this->input->post('tipocredito_id')) ? ' selected="selected"' : "";
-
-									echo '<option value="'.$tipo_credito['tipocredito_id'].'" '.$selected.'>'.$tipo_credito['tipocredito_nombre'].'</option>';
-								} 
-								?>
-							</select>
-					
+					 <input type="text" name="tipocredito_id" value="INDIVIDUAL" class="form-control" id="tipocredito_id" readonly />		
                   </div>
                  </div>
                  <div class="col-md-12">
@@ -185,7 +174,19 @@
                  </div>-->
                   <div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Cuotas:</span>
-                    <input type="number" name="credito_cuotas" value="<?php echo $this->input->post('credito_cuotas'); ?>" class="form-control" id="credito_cuotas" />
+                   
+                    <select name="credito_cuotas" id="credito_cuotas"class="form-control"  >
+<option value="0">Sin Limite de Tiempo</option>
+<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+<option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+<option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+<option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option>
+<option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+<option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option>
+<option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option>
+<option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option>
+<option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option>
+</select>
                   </div>
                  </div>
                  <div class="col-md-12">
@@ -248,6 +249,7 @@
                             <a href="<?php echo site_url('credito/edit/'.$c['credito_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a> 
                             <a href="<?php echo site_url('credito/remove/'.$c['credito_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
                             <a href="<?php echo site_url('credito/completo/'.$c['credito_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a>
+                           
                         </td>
                     </tr>
                     <?php } ?>

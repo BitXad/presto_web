@@ -167,6 +167,7 @@ class Credito extends CI_Controller{
                 'credito_comision' => $this->input->post('credito_custodia'),
                 'credito_cuotas' => $this->input->post('credito_cuotas'),
                 'credito_fechalimite' => $this->input->post('credito_fechalimite'),
+                'credito_ultimopago' => $credito_fechainicio,
                 'tipogarant_id' => $this->input->post('tipo_garantia'),
                 'tipoint_id' => $this->input->post('tipo_interes'),
             );
