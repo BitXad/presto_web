@@ -150,3 +150,38 @@ function tablagarantia(){
     });
 
 }
+function finalizarindividual()
+{
+    var base_url    = document.getElementById('base_url').value;
+    var usuario_id    = document.getElementById('usuario_id').value;
+    var controlador = base_url+'credito/finalizar/';   
+    var credito_monto = document.getElementById('credito_monto').value;
+    var credito_interes = document.getElementById('credito_interes').value;
+    var credito_comision = document.getElementById('credito_comision').value;
+    var credito_custodia = document.getElementById('credito_custodia').value;
+    var credito_fechalimite = document.getElementById('credito_fechalimite').value;
+    var credito_cuotas = document.getElementById('credito_cuotas').value;
+    var tipo_credito = document.getElementById('tipocredito_id').value;
+    var tipo_interes = document.getElementById('tipoint_id').value;
+    var tipo_garantia = document.getElementById('tipogarant_id').value;
+   
+    var cliente_id = document.getElementById('cliente_id').value;
+    if(cliente_ci === ''){
+ alert("Ingrese un Cliente");
+document.getElementById("ingreso_numdoc").focus();
+}else{
+
+
+     $.ajax({url: controlador,
+           type:"POST",
+           data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,
+            credito_custodia:credito_custodia,credito_fechalimite:credito_fechalimite,credito_cuotas:credito_cuotas,
+            cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id},
+           success:function(respuesta){ 
+            location.href = base_url+'credito/individual';
+             },
+            
+            });  
+           
+}
+}

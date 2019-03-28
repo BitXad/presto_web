@@ -28,9 +28,13 @@ class Credito extends CI_Controller{
     {   
         $usuario_id = 1;
         $data['usuario_id'] = $usuario_id;
-        $data['credito'] = $this->Credito_model->get_all_credito();
+        $data['credito'] = $this->Credito_model->get_todo_credito();
         $this->load->model('Tipo_credito_model');
         $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+        $this->load->model('Tipo_interes_model');
+        $data['all_tipo_interes'] = $this->Tipo_interes_model->get_all_tipo_interes();
+        $this->load->model('Tipo_garantia_model');
+        $data['all_tipo_garantia'] = $this->Tipo_garantia_model->get_all_tipo_garantia();
         $data['_view'] = 'credito/individual';
         $this->load->view('layouts/main',$data);
     }
@@ -141,9 +145,74 @@ class Credito extends CI_Controller{
      
     
     } 
+
+    function finalizar()
+    {
+        $usuario_id = 1;
+        $credito_fechainicio = date("Y-m-d");
+        $credito_horainicio = date("H:i:s");
+
+         $params = array(
+                'estado_id' => 1,
+                //'grupo_id' => $this->input->post('grupo_id'),
+                //'garantia_id' => $this->input->post('garantia_id'),
+                'usuario_id' => $usuario_id,
+                'tipocredito_id' => $this->input->post('tipo_credito'),
+                'cliente_id' => $this->input->post('cliente_id'),
+                'credito_fechainicio' => $credito_fechainicio,
+                'credito_horainicio' => $credito_horainicio,
+                'credito_monto' => $this->input->post('credito_monto'),
+                'credito_interes' => $this->input->post('credito_interes'),
+                'credito_custodia' => $this->input->post('credito_custodia'),
+                'credito_comision' => $this->input->post('credito_custodia'),
+                'credito_cuotas' => $this->input->post('credito_cuotas'),
+                'credito_fechalimite' => $this->input->post('credito_fechalimite'),
+                'tipogarant_id' => $this->input->post('tipo_garantia'),
+                'tipoint_id' => $this->input->post('tipo_interes'),
+            );
+            
+            $credito_id = $this->Credito_model->add_credito($params);
+    $vaciar_garantia = "INSERT INTO garantia 
+   (estado_id,
+   garantia_descripcion,
+   garantia_cantidad,
+   garantia_precio,
+   garantia_total,
+   credito_id
+   
+   )
+   (SELECT 
+   estado_id,
+   garantia_descripcion,
+   garantia_cantidad,
+   garantia_precio,
+   garantia_total,
+   ".$credito_id."
+   
+   FROM 
+   garantia_aux
+   WHERE
+   usuario_id=".$usuario_id.")";
+   $this->db->query($vaciar_garantia);
+
+   $eliminar_aux = "DELETE FROM garantia_aux WHERE usuario_id=".$usuario_id." ";
+   $this->db->query($eliminar_aux);
+
+    }
     /*
      * Editing a credito
      */
+    function completo($credito_id)
+    {   
+        $data['credito_id'] = $credito_id;
+        $data['credito'] = $this->Credito_model->get_todo_credito();
+        $this->load->model('Garantia_model');
+        $data['garantias'] = $this->Garantia_model->get_garantia_credito($credito_id);
+        $data['empresa'] = $this->Credito_model->get_empresa(1);
+        $data['_view'] = 'credito/completo';
+        $this->load->view('layouts/main',$data);
+    }
+
     function edit($credito_id)
     {   
         // check if the credito exists before trying to edit it
