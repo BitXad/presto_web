@@ -153,7 +153,7 @@ class Credito extends CI_Controller{
         $credito_horainicio = date("H:i:s");
 
          $params = array(
-                'estado_id' => 1,
+                'estado_id' => 9,
                 //'grupo_id' => $this->input->post('grupo_id'),
                 //'garantia_id' => $this->input->post('garantia_id'),
                 'usuario_id' => $usuario_id,
@@ -205,7 +205,7 @@ class Credito extends CI_Controller{
     function completo($credito_id)
     {   
         $data['credito_id'] = $credito_id;
-        $data['credito'] = $this->Credito_model->get_todo_credito();
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
         $this->load->model('Garantia_model');
         $data['garantias'] = $this->Garantia_model->get_garantia_credito($credito_id);
         $data['empresa'] = $this->Credito_model->get_empresa(1);

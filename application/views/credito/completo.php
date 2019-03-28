@@ -1,5 +1,5 @@
 <style type="text/css">
-	body{
+	.ale{
 		 font-family: "Arial", Arial, Arial, arial;
     font-size: 9px;
 	}
@@ -37,6 +37,7 @@
     border-bottom: 1px solid black;
 }
 </style>
+<div class="ale">
 <div style="width: 100%;overflow-x:hidden;overflow-y:auto;">
    
 <div style="float:left; width:22%;">
@@ -89,12 +90,12 @@
 </div>
 
 <div style="float:right; width:78%;">
-	<div style="float:left; width:50%;">
-        <center>DEUDOR: <?php echo $credito[0]['cliente_apellido']; ?>  <?php echo $credito[0]['cliente_nombre']; ?><br>
+	<div style="float:left; width:50%;padding-left: 18%;">
+        		DEUDOR: <?php echo $credito[0]['cliente_apellido']; ?>  <?php echo $credito[0]['cliente_nombre']; ?><br>
         		ESTADO CRED.: <?php echo $credito[0]['estado_descripcion']; ?><br>
         		FECHA CRED.: <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechainicio'])); ?><br>
     			LIMITE CRED.: <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechalimite'])); ?><br>
-        </center>
+        
 </div>
 <div style="float:right; width:50%;">
         <table class="table table-striped" id="latabla">
@@ -131,14 +132,14 @@
                     <tr>
 						<td><?php echo $i; ?></td>
 						<td><?php echo $g['garantia_descripcion']; ?></td>
-						<td><?php echo $g['garantia_cantidad']; ?></td>
-						<td><?php echo $g['garantia_precio']; ?></td>
-						<td><?php echo $g['garantia_total']; ?></td>
+						<td align="center"><?php echo $g['garantia_cantidad']; ?></td>
+						<td align="right"><?php echo number_format($g['garantia_precio'], 2, ".", ","); ?></td>
+						<td align="right"><?php echo number_format($g['garantia_total'], 2, ".", ","); ?></td>
 					</tr>
 					
 				<?php } ?>				
 				<tr>
-						<th colspan="5" style="text-align:right;">TOTAL :  <?php echo $suma; ?></th>
+						<th colspan="5" style="text-align:right;">TOTAL Bs. :  <?php echo number_format($suma, 2, ".", ","); ?></th>
 					</tr>
 </table>
 </div>
@@ -155,4 +156,5 @@
     <div style="float:right; width:38%;">
         <center>CAJERO</center>
     </div>
+</div>
 </div>
