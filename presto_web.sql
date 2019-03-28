@@ -28,7 +28,7 @@ CREATE TABLE `estado` (
   `estado_tipo` int(11) DEFAULT NULL,
   `estado_color` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`estado_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `asesor` table : 
@@ -47,7 +47,7 @@ CREATE TABLE `asesor` (
   `asesor_foto` varchar(250) DEFAULT NULL,
   `asesor_fechanac` date DEFAULT NULL,
   `asesor_profesion` varchar(150) DEFAULT NULL,
-  `asesor_espcialidad` varchar(250) DEFAULT NULL,
+  `asesor_especialidad` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`asesor_id`),
   KEY `fk_estado_asesor` (`estado_id`),
   CONSTRAINT `fk_estado_asesor` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`)
@@ -86,7 +86,7 @@ CREATE TABLE `grupo` (
   CONSTRAINT `fk_asesor_grupo` FOREIGN KEY (`asesor_id`) REFERENCES `asesor` (`asesor_id`),
   CONSTRAINT `fk_estado_grupo` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
   CONSTRAINT `fk_usuario_grupo` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `reunion` table : 
@@ -136,7 +136,7 @@ CREATE TABLE `estado_civil` (
   `estadocivil_id` int(11) NOT NULL AUTO_INCREMENT,
   `estadocivil_nombre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`estadocivil_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `extencion` table : 
@@ -184,7 +184,7 @@ CREATE TABLE `cliente` (
   CONSTRAINT `fk_estadocivil_cliente` FOREIGN KEY (`estadocivil_id`) REFERENCES `estado_civil` (`estadocivil_id`),
   CONSTRAINT `fk_estado_cliente` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
   CONSTRAINT `fk_extencion_ci` FOREIGN KEY (`cliente_extencionci`) REFERENCES `extencion` (`cliente_extencionci`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `garantia` table : 
@@ -198,6 +198,8 @@ CREATE TABLE `garantia` (
   `garantia_cantidad` float DEFAULT NULL,
   `garantia_precio` float DEFAULT NULL,
   `garantia_observacion` varchar(250) DEFAULT NULL,
+  `credito_id` int(11) DEFAULT NULL,
+  `garantia_total` int(11) DEFAULT NULL,
   PRIMARY KEY (`garantia_id`),
   KEY `fk_estado_garantia` (`estado_id`),
   CONSTRAINT `fk_estado_garantia` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`)
@@ -278,6 +280,26 @@ CREATE TABLE `cuota` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
+# Structure for the `empresa` table : 
+#
+
+CREATE TABLE `empresa` (
+  `empresa_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dosificacion_id` int(11) DEFAULT NULL,
+  `empresa_nombre` varchar(150) DEFAULT NULL,
+  `empresa_eslogan` varchar(250) DEFAULT NULL,
+  `empresa_direccion` varchar(250) DEFAULT NULL,
+  `empresa_telefono` varchar(150) DEFAULT NULL,
+  `empresa_imagen` varchar(250) DEFAULT NULL,
+  `empresa_zona` varchar(150) DEFAULT NULL,
+  `empresa_ubicacion` varchar(150) DEFAULT NULL,
+  `empresa_departamento` varchar(50) DEFAULT NULL,
+  `empresa_propietario` varchar(150) DEFAULT NULL,
+  `empresa_codigo` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`empresa_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+#
 # Structure for the `factura` table : 
 #
 
@@ -310,6 +332,23 @@ CREATE TABLE `garante` (
   CONSTRAINT `fk_garante_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`cliente_id`),
   CONSTRAINT `fk_garante_credito` FOREIGN KEY (`credito_id`) REFERENCES `credito` (`credito_id`),
   CONSTRAINT `fk_garantia_garante` FOREIGN KEY (`garantia_id`) REFERENCES `garantia` (`garantia_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `garantia_aux` table : 
+#
+
+CREATE TABLE `garantia_aux` (
+  `garantia_id` int(11) NOT NULL AUTO_INCREMENT,
+  `estado_id` int(11) DEFAULT NULL,
+  `garantia_descripcion` varchar(250) DEFAULT NULL,
+  `garantia_codigo` varchar(20) DEFAULT NULL,
+  `garantia_cantidad` float DEFAULT NULL,
+  `garantia_precio` float DEFAULT NULL,
+  `garantia_observacion` varchar(250) DEFAULT NULL,
+  `credito_id` int(11) DEFAULT NULL,
+  `garantia_total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`garantia_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -371,14 +410,24 @@ CREATE TABLE `multa` (
 
 INSERT INTO `estado` (`estado_id`, `estado_descripcion`, `estado_tipo`, `estado_color`) VALUES 
   (1,'ACTIVO',1,'WHITE'),
-  (2,'INACTIVO',2,'GRAY');
+  (2,'INACTIVO',1,'GRAY'),
+  (3,'ANULADO',1,'RED'),
+  (4,'APERTURADO',2,'WHITE'),
+  (5,'ANALISIS',2,'YELLOW'),
+  (6,'DESEMBOLSO',2,'GREEN'),
+  (7,'MORA',2,'CYAN'),
+  (8,'FINALIZADO',2,'MAGENTA'),
+  (9,'VIGENTE',3,'WHITE'),
+  (10,'CANCELADO',3,'YELLOW'),
+  (11,'ANULADO',3,'GRAY'),
+  (12,'EJECUTADO',3,'CYAN');
 COMMIT;
 
 #
 # Data for the `asesor` table  (LIMIT 0,500)
 #
 
-INSERT INTO `asesor` (`asesor_id`, `estado_id`, `asesor_nombre`, `asesor_apellido`, `asesor_ci`, `asesor_telefono`, `asesor_celular`, `asesor_latitud`, `asesor_longitud`, `asesor_foto`, `asesor_fechanac`, `asesor_profesion`, `asesor_espcialidad`) VALUES 
+INSERT INTO `asesor` (`asesor_id`, `estado_id`, `asesor_nombre`, `asesor_apellido`, `asesor_ci`, `asesor_telefono`, `asesor_celular`, `asesor_latitud`, `asesor_longitud`, `asesor_foto`, `asesor_fechanac`, `asesor_profesion`, `asesor_especialidad`) VALUES 
   (1,1,'JUAN MARCIAL','PEREZ LOPEZ','465443','4546432','77567890','','','','0000-00-00','ING. COMERCIAL','CONTABILIDAD MINERA'),
   (2,1,'MAGDA MARCELA','MARTINEZ ROSALES','345435','4566567','776544567','','','','0000-00-00','LIC. EN ADMINNISTRACION DE EMPRESAS','NINGUNA');
 COMMIT;
@@ -389,6 +438,18 @@ COMMIT;
 
 INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`) VALUES 
   (1,'MARCIAL');
+COMMIT;
+
+#
+# Data for the `grupo` table  (LIMIT 0,500)
+#
+
+INSERT INTO `grupo` (`grupo_id`, `asesor_id`, `usuario_id`, `estado_id`, `grupo_fecha`, `grupo_hora`, `grupo_nombre`, `grupo_codigo`, `grupo_iniciosolicitud`, `grupo_monto`, `grupo_integrantes`) VALUES 
+  (1,2,1,1,'0000-00-00','14:00:00','crecer','cr234','0000-00-00',21000,6),
+  (2,2,1,1,'0000-00-00','00:00:00','Paramos del Sur','32234','0000-00-00',35000,7),
+  (3,2,NULL,NULL,'2019-03-28','15:36:14','LOS GRILLOS','34SDS','0000-00-00',40000,5),
+  (4,2,1,3,'0000-00-00','15:52:47','LOS LOCOS DEL SWING','43EW','0000-00-00',20000,6),
+  (5,2,1,3,'2019-03-28','15:53:56','EPITOME','4WE','2019-03-28',45000,7);
 COMMIT;
 
 #
@@ -410,7 +471,8 @@ INSERT INTO `estado_civil` (`estadocivil_id`, `estadocivil_nombre`) VALUES
   (2,'CASADO(A)'),
   (3,'VIUDO(A)'),
   (4,'DIVORCIADO(A)'),
-  (5,'CONCUVINADO(A)');
+  (5,'CONCUVINADO(A)'),
+  (6,'SOLTERO(A)');
 COMMIT;
 
 #
@@ -427,6 +489,23 @@ INSERT INTO `extencion` (`cliente_extencionci`) VALUES
   ('PT'),
   ('SC'),
   ('TR');
+COMMIT;
+
+#
+# Data for the `cliente` table  (LIMIT 0,500)
+#
+
+INSERT INTO `cliente` (`cliente_id`, `estadocivil_id`, `estado_id`, `categoria_id`, `cliente_extencionci`, `asesor_id`, `cliente_nombre`, `cliente_apellido`, `cliente_ci`, `cliente_codigo`, `cliente_telefono`, `cliente_celular`, `cliente_direccion`, `cliente_latitud`, `cliente_longitud`, `cliente_referencia`, `cliente_foto`, `cliente_email`, `cliente_fechanac`, `cliente_nit`, `cliente_razon`) VALUES 
+  (4,6,1,1,'LP',2,'JUAN MARCIAL','PEREZ LOPEZ','343253','535ETER','453645','709784596','AV. BLANCO GALINDO Nº 3654','','','PUERTA CAFE CASA DE DOS PISOS','','','0000-00-00','454353465','PEREZ');
+COMMIT;
+
+#
+# Data for the `empresa` table  (LIMIT 0,500)
+#
+
+INSERT INTO `empresa` (`empresa_id`, `dosificacion_id`, `empresa_nombre`, `empresa_eslogan`, `empresa_direccion`, `empresa_telefono`, `empresa_imagen`, `empresa_zona`, `empresa_ubicacion`, `empresa_departamento`, `empresa_propietario`, `empresa_codigo`) VALUES 
+  (1,1,'ROTE MARKET','COMPRE MAS, COMPRE MEJOR','AV SIMON LOPEZ S/N ENTRE M. CAMACHO','(591)75928038','1544749940.png','ZONA MAYORAZGO','CERCADO - COCHABAMBA','Cochabamba','GUSTAVO CORDOVA CHOQUE','rv9JQ0'),
+  (2,1,'ROTE MARKET','COMPRE MAS, COMPRE MEJOR','AV SIMON LOPEZ S/N ENTRE M. CAMACHO','(591)75928038','1544447771.jpg','ZONA MAYORAZGO','CERCADO - COCHABAMBA','Cochabamba','GUSTAVO CORDOVA CHOQUE','');
 COMMIT;
 
 
