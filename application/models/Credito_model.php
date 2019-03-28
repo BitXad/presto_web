@@ -75,7 +75,62 @@ class Credito_model extends CI_Model
 
         return $credito;
     }
-        
+    function get_empresa($empresa_id)
+    {
+        $credito = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                `empresa`
+
+            WHERE
+                empresa_id = ".$empresa_id."
+
+        ")->result_array();
+
+        return $credito;
+    }
+    function get_todo_credito()
+    {
+        $credito = $this->db->query("
+            SELECT
+                c.*, e.estado_color, e.estado_descripcion,
+                k.cliente_nombre, k.cliente_ci,k.cliente_apellido, k.cliente_telefono, tg.tipogarant_nombre, ti.tipoint_nombre, us.usuario_nombre
+
+            FROM
+                credito c
+            LEFT JOIN estado e on c.estado_id = e.estado_id
+            LEFT JOIN cliente k on c.cliente_id = k.cliente_id
+            LEFT JOIN tipo_garantia tg on c.tipogarant_id = tg.tipogarant_id
+            LEFT JOIN tipo_interes ti on c.tipoint_id = ti.tipoint_id
+            LEFT JOIN usuario us on c.usuario_id = us.usuario_id
+            
+            ORDER BY c.credito_fechainicio DESC, c.credito_horainicio DESC
+        ")->result_array();
+
+        return $credito;
+    }
+    function get_este_credito($credito_id)
+    {
+        $credito = $this->db->query("
+            SELECT
+                c.*, e.estado_color, e.estado_descripcion,
+                k.cliente_nombre, k.cliente_ci,k.cliente_apellido, k.cliente_telefono, tg.tipogarant_nombre, ti.tipoint_nombre, us.usuario_nombre
+
+            FROM
+                credito c
+            LEFT JOIN estado e on c.estado_id = e.estado_id
+            LEFT JOIN cliente k on c.cliente_id = k.cliente_id
+            LEFT JOIN tipo_garantia tg on c.tipogarant_id = tg.tipogarant_id
+            LEFT JOIN tipo_interes ti on c.tipoint_id = ti.tipoint_id
+            LEFT JOIN usuario us on c.usuario_id = us.usuario_id
+            WHERE c.credito_id=".$credito_id."
+            ORDER BY c.credito_fechainicio DESC, c.credito_horainicio DESC
+        ")->result_array();
+
+        return $credito;
+    }  
     /*
      * function to add new credito
      */

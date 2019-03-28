@@ -44,9 +44,9 @@ function buscarcliente(){
                 else 
                 {
                     //$("#razon_social").val('SIN NOMBRECILLO');
-                   
+                   alert("Este cliente no esta registrado, continue llenando los campos para registrarlo")
                     $("#cliente_id").val(0);
-                    $("#cliente_nombre").val("-");
+                    $("#cliente_nombre").val("-").focus();
                     $("#cliente_apellido").val("-");
                     $("#cliente_telefono").val(0);
                   
@@ -149,4 +149,39 @@ function tablagarantia(){
    }
     });
 
+}
+function finalizarindividual()
+{
+    var base_url    = document.getElementById('base_url').value;
+    var usuario_id    = document.getElementById('usuario_id').value;
+    var controlador = base_url+'credito/finalizar/';   
+    var credito_monto = document.getElementById('credito_monto').value;
+    var credito_interes = document.getElementById('credito_interes').value;
+    var credito_comision = document.getElementById('credito_comision').value;
+    var credito_custodia = document.getElementById('credito_custodia').value;
+    var credito_fechalimite = document.getElementById('credito_fechalimite').value;
+    var credito_cuotas = document.getElementById('credito_cuotas').value;
+    var tipo_credito = 2;
+    var tipo_interes = document.getElementById('tipoint_id').value;
+    var tipo_garantia = document.getElementById('tipogarant_id').value;
+   
+    var cliente_id = document.getElementById('cliente_id').value;
+    if(cliente_id == 0){
+ alert("Ingrese un Cliente");
+
+}else{
+
+
+     $.ajax({url: controlador,
+           type:"POST",
+           data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,
+            credito_custodia:credito_custodia,credito_fechalimite:credito_fechalimite,credito_cuotas:credito_cuotas,
+            cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id},
+           success:function(respuesta){ 
+            location.href = base_url+'credito/individual';
+             },
+            
+            });  
+           
+}
 }
