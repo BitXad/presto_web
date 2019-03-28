@@ -52,6 +52,20 @@ class Grupo_model extends CI_Model
     }
         
     /*
+     * Get all grupo
+     */
+    function get_all_grupos()
+    {
+        $sql = "select * from grupo g
+                left join asesor a on a.asesor_id = g.asesor_id
+                left join usuario u on u.usuario_id = g.usuario_id
+                left join estado e on e.estado_id = g.estado_id";
+
+        $grupo = $this->db->query($sql)->result_array();
+        return $grupo;
+    }
+        
+    /*
      * function to add new grupo
      */
     function add_grupo($params)
