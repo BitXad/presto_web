@@ -14,7 +14,7 @@ class Asistencia_model extends CI_Model
     /*
      * Get asistencia by aistencia_id
      */
-    function get_asistencia($aistencia_id)
+    function get_asistencia($asistencia_id)
     {
         $asistencia = $this->db->query("
             SELECT
@@ -24,8 +24,8 @@ class Asistencia_model extends CI_Model
                 `asistencia`
 
             WHERE
-                `aistencia_id` = ?
-        ",array($aistencia_id))->row_array();
+                `asistencia_id` = ?
+        ",array($asistencia_id))->row_array();
 
         return $asistencia;
     }
@@ -45,7 +45,7 @@ class Asistencia_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `aistencia_id` DESC
+            ORDER BY `asistencia_id` DESC
         ")->result_array();
 
         return $asistencia;
@@ -63,17 +63,44 @@ class Asistencia_model extends CI_Model
     /*
      * function to update asistencia
      */
-    function update_asistencia($aistencia_id,$params)
+    function update_asistencia($asistencia_id,$params)
     {
-        $this->db->where('aistencia_id',$aistencia_id);
+        $this->db->where('asistencia_id',$asistencia_id);
         return $this->db->update('asistencia',$params);
     }
     
     /*
      * function to delete asistencia
      */
-    function delete_asistencia($aistencia_id)
+    function delete_asistencia($asistencia_id)
     {
-        return $this->db->delete('asistencia',array('aistencia_id'=>$aistencia_id));
+        return $this->db->delete('asistencia',array('asistencia_id'=>$asistencia_id));
     }
+    /*
+     * Get this asistencia by cliente_id and reunion_id
+     */
+    function get_this_asistencia($cliente_id, $reunion_id)
+    {
+        $asistencia = $this->db->query("
+            SELECT
+                a.asistencia_id
+            FROM
+                asistencia a
+            WHERE
+                a.reunion_id = $reunion_id
+                and a.cliente_id = $cliente_id
+        ")->row_array();
+
+        return $asistencia['asistencia_id'];
+    }
+    /*
+     * function to update asistencia
+     */
+    function update_this_asistencia($cliente_id, $reunion_id, $params)
+    {
+        $this->db->where('cliente_id',$cliente_id);
+        $this->db->where('reunion_id',$reunion_id);
+        return $this->db->update('asistencia',$params);
+    }
+    
 }

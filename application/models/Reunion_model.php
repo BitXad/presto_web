@@ -76,4 +76,47 @@ class Reunion_model extends CI_Model
     {
         return $this->db->delete('reunion',array('reunion_id'=>$reunion_id));
     }
+    
+    /*
+     * Get reunion, grupo para asistencia 
+     */
+    function get_this_reunion($reunion_id)
+    {
+        $reunion = $this->db->query("
+            SELECT
+                r.*, g.grupo_nombre, concat (a.asesor_nombre, ' ', a.asesor_apellido) as elasesor
+            FROM
+                reunion r
+            LEFT JOIN grupo g on r.grupo_id = g.grupo_id
+            LEFT JOIN asesor a on g.asesor_id = a.asesor_id
+            WHERE
+                r.reunion_id = $reunion_id
+        ")->row_array();
+
+        return $reunion;
+    }
+    /*
+     * Get integrantes 
+     */
+    function get_this_clientesgrupo($grupo_id)
+    {
+        $cliente = $this->db->query("
+            SELECT
+                c.cliente_id, concat(c.cliente_nombre, ' ', c.cliente_apellido) as elcliente,
+                c.cliente_ci, c.cliente_extencionci, c.cliente_telefono, c.cliente_celular,
+                cr.credito_id, cu.cuota_id, cu.cuota_monto, a.asistencia_registro
+            FROM
+                integrante i
+            LEFT JOIN cliente c on i.cliente_id = c.cliente_id
+            LEFT JOIN credito cr on c.cliente_id = cr.cliente_id
+            LEFT JOIN cuota cu on cr.credito_id = cu.cuota_id
+            LEFT JOIN asistencia a on c.cliente_id = a.cliente_id
+            WHERE
+                
+                i.grupo_id = $grupo_id
+        ")->result_array();
+
+        return $cliente;
+    }
+    
 }

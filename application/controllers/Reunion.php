@@ -98,5 +98,151 @@ class Reunion extends CI_Controller{
         else
             show_error('The reunion you are trying to delete does not exist.');
     }
-    
+    /* Reunion de un grupo; agarra el ID de una reunion!!*/
+    function lareunion()
+    {
+        $reunion_id = 1;
+        $data['reunion'] = $this->Reunion_model->get_this_reunion($reunion_id);
+       // $data['all_clientes'] = $this->Reunion_model->get_this_clientesgrupo($data['reunion']['grupo_id']);
+        
+        $data['_view'] = 'reunion/lareunion';
+        $this->load->view('layouts/main',$data);
+    }
+    /*
+     * registra una reunion
+     */
+    function registrareunion()
+    {
+        if(isset($_POST) && count($_POST) > 0)     
+        {
+            $multa_monto = 0;
+            $multa_detalle = "";
+            $usuario_id =1;
+            $num_clientes = $this->input->post('numclientes');
+            $reunion_id = $this->input->post('idreunion_id');
+            $multa_fecha = date("Y-m-d");
+            $multa_hora = date("H:i:s");
+            $multa_numrec = 0;
+            $observacion = "";
+            for ($cont = 0; $cont < $num_clientes; $cont++) {
+                $cliente_id = $this->input->post('cliente_id'.$cont);
+                $retraso = $this->input->post('retraso'.$cont);
+                $falta   = $this->input->post('falta'.$cont);
+                $multa_numrecr   = $this->input->post('multa_numrecr'.$cont);
+                $multa_numrecf   = $this->input->post('multa_numrecf'.$cont);
+                $observacion   = $this->input->post('observaciones'.$cont);
+                if(isset($retraso)){
+                    $multa_monto = $retraso;
+                    $multa_detalle = "Retraso";
+                    $multa_numrec = $multa_numrecr;
+                    $params = array(
+                        'reunion_id' => $reunion_id,
+                        'usuario_id' => $usuario_id,
+                        'multa_monto' => $multa_monto,
+                        'multa_fecha' => $multa_fecha,
+                        'multa_hora' => $multa_hora,
+                        'multa_detalle' => $multa_detalle,
+                        'multa_numrec' => $multa_numrec,
+                );
+                $this->load->model('Multa_model');
+                $multa_id = $this->Multa_model->add_multa($params);
+                }elseif(isset($falta)){
+                    $multa_monto = $falta;
+                    $multa_detalle = "Falta";
+                    $multa_numrec = $multa_numrecf;
+                    $params = array(
+                        'reunion_id' => $reunion_id,
+                        'usuario_id' => $usuario_id,
+                        'multa_monto' => $multa_monto,
+                        'multa_fecha' => $multa_fecha,
+                        'multa_hora' => $multa_hora,
+                        'multa_detalle' => $multa_detalle,
+                        'multa_numrec' => $multa_numrec,
+                );
+                $this->load->model('Multa_model');
+                $multa_id = $this->Multa_model->add_multa($params);
+                }
+                
+                
+                $param = array(
+                        'asistencia_observacion' => $observacion,
+                );
+                $this->load->model('Asistencia_model');
+                $this->Asistencia_model->update_this_asistencia($cliente_id, $reunion_id, $param);
+            }
+            redirect('reunion/index');
+        }
+        else
+        {
+			$this->load->model('Grupo_model');
+			$data['all_grupo'] = $this->Grupo_model->get_all_grupo();
+            
+            $data['_view'] = 'reunion/add';
+            $this->load->view('layouts/main',$data);
+        }
+    }
+    /*
+    * buscar clientes limite 50
+    */
+    function registrar_asistencia()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $this->load->model('Asistencia_model');
+            
+            $asistencia = $this->input->post('asistencia');
+            $cliente_id = $this->input->post('cliente_id');
+            $reunion_id = $this->input->post('reunion_id');
+            $asistencia_id = $this->Asistencia_model->get_this_asistencia($cliente_id, $reunion_id);
+            $reunion_fecha = date("Y-m-d");
+            $reunion_hora = date("H:i:s");
+            if($asistencia_id >0){
+                $params = array(
+                                'asistencia_fecha' => $reunion_fecha,
+                                'asistencia_hora' => $reunion_hora,
+                                'asistencia_registro' => $asistencia,
+                                'asistencia_observacion' => $this->input->post('asistencia_observacion'),
+                );
+                $this->Asistencia_model->update_asistencia($asistencia_id, $params);
+            }else{
+                $params = array(
+                                'reunion_id' => $reunion_id,
+                                'cliente_id' => $cliente_id,
+                                'asistencia_fecha' => $reunion_fecha,
+                                'asistencia_hora' => $reunion_hora,
+                                'asistencia_registro' => $asistencia,
+                                'asistencia_observacion' => $this->input->post('asistencia_observacion'),
+                );
+
+                $asistencia_id = $this->Asistencia_model->add_asistencia($params);
+            }
+            $datos = "ok";
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }
+        
+    }
+    /*
+    * get REUNION
+    */
+    function getreunion()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $reunion_id = $this->input->post('reunion_id');
+            
+            $data['reunion'] = $this->Reunion_model->get_this_reunion($reunion_id);
+            $datos = $this->Reunion_model->get_this_clientesgrupo($data['reunion']['grupo_id']);
+            
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }
+        
+    }
 }
