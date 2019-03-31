@@ -1,9 +1,30 @@
-<div class="row">
+<div class="container">
+    <div class="panel panel-primary col-md-6">
+    <!--<h5><b>Hospedaje Cod: </b><?php echo "000".$hospedaje_id; ?></h5>-->
+    <h5><b>Grupo: </b><?php echo $grupo['grupo_nombre']; ?></h5>
+    <h5><b>Fecha/Solicitud: </b><?php echo $grupo['grupo_iniciosolicitud']; ?></h5>
+    <h5><b>Asesor: </b><?php echo $grupo['grupo_fecha']; ?></h5>
+    <h5><b>Monto Solicitado Bs.: </b><?php echo number_format($grupo['grupo_monto'],2,".",","); ?></h5>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-primary col-md-6">
+    <h5><b>Cliente: </b></h5>
+    
+<!--    <h5><b>Fecha/Solicitud: </b><?php echo $grupo['grupo_iniciosolicitud']; ?></h5>
+    <h5><b>Asesor: </b><?php echo $grupo['grupo_fecha']; ?></h5>
+    <h5><b>Monto Solicitado Bs.: </b><?php echo number_format($grupo['grupo_monto'],2,".",","); ?></h5>-->
+    </div>
+</div>
+
+<!--<div class="row">
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
-              	<h3 class="box-title">Modificar: Grupo</h3>
+              	<h3 class="box-title">Integrantes: Grupo</h3>
             </div>
+            
 			<?php echo form_open('grupo/edit/'.$grupo['grupo_id']); ?>
 			<div class="box-body">
 				<div class="row clearfix">
@@ -112,4 +133,4 @@
 			<?php echo form_close(); ?>
 		</div>
     </div>
-</div>
+</div>-->

@@ -50,6 +50,24 @@ class Garantia_model extends CI_Model
 
         return $garantia;
     }
+
+    function get_garantia_credito($credito_id)
+    {
+        $garantia = $this->db->query("
+            SELECT
+                g.*
+
+            FROM
+                garantia g
+
+            WHERE
+                g.credito_id=".$credito_id."
+
+            ORDER BY `garantia_id` DESC
+        ")->result_array();
+
+        return $garantia;
+    }
         
     /*
      * function to add new garantia

@@ -74,8 +74,7 @@
 					<div class="col-md-2">
 						<label for="garantia_precio" class="control-label"></label>
 						<div class="form-group">
-					<a class="btn btn-success btn-xs" onclick="creagarantia_aux()"><i class="fa fa-cart-arrow-down"></i> Agregar<br>
-					 Garantia</a>
+					<a class="btn btn-success btn-xs" onclick="creagarantia_aux()"><i class="fa fa-cart-arrow-down"></i> Agregar</a>
 				</div>
             	</div>
             	
@@ -103,16 +102,40 @@
                   </div>
                  </div>
                  <div class="col-md-12">
-                  <div class="input-group no-print"> <span class="input-group-addon">Tipo de Prestamo:</span>
+                  <div class="input-group no-print"> <span class="input-group-addon">Tipo de Credito:</span>
+							
+					 <input type="text" name="tipocredito_id" value="INDIVIDUAL" class="form-control" id="tipocredito_id" readonly />		
+                  </div>
+                 </div>
+                 <div class="col-md-12">
+                  <div class="input-group no-print"> <span class="input-group-addon">Tipo de Garantia:</span>
                    
-							<select name="tipocredito_id" class="form-control">
+							<select name="tipogarant_id" class="form-control" id="tipogarant_id">
 							
 								<?php 
-								foreach($all_tipo_credito as $tipo_credito)
+								foreach($all_tipo_garantia as $tipo_garantia)
 								{
-									$selected = ($tipo_credito['tipocredito_id'] == $this->input->post('tipocredito_id')) ? ' selected="selected"' : "";
+									$selected = ($tipo_garantia['tipogarant_id'] == $this->input->post('tipogarant_id')) ? ' selected="selected"' : "";
 
-									echo '<option value="'.$tipo_credito['tipocredito_id'].'" '.$selected.'>'.$tipo_credito['tipocredito_nombre'].'</option>';
+									echo '<option value="'.$tipo_garantia['tipogarant_id'].'" '.$selected.'>'.$tipo_garantia['tipogarant_nombre'].'</option>';
+								} 
+								?>
+							</select>
+					
+                  </div>
+                 </div>
+                 <div class="col-md-12">
+                  <div class="input-group no-print"> <span class="input-group-addon">Tipo de Interes:</span>
+                   
+							<select name="tipoint_id" class="form-control" id="tipoint_id">
+							
+								<?php 
+								foreach($all_tipo_interes as $tipo_interes)
+								{
+									$selected = ($tipo_interes['tipoint_id'] == $this->input->post('tipoint_id')) ? ' 
+									selected="selected"' : "";
+
+									echo '<option value="'.$tipo_interes['tipoint_id'].'" '.$selected.'>'.$tipo_interes['tipoint_nombre'].'</option>';
 								} 
 								?>
 							</select>
@@ -122,15 +145,15 @@
                  <div class="col-md-12">
                  	<div class="col-md-4" style="padding-left: 0px;padding-right: 0px;">
                   <div class="input-group no-print"> <span class="input-group-addon">Interes:</span>
-                    <input id="filtrar" type="text" class="form-control" >
+                    <input id="credito_interes" name="credito_interes" value="4" type="text" class="form-control" >
                   </div></div>
                   <div class="col-md-4" style="padding-left: 0px;padding-right: 0px;">
                   	<div class="input-group no-print"> <span class="input-group-addon">Comision:</span>
-                    <input id="filtrar" type="text" class="form-control" >
+                    <input id="credito_comision" name="credito_comision" value="2" type="text" class="form-control" >
                   </div></div>
                   <div class="col-md-4" style="padding-left: 0px;padding-right: 0px;">
                   <div class="input-group no-print"> <span class="input-group-addon">Custodio:</span>
-                    <input id="filtrar" type="text" class="form-control" >
+                    <input id="credito_custodia" name="credito_custodia"  value="2" type="text" class="form-control" >
                   </div></div>
                  </div>
                  <div class="col-md-12">
@@ -139,24 +162,36 @@
                    <input type="date" name="credito_fechalimite" value="<?php echo date("Y-m-d",$mod_date); ?>" class=" form-control" id="credito_fechalimite" />
                   </div>
                  </div>
-                 <div class="col-md-12">
+                 <!--<div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Capitalista:</span>
-                    <input id="filtrar" type="text" class="form-control" >
+                    <input id="Capitalista" type="text" class="form-control" >
                   </div>
                  </div>
                  <div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Capital Disponible:</span>
-                    <input id="filtrar" type="text" class="form-control" >
+                    <input id="capitaler" type="text" class="form-control" >
                   </div>
-                 </div>
+                 </div>-->
                   <div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Cuotas:</span>
-                    <input type="number" name="credito_cuotas" value="<?php echo $this->input->post('credito_cuotas'); ?>" class="form-control" id="credito_cuotas" />
+                   
+                    <select name="credito_cuotas" id="credito_cuotas"class="form-control"  >
+<option value="0">Sin Limite de Tiempo</option>
+<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+<option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+<option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+<option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option>
+<option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+<option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option>
+<option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option>
+<option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option>
+<option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option>
+</select>
                   </div>
                  </div>
                  <div class="col-md-12">
 						
-					<a class="btn btn-success" onclick="finalizar_credito()"><i class="fa fa-save"></i> Finalizar</a>
+					<a class="btn btn-success" onclick="finalizarindividual()"><i class="fa fa-save"></i> Finalizar</a>
 				
             	</div>
     	</div><!--box-->
@@ -175,39 +210,46 @@
             <div class="box-body">
                 <table class="table table-striped" id="mitabla">
                     <tr>
-						<th>Credito Id</th>
-						<th>Estado Id</th>
-						<th>Grupo Id</th>
-						<th>Garantia Id</th>
-						<th>Usuario Id</th>
-						<th>Tipocredito Id</th>
-						<th>Cliente Id</th>
-						<th>Credito Fechainicio</th>
-						<th>Credito Horainicio</th>
-						<th>Credito Monto</th>
-						<th>Credito Interes</th>
-						<th>Credito Cuotas</th>
-						<th>Credito Fechalimite</th>
-						<th>Actions</th>
+						<th>#</th>
+						<th>Cliente</th>
+						<th>C.I.</th>
+						<th>Telef.</th>
+						<th>Fecha</th>
+						<th>Hora</th>
+						<th>Fechalimite</th>
+						<th>Monto</th>
+						<th>% int</th>
+						<th>% com</th>
+						<th>% cus</th>
+						<th>Tipo</th>
+						<th>Modalidad</th>
+						<th>Usuario</th>
+						<th>Estado</th>
+						
+						<th></th>
                     </tr>
                     <?php foreach($credito as $c){ ?>
                     <tr>
 						<td><?php echo $c['credito_id']; ?></td>
-						<td><?php echo $c['estado_id']; ?></td>
-						<td><?php echo $c['grupo_id']; ?></td>
-						<td><?php echo $c['garantia_id']; ?></td>
-						<td><?php echo $c['usuario_id']; ?></td>
-						<td><?php echo $c['tipocredito_id']; ?></td>
-						<td><?php echo $c['cliente_id']; ?></td>
+						<td><?php echo $c['cliente_nombre']; ?></td>
+						<td><?php echo $c['cliente_ci']; ?></td>
+						<td><?php echo $c['cliente_telefono']; ?></td>
 						<td><?php echo $c['credito_fechainicio']; ?></td>
 						<td><?php echo $c['credito_horainicio']; ?></td>
+						<td><?php echo $c['credito_fechalimite']; ?></td>
 						<td><?php echo $c['credito_monto']; ?></td>
 						<td><?php echo $c['credito_interes']; ?></td>
-						<td><?php echo $c['credito_cuotas']; ?></td>
-						<td><?php echo $c['credito_fechalimite']; ?></td>
+						<td><?php echo $c['credito_comision']; ?></td>
+						<td><?php echo $c['credito_custodia']; ?></td>
+						<td><?php echo $c['tipoint_nombre']; ?></td>
+						<td><?php echo $c['tipogarant_nombre']; ?></td>
+						<td><?php echo $c['usuario_nombre']; ?></td>
+						<td style="background: <?php echo $c['estado_color']; ?>"><?php echo $c['estado_descripcion']; ?></td>
 						<td>
-                            <a href="<?php echo site_url('credito/edit/'.$c['credito_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
-                            <a href="<?php echo site_url('credito/remove/'.$c['credito_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
+                            <a href="<?php echo site_url('credito/edit/'.$c['credito_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a> 
+                            <a href="<?php echo site_url('credito/remove/'.$c['credito_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
+                            <a href="<?php echo site_url('credito/completo/'.$c['credito_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a>
+                           
                         </td>
                     </tr>
                     <?php } ?>
