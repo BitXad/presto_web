@@ -9,6 +9,7 @@ class Cuota extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Cuota_model');
+        $this->load->model('Credito_model');
     } 
 
     /*
@@ -19,6 +20,14 @@ class Cuota extends CI_Controller{
         $data['cuota'] = $this->Cuota_model->get_all_cuota();
         
         $data['_view'] = 'cuota/index';
+        $this->load->view('layouts/main',$data);
+    }
+
+    function individual($credito_id)
+    {
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+        $data['_view'] = 'cuota/individual';
         $this->load->view('layouts/main',$data);
     }
 
