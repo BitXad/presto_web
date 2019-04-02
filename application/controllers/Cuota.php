@@ -31,6 +31,14 @@ class Cuota extends CI_Controller{
         $this->load->view('layouts/main',$data);
     }
 
+     function sintiempo($credito_id)
+    {
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+        $data['_view'] = 'cuota/sintiempo';
+        $this->load->view('layouts/main',$data);
+    }
+
     /*
      * Adding a new cuota
      */

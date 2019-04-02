@@ -1,11 +1,9 @@
 $(document).on("ready",inicio);
 
 function inicio(){
-
         
         tablagarantia();
        
-
 }
 function validar(e,opcion) {
     
@@ -166,8 +164,9 @@ function finalizarindividual()
     var tipo_garantia = document.getElementById('tipogarant_id').value;
    
     var cliente_id = document.getElementById('cliente_id').value;
-    if(cliente_id == 0){
- alert("Ingrese un Cliente");
+    if(cliente_id == 0 || credito_monto=='' || credito_monto==null){
+ alert("Debe ingresar Cliente y monto de Credito");
+ 
 
 }else{
 

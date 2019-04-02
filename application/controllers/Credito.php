@@ -39,6 +39,24 @@ class Credito extends CI_Controller{
         $data['_view'] = 'credito/individual';
         $this->load->view('layouts/main',$data);
     }
+
+    function creditos()
+    {   
+        
+     if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+           
+            $datos = $this->Credito_model->get_buscar_credito($parametro);
+            
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }
+        
+    }
     /*
      * Adding a new credito
      */
