@@ -123,14 +123,14 @@ class Reunion extends CI_Controller{
             $multa_fecha = date("Y-m-d");
             $multa_hora = date("H:i:s");
             $multa_numrec = 0;
-            $observacion = "";
+            //$observacion = "";
             for ($cont = 0; $cont < $num_clientes; $cont++) {
                 $cliente_id = $this->input->post('cliente_id'.$cont);
                 $retraso = $this->input->post('retraso'.$cont);
                 $falta   = $this->input->post('falta'.$cont);
-                $multa_numrecr   = $this->input->post('multa_numrecr'.$cont);
-                $multa_numrecf   = $this->input->post('multa_numrecf'.$cont);
-                $observacion   = $this->input->post('observaciones'.$cont);
+                $multa_numrecr = $this->input->post('multa_numrecr'.$cont);
+                $multa_numrecf = $this->input->post('multa_numrecf'.$cont);
+                //$observacion   = $this->input->post('observacion'.$cont);
                 if(isset($retraso)){
                     $multa_monto = $retraso;
                     $multa_detalle = "Retraso";
@@ -163,9 +163,8 @@ class Reunion extends CI_Controller{
                 $multa_id = $this->Multa_model->add_multa($params);
                 }
                 
-                
                 $param = array(
-                        'asistencia_observacion' => $observacion,
+                        'asistencia_observacion' => $this->input->post('observacion'.$cont),
                 );
                 $this->load->model('Asistencia_model');
                 $this->Asistencia_model->update_this_asistencia($cliente_id, $reunion_id, $param);

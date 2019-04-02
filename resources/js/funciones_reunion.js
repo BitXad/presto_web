@@ -27,7 +27,7 @@ function asistencia(asistencia, cliente_id, reunion_id){
 function tablaresultadosreunion(reunion_id)
 {
     var controlador = "";
-    var parametro = "";
+    //var parametro = "";
     var base_url = document.getElementById('base_url').value;
     
     controlador = base_url+'reunion/getreunion';       
@@ -119,8 +119,8 @@ function tablaresultadosreunion(reunion_id)
                         }
                         html += "</td>";
                         html += "<td>";
-                        html += "<input style='width: 100%' type='text' name='observaciones"+i+"' id='observaciones"+i+"' />";
-                        html += "<input type='hidden' name='cliente_id"+i+"' id='cliente_id"+i+"' />";
+                        html += "<input style='width: 100%' type='text' name='observacion"+i+"' id='observacion"+i+"' />";
+                        html += "<input type='hidden' name='cliente_id"+i+"' id='cliente_id"+i+"' value='"+registros[i]['cliente_id']+"' />";
                         html += "</td>";
                         
                         html += "</tr>";
