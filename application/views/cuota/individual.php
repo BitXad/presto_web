@@ -12,7 +12,7 @@
     
 </div>
 <div class="col-md-4">
-    MONTO: <?php echo $credito[0]['credito_monto']; ?>MONEDA: BOLIVIANOS<br>
+    MONTO: <?php echo $credito[0]['credito_monto']; ?> MONEDA: BOLIVIANOS<br>
     INTERES: % <?php echo $credito[0]['credito_interes']; ?>
     COMISION: % <?php echo $credito[0]['credito_comision']; ?>
     CUSTODIO: % <?php echo $credito[0]['credito_custodia']; ?><br>
@@ -132,7 +132,7 @@
                     <?php } ?>
                     <tr>
                       <td colspan="6"><b>TOTAL</b></td>
-                      <td align="right"><b><?php echo $cancelados; ?></b></td>
+                      <td align="right"><b><?php echo number_format($cancelados, 2, ".", ","); ?></b></td>
                       <td colspan="7"></td>
                     </tr>
 </table>

@@ -39,6 +39,23 @@ class Cuota extends CI_Controller{
         $this->load->view('layouts/main',$data);
     }
 
+    function creditocuota($credito_id)
+     {
+    
+         if ($this->input->is_ajax_request()) {  
+        $datos = $this->Cuota_model->get_all_cuotas($credito_id);
+     if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+     
+    
+    } 
+         
     /*
      * Adding a new cuota
      */

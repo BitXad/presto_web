@@ -1,3 +1,5 @@
+<script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('resources/js/cuotas.js'); ?>"></script>
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
@@ -13,7 +15,7 @@
     
 </div>
 <div class="col-md-4">
-    MONTO: <?php echo $credito[0]['credito_monto']; ?>MONEDA: BOLIVIANOS<br>
+    MONTO: <?php echo $credito[0]['credito_monto']; ?> MONEDA: BOLIVIANOS<br>
     INTERES: % <?php echo $credito[0]['credito_interes']; ?>
     COMISION: % <?php echo $credito[0]['credito_comision']; ?>
     CUSTODIO: % <?php echo $credito[0]['credito_custodia']; ?><br>
@@ -21,29 +23,70 @@
     TIPO DE GARANTIA: <?php echo $credito[0]['tipogarant_nombre']; ?>
 </div>
 <div class="col-md-4 no-print">
-    <center>            
-            <a href="#" data-toggle="modal" data-target="#pagarint" class="btn btn-success btn-foursquarexs"><font size="5"><span class="fa fa-money"></span></font><br><small>Cobrar Int.</small></a>
+              
+            <a href="#" onclick="cobrarinteres()" data-toggle="modal" data-target="#pagarint" class="btn btn-success btn-foursquarexs" ><font size="5"><span class="fa fa-money"></span></font><br><small>Cobrar Int.</small></a>
              <!---------------------------------MODAL DE PAGAR------------------------->
 
-  <div class="modal fade" id="pagarint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="pagarint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <font size="2"><b> <span class="btn-success" >Cobrar Interes</span></b> </font><button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body" align="center">
-                <!--<form action="<?php echo base_url('cuotum/cobrar/'.$c['cuota_id']); ?>"  method="POST" class="form" id="saldar">-->
+              <div class="modal-body" >
+                <div class="col-md-12">
+                <div class="col-md-6">
+                  <label for="cliente_nombre" class="control-label">Cobrar</label>
+                <div class="form-group">
+                    <input type="number" name="cuota_montocancelado" class="form-control" id="cuota_montocancelado" />
+                    <div hidden>
+                    <input type="text" name="credito_monto" value="<?php echo $credito[0]['credito_monto']; ?>" id="credito_monto" />
+                    <input type="text" name="credito_saldo" value="<?php echo $credito[0]['credito_saldo']; ?>" id="credito_saldo" />
+                    <input type="text" name="credito_interes" value="<?php echo $credito[0]['credito_interes']; ?>" id="credito_interes" />
+                  <input type="text" name="credito_custodia" value="<?php echo $credito[0]['credito_custodia']; ?>" id="credito_custodia" />
+                    <input type="text" name="credito_comision" value="<?php echo $credito[0]['credito_comision']; ?>" id="credito_comision" /></div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cliente_nombre" class="control-label">Saldo</label>
+                  <div class="form-group">
+                     <input type="number" name="cuota_saldocapital" value="0" class="form-control" id="cuota_saldocapital" />
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cuota_numrecibo" class="control-label">Numero Recibo</label>
+                  <div class="form-group">
+                    <input type="text" name="cuota_numrecibo" value="" class="form-control" id="cuota_numrecibo" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cuota_glosa" class="control-label">Glosa</label>
+                  <div class="form-group">
+                    <input type="text" name="cuota_glosa" value="" class="form-control" id="cuota_glosa" />
+                  </div>
+                </div>
+              </div>
+               
+              </div>
+          <div class="modal-footer" align="right">
 
-         
-               <h2><b> <span class="btn-success" >Cobrar Interes<br> </span>
-                  
-              </b></h2>
-          </div>
-          
-          </div>
+            <button class="btn btn-md btn-success"  >
+              
+                <span class="fa fa-money"></span>   Cobrar  
+             
+            </button> 
+        
+            <button class="btn btn-md btn-danger" data-dismiss="modal">
+            
+                <span class="fa fa-close"></span>   Cancelar  
+               
+            </button>
+                         
+        </div>
+        </div>
         </div>
         </div>
         <!---------------------------------FIN MODAL DE PAGAR------------------------->
@@ -62,18 +105,7 @@
               <div class="modal-body">
          
               <div class="col-md-12">
-                <div class="col-md-6">
-                  <label for="cliente_nombre" class="control-label">PAGO</label>
-                <div class="form-group">
-                    <input type="number" name="cuota_cancelado" value="" class="form-control" id="cuota_cancelado" />
-                </div>
-                </div>
-                <div class="col-md-6">
-                     <input type="number" name="cuota_id" value="" class="form-control" id="cuota_id" />
-                </div>
-                <div class="col-md-6">
-                     <input type="number" name="cuota_id" value="" class="form-control" id="cuota_id" />
-                </div>
+              
               </div>
           </div>
           <div class="modal-footer" align="right">
@@ -95,9 +127,9 @@
           </div>
         </div>
         </div>
+
         <!---------------------------------FIN MODAL DE PAGAR------------------------->
-       
-        </center>       
+         
 </div>
 </div>
 <div class="box">

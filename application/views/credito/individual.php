@@ -9,8 +9,9 @@
     <div class="col-md-12">
     	
   	<div class="col-md-7">
-        <div class="panel">
+        <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
+          <center><b><u>CLIENTE</u></b></center>
 <!--------------------- cliente_id --------------------->
 <div class="container" hidden>
     <input type="text" name="cliente_id" value="0" class="form-control" id="cliente_id" >
@@ -48,8 +49,9 @@
         </div>
         </div><!--BOX BODY-->
          </div><!--BOX-->
-        <div class="panel">
+        <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
+          <center><b><u>GARANTIA</u></b></center>
 					<div class="col-md-6">
 						<label for="garantia_descripcion" class="control-label">Descripcion</label>
 						<div class="form-group">
@@ -92,8 +94,9 @@
       
     </div><!--COL7-->
     <div class="col-md-5">
-    	 <div class="panel">
+    	 <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
+          <center><b><u>CREDITO</u></b></center>
     	 		<div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Monto:</span>
                     <input type="text" name="credito_monto" value="<?php echo $this->input->post('credito_monto'); ?>" class="form-control" id="credito_monto" />
