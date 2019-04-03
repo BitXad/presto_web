@@ -98,6 +98,14 @@ class Asistencia_model extends CI_Model
      */
     function update_this_asistencia($cliente_id, $reunion_id, $params)
     {
+        /*
+        $sql = " UPDATE asistencia
+            SET ".$params."
+            WHERE
+                cliente_id = ".$cliente_id." 
+                and reunion_id = ".$reunion_id;
+        return $this->db->query($sql);
+        */
         $this->db->where('cliente_id',$cliente_id);
         $this->db->where('reunion_id',$reunion_id);
         return $this->db->update('asistencia',$params);

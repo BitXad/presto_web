@@ -77,7 +77,7 @@
                         </td>
                         <td>
                             <input style="width: 100%" type="text" name="observaciones<?php echo $i; ?>" id="observiaciones<?php echo $i; ?>" />
-                            <input type="hidden" name="cliente_id<?php echo $i; ?>" id="cliente_id<?php echo $i; ?>" />
+                            <input type="hidden" name="cliente_id<?php echo $i; ?>" id="cliente_id<?php echo $i; ?>" value='<?php echo $cliente['cliente_id'] ?>' />
                         </td>
                     </tr>
                     <?php $i++; } */ ?>
