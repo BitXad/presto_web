@@ -206,7 +206,7 @@
     <div class="col-md-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Creditos</h3>
+                <h3 class="box-title">Creditos Individuaes</h3>
             	
             </div>
             <div class="col-md-12">

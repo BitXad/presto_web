@@ -1,23 +1,23 @@
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
-<div class="box-header" style="width: 100%;font-size: 12px;">
+<div class="box-header" style="font-family: 'Arial', Arial, Arial, arial;width: 100%;font-size: 11px;">
   <H4><B>CREDITO INDIVIDUAL</B></H4>
 <div class="col-md-4">
-    DEUDOR: <?php echo $credito[0]['cliente_apellido']; ?>  <?php echo $credito[0]['cliente_nombre']; ?><br>
-    FECHA CRED.: <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechainicio'])); ?><br>
-    LIMITE CRED.: <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechalimite'])); ?><br>
-    ESTADO CRED.: <?php echo $credito[0]['estado_descripcion']; ?><br>
+    <b>DEUDOR:</b> <?php echo $credito[0]['cliente_apellido']; ?>  <?php echo $credito[0]['cliente_nombre']; ?><br>
+    <b>FECHA CRED.:</b> <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechainicio'])); ?><br>
+    <b>LIMITE CRED.:</b> <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechalimite'])); ?><br>
+    <b>ESTADO CRED.:</b> <?php echo $credito[0]['estado_descripcion']; ?><br>
 
     
 </div>
 <div class="col-md-4">
-    MONTO: <?php echo $credito[0]['credito_monto']; ?> MONEDA: BOLIVIANOS<br>
-    INTERES: % <?php echo $credito[0]['credito_interes']; ?>
-    COMISION: % <?php echo $credito[0]['credito_comision']; ?>
-    CUSTODIO: % <?php echo $credito[0]['credito_custodia']; ?><br>
-    TIPO DE INTERES: <?php echo $credito[0]['tipoint_nombre']; ?><br>
-    TIPO DE GARANTIA: <?php echo $credito[0]['tipogarant_nombre']; ?>
+    <b>MONTO:</b> <?php echo number_format($credito[0]['credito_monto'], 2, ".", ","); ?> <b>SALDO:</b> <?php echo number_format($credito[0]['credito_saldo'], 2, ".", ","); ?><br>
+    <b>INTERES:</b> % <?php echo $credito[0]['credito_interes']; ?>
+    <b>COMISION:</b> % <?php echo $credito[0]['credito_comision']; ?>
+    <b>CUSTODIO:</b> % <?php echo $credito[0]['credito_custodia']; ?><br>
+    <b>TIPO DE INTERES:</b> <?php echo $credito[0]['tipoint_nombre']; ?><br>
+    <b>TIPO DE GARANTIA:</b> <?php echo $credito[0]['tipogarant_nombre']; ?>
 </div>
 </div>
 <div class="box">
@@ -41,10 +41,10 @@
                         <th></th>
                     </tr>
                     
-                         <?php $i = 1; 
-                    $total = 0;
+                         <?php 
+                    
                       $cancelados = 0;
-                    $cont = 0;
+                   
                           foreach($cuota as $c) {
                            $cancelados += $c['cuota_montocancelado'];     
                                  ?>

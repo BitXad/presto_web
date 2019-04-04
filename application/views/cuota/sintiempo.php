@@ -3,24 +3,23 @@
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
-<div class="box-header" style="width: 100%;font-size: 12px;">
+<div class="box-header" style="font-family: 'Arial', Arial, Arial, arial;width: 100%;font-size: 11px;">
   <H4><B>CREDITO INDIVIDUAL</B></H4>
 <div class="col-md-4">
-    DEUDOR: <?php echo $credito[0]['cliente_apellido']; ?>  <?php echo $credito[0]['cliente_nombre']; ?><br>
-    FECHA CRED.: <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechainicio'])); ?><br>
-    LIMITE CRED.: <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechalimite'])); ?><br>
-    ESTADO CRED.: <?php echo $credito[0]['estado_descripcion']; ?><br>
+    <b>DEUDOR:</b> <?php echo $credito[0]['cliente_apellido']; ?>  <?php echo $credito[0]['cliente_nombre']; ?><br>
+    <b>FECHA CRED.:</b> <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechainicio'])); ?><br>
+    <b>LIMITE CRED.:</b> <?php echo date('d/m/Y', strtotime($credito[0]['credito_fechalimite'])); ?><br>
+    <b>ESTADO CRED.:</b> <?php echo $credito[0]['estado_descripcion']; ?><br>
 
-   
     
 </div>
 <div class="col-md-4">
-    MONTO: <?php echo $credito[0]['credito_monto']; ?> MONEDA: BOLIVIANOS<br>
-    INTERES: % <?php echo $credito[0]['credito_interes']; ?>
-    COMISION: % <?php echo $credito[0]['credito_comision']; ?>
-    CUSTODIO: % <?php echo $credito[0]['credito_custodia']; ?><br>
-    TIPO DE INTERES: <?php echo $credito[0]['tipoint_nombre']; ?><br>
-    TIPO DE GARANTIA: <?php echo $credito[0]['tipogarant_nombre']; ?>
+    <b>MONTO:</b> <?php echo number_format($credito[0]['credito_monto'], 2, ".", ","); ?> <b>SALDO:</b> <?php echo number_format($credito[0]['credito_saldo'], 2, ".", ","); ?><br>
+    <b>INTERES:</b> % <?php echo $credito[0]['credito_interes']; ?>
+    <b>COMISION:</b> % <?php echo $credito[0]['credito_comision']; ?>
+    <b>CUSTODIO:</b> % <?php echo $credito[0]['credito_custodia']; ?><br>
+    <b>TIPO DE INTERES:</b> <?php echo $credito[0]['tipoint_nombre']; ?><br>
+    <b>TIPO DE GARANTIA:</b> <?php echo $credito[0]['tipogarant_nombre']; ?>
 </div>
 <div class="col-md-4 no-print">
               
@@ -98,19 +97,41 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-              <b> <span class="btn-warning" >Amortizar Deuda </span></b> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <font size="2"><b> <span class="btn-warning" >Amortizar Deuda </span></b></font> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-         
               <div class="col-md-12">
-              
+                <div class="col-md-6">
+                  <label for="cliente_nombre" class="control-label">PAGO</label>
+                <div class="form-group">
+                    <input type="number" name="cuota_cancelado" value="<?php echo $credito[0]['credito_saldo']; ?>" class="form-control" id="cuota_cancelado" />
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cliente_nombre" class="control-label">SALDO</label>
+                  <div class="form-group">
+                     <input type="number" name="saldo" value="0" class="form-control" id="saldo" />
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cuota_numrecibo" class="control-label">Numero Recibo</label>
+                  <div class="form-group">
+                    <input type="text" name="cuota_numrecibo" value="" class="form-control" id="cuota_numrecibo" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cuota_glosa" class="control-label">Glosa</label>
+                  <div class="form-group">
+                    <input type="text" name="cuota_glosa" value="" class="form-control" id="cuota_glosa" />
+                  </div>
+                </div>
               </div>
           </div>
           <div class="modal-footer" align="right">
 
-            <button class="btn btn-md btn-success"  type="submit">
+            <button class="btn btn-md btn-success"  >
               
                 <span class="fa fa-money"></span>   Amortizar  
              
@@ -153,16 +174,11 @@
                         <th></th>
                     </tr>
                     
-                         <?php $i = 1; 
-                    $total = 0;
+                         <?php 
                       $cancelados = 0;
-                    $cont = 0;
+                    
                           foreach($cuota as $c){;
-                                 $cont = $cont+1;
-                                 $subtotal = $c['cuota_monto'];
-                                 $subcancelados = $c['cuota_montocancelado'];
-                                 $total = $subtotal + $total;
-                                 $cancelados = $subcancelados + $cancelados;
+                                 $cancelados += $c['cuota_montocancelado'];     
                                  
                                  ?>
                         <tr>
@@ -184,69 +200,15 @@
                         <td><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
-                        <td><a href="#" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> </td>
-<!---------------------------------MODAL DE PAGAR------------------------->
-
-  <div class="modal fade" id="pagar<?php echo $c['cuota_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-              <b> <span class="btn-success" >Pagar Deuda </span></b> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-         
-              <div class="col-md-12">
-                <div class="col-md-6">
-                  <label for="cliente_nombre" class="control-label">PAGO</label>
-                <div class="form-group">
-                    <input type="number" name="cuota_cancelado" value="<?php echo number_format($c['cuota_monto'], 2, ".", ","); ?>" class="form-control" id="cuota_cancelado" />
-                </div>
-                </div>
-                <div class="col-md-6">
-                  <label for="cliente_nombre" class="control-label">SALDO</label>
-                  <div class="form-group">
-                     <input type="number" name="saldo" value="0" class="form-control" id="saldo" />
-                </div>
-                </div>
-                <div class="col-md-6">
-                  <label for="cuota_numrecibo" class="control-label">Numero Recibo</label>
-                  <div class="form-group">
-                    <input type="text" name="cuota_numrecibo" value="" class="form-control" id="cuota_numrecibo" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label for="cuota_glosa" class="control-label">Glosa</label>
-                  <div class="form-group">
-                    <input type="text" name="cuota_glosa" value="" class="form-control" id="cuota_glosa" />
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div class="modal-footer" align="right">
-
-            <button class="btn btn-md btn-success"  type="submit">
-              
-                <span class="fa fa-money"></span>   Amortizar  
-             
-            </button> 
-        
-            <button class="btn btn-md btn-danger" data-dismiss="modal">
-            
-                <span class="fa fa-close"></span>   Cancelar  
-               
-            </button>
-                         
-        </div>
-          
-          </div>
-        </div>
-        </div>
-        <!---------------------------------FIN MODAL DE PAGAR------------------------->
+                        
                     </tr>
                     <?php } ?>
+                    <tr>
+                      <td colspan="6"><b>TOTAL</b></td>
+                      <td align="right"><b><?php echo number_format($cancelados, 2, ".", ","); ?></b></td>
+                      <td colspan="7"></td>
+                    </tr>
+                  
 </table>
 </div>
 </div>
