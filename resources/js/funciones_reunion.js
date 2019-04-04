@@ -51,11 +51,13 @@ function tablaresultadosreunion(reunion_id)
                     var totalp = 0;
                     var totalr = 0;
                     var totalpagado = 0;
+                    var totalahorro = 0;
                     var totalretraso = 0;
                     var totalfaltas = 0;
                     html = "";
                     for (var i = 0; i < n ; i++){
                         totalpagado = Number(totalpagado) + Number(registros[i]['asistencia_pagado']);
+                        totalahorro = Number(totalahorro) + Number(registros[i]['asistencia_ahorro']);
                         html += "<tr>";
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td>";
@@ -110,27 +112,37 @@ function tablaresultadosreunion(reunion_id)
                         html += "</td>";
                         html += "<td class='text-right'>";
                         html += Number(registros[i]["cuota_monto"]).toFixed(2);
+                        html += "<input type='hidden' name='cuota_monto"+i+"' id='cuota_monto"+i+"' value='"+Number(registros[i]["cuota_monto"]).toFixed(2)+"' class='text-right' />";
                         html += "</td>";
                         html += "<td>";
                         var asistencia_pagado = "0.00";
                         if(registros[i]["asistencia_pagado"] > 0){
                             asistencia_pagado = registros[i]["asistencia_pagado"];
                         }
-                        html += "<input type='number' step='any' min='0' max='"+registros[i]["cuota_monto"]+"' name='asistencia_pagado"+i+"' id='asistencia_pagado"+i+"' value='"+Number(asistencia_pagado).toFixed(2)+"' onchange='sumarpagados()' class='text-right' onclick='this.select();' />";
+                        html += "<input type='number' step='any' min='0' name='asistencia_pagado"+i+"' id='asistencia_pagado"+i+"' value='"+Number(asistencia_pagado).toFixed(2)+"' onchange='sumarpagados()' class='text-right' onclick='this.select();' />";
+                        html += "</td>";
+                        html += "<td>";
+                        html += "<input type='number' step='any' min='0' name='asistencia_ahorro"+i+"' id='asistencia_ahorro"+i+"' value='"+Number(registros[i]["asistencia_ahorro"]).toFixed(2)+"' class='text-right' readonly />";
                         html += "</td>";
                         html += "<td>";
                         if(registros[i]["asistencia_registro"] == 'R'){
+                            totalretraso = Number(totalretraso) + Number(registros[i]['asistencia_retraso']);
                         var retraso = "0.00";
-                        if(registros[i]["asistencia_pagado"] > 0){
-                            retraso = registros[i]["asistencia_pagado"];
+                        if(registros[i]["asistencia_retraso"] > 0){
+                            retraso = registros[i]["asistencia_retraso"];
                         }
-                        html += "<input type='number' step='any' min='0' name='asistencia_retraso"+i+"' id='asistencia_retraso"+i+"' value='"+Number(registros[i]['asistencia_retraso']).toFixed(2)+"' class='text-right' onclick='this.select();' />";
+                        html += "<input type='number' step='any' min='0' name='asistencia_retraso"+i+"' id='asistencia_retraso"+i+"' value='"+Number(retraso).toFixed(2)+"' onchange='sumaretrasos()' class='text-right' onclick='this.select();' />";
                         html += "<input type='number' name='asistencia_recibor"+i+"' id='asistencia_recibor"+i+"' class='text-right' value='"+registros[i]['asistencia_recibor']+"' />";
                         }
                         html += "</td>";
                         html += "<td>";
                         if(registros[i]["asistencia_registro"] == 'F'){
-                        html += "<input type='number' step='any' min='0' name='asistencia_falta"+i+"' id='asistencia_falta"+i+"' value='"+Number(registros[i]['asistencia_falta']).toFixed(2)+"' class='text-right' onclick='this.select();' />";
+                            totalfaltas = Number(totalfaltas) + Number(registros[i]['asistencia_falta']);
+                        var falta = "0.00";
+                        if(registros[i]["asistencia_falta"] > 0){
+                            falta = registros[i]["asistencia_falta"];
+                        }
+                        html += "<input type='number' step='any' min='0' name='asistencia_falta"+i+"' id='asistencia_falta"+i+"' value='"+Number(falta).toFixed(2)+"' onchange='sumarfaltas()' class='text-right' onclick='this.select();' />";
                         html += "<input type='number' name='asistencia_recibof"+i+"' id='asistencia_recibof"+i+"' class='text-right' value='"+registros[i]['asistencia_recibof']+"' />";
                         }
                         html += "</td>";
@@ -157,7 +169,10 @@ function tablaresultadosreunion(reunion_id)
                    /*$("#totalretraso").html(totalretraso);
                    $("#totalfaltas").html(totalfaltas);*/
                    document.getElementById('loader').style.display = 'none';
-                   $("#totalpagado").val(totalpagado);
+                   $("#totalpagado").val(Number(totalpagado).toFixed(2));
+                   $("#totalahorro").val(Number(totalahorro).toFixed(2));
+                   $("#totalretraso").val(Number(totalretraso).toFixed(2));
+                   $("#totalfaltas").val(Number(totalfaltas).toFixed(2));
             }
          document.getElementById('loader').style.display = 'none'; //ocultar el bloque del loader
         },
@@ -178,11 +193,40 @@ function tablaresultadosreunion(reunion_id)
 function sumarpagados(){
     var numclientes = $("#numclientes").val();
     var totalpagado = 0;
+    var totalahorro = 0;
     for (var i = 0; i < numclientes; i++) {
+        var cuota  = $("#cuota_monto"+i).val();
         var pagado = $("#asistencia_pagado"+i).val();
-        
+        var ahorro = Number(pagado) - Number(cuota);
+        if(ahorro >0){
+            $("#asistencia_ahorro"+i).val(ahorro);
+            totalahorro = Number(totalahorro) + Number(ahorro);
+        }
             totalpagado = Number(totalpagado) + Number(pagado);
-        
     }
     $("#totalpagado").val(totalpagado);
+    $("#totalahorro").val(totalahorro);
+}
+
+function sumaretrasos(){
+    var numclientes = $("#numclientes").val();
+    var totalretraso = 0;
+    for (var i = 0; i < numclientes; i++) {
+        var pagado = $("#asistencia_retraso"+i).val();
+        if(pagado){
+            totalretraso = Number(totalretraso) + Number(pagado);
+        }
+    }
+    $("#totalretraso").val(totalretraso);
+}
+function sumarfaltas(){
+    var numclientes = $("#numclientes").val();
+    var totalfaltas = 0;
+    for (var i = 0; i < numclientes; i++) {
+        var pagado = $("#asistencia_falta"+i).val();
+        if(pagado){
+            totalfaltas = Number(totalfaltas) + Number(pagado);
+        }
+    }
+    $("#totalfaltas").val(totalfaltas);
 }

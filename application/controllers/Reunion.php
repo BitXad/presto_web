@@ -110,6 +110,7 @@ class Reunion extends CI_Controller{
                     'reunion_id' => $reunion_id,
                     'integrante_id' => $integrante['integrante_id'],
                     'asistencia_pagado' => '0',
+                    'asistencia_ahorro' => '0',
                     'asistencia_retraso' => '0',
                     'asistencia_falta' => '0',
                 );
@@ -184,6 +185,7 @@ class Reunion extends CI_Controller{
                 
                 $param = array(
                         'asistencia_pagado' => $this->input->post('asistencia_pagado'.$cont),
+                        'asistencia_ahorro' => $this->input->post('asistencia_ahorro'.$cont),
                         'asistencia_retraso' => $this->input->post('asistencia_retraso'.$cont),
                         'asistencia_falta' => $this->input->post('asistencia_falta'.$cont),
                         'asistencia_recibor' => $this->input->post('asistencia_recibor'.$cont),

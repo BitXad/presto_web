@@ -24,8 +24,9 @@
                         <th>#</th>
                         <th>Integrante</th>
                         <th>Asistencia</th>
-                        <th>cuota</th>
-                        <th>pagado</th>
+                        <th>Cuota</th>
+                        <th>Pagado</th>
+                        <th>Ahorro</th>
                         <th>Retraso/Recibo</th>
                         <th>Faltas/Recibo</th>
                         <th>Observaciones</th>
@@ -93,6 +94,7 @@
                         </td>
                         <td></td>
                         <td><input type="number" step="any" min="0" name="totalpagado" id="totalpagado" value="0.00" class="text-right" readonly /></td>
+                        <td><input type="number" step="any" min="0" name="totalahorro" id="totalahorro" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" name="totalretraso" id="totalretraso" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" name="totalfaltas" id="totalfaltas" value="0.00" class="text-right" readonly /></td>
                         <td></td>
