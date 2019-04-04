@@ -76,7 +76,41 @@ class Reunion_model extends CI_Model
     {
         return $this->db->delete('reunion',array('reunion_id'=>$reunion_id));
     }
-    
+    /*
+     * Get Integrantes-clientes degrupo que pertenece a una reunion
+     */
+    function get_idintegrantes($reunion_id)
+    {
+        $reunion = $this->db->query("
+            SELECT
+                i.integrante_id
+            FROM
+                integrante i
+            LEFT JOIN grupo g on i.grupo_id = g.grupo_id
+            LEFT JOIN reunion r on r.grupo_id = g.grupo_id
+            WHERE
+                r.reunion_id = $reunion_id
+        ")->result_array();
+
+        return $reunion;
+    }
+    /*
+     * Get Integrantes-clientes degrupo que pertenece a una reunion
+     */
+    function registrado_ya_asistencia($reunion_id, $integrante_id)
+    {
+        $reunion = $this->db->query("
+            SELECT
+                a.integrante_id
+            FROM
+                asistencia a
+            WHERE
+                a.reunion_id = $reunion_id
+                and a.integrante_id = $integrante_id
+        ")->result_array();
+
+        return $reunion;
+    }
     /*
      * Get reunion, grupo para asistencia 
      */
@@ -98,22 +132,27 @@ class Reunion_model extends CI_Model
     /*
      * Get integrantes 
      */
-    function get_this_clientesgrupo($grupo_id)
+    function get_this_clientesgrupo($reunion_id, $grupo_id)
     {
         $cliente = $this->db->query("
             SELECT
                 c.cliente_id, concat(c.cliente_nombre, ' ', c.cliente_apellido) as elcliente,
                 c.cliente_ci, c.cliente_extencionci, c.cliente_telefono, c.cliente_celular,
-                cr.credito_id, cu.cuota_id, cu.cuota_monto, a.asistencia_registro
+                cr.credito_id, cu.cuota_id, cu.cuota_monto, a.asistencia_registro,a.asistencia_pagado,
+                a.asistencia_retraso, a.asistencia_falta, a.asistencia_observacion, i.integrante_id,
+                a.asistencia_recibor, a.asistencia_recibof
             FROM
                 integrante i
             LEFT JOIN cliente c on i.cliente_id = c.cliente_id
             LEFT JOIN credito cr on c.cliente_id = cr.cliente_id
             LEFT JOIN cuota cu on cr.credito_id = cu.cuota_id
-            LEFT JOIN asistencia a on c.cliente_id = a.cliente_id
+            LEFT JOIN asistencia a on i.integrante_id = a.integrante_id
+            LEFT JOIN grupo g on i.grupo_id = g.grupo_id
+            LEFT JOIN reunion r on g.grupo_id = r.grupo_id
             WHERE
-                
                 i.grupo_id = $grupo_id
+                and a.reunion_id = r.reunion_id
+                and r.reunion_id = $reunion_id
         ")->result_array();
 
         return $cliente;

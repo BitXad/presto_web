@@ -30,6 +30,7 @@
 						<td>
                             <a href="<?php echo site_url('reunion/edit/'.$r['reunion_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a> 
                             <a href="<?php echo site_url('reunion/remove/'.$r['reunion_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
+                            <a href="<?php echo site_url('reunion/genasistencia/'.$r['reunion_id']); ?>" class="btn btn-warning btn-xs" title="instalar reunión"><span class="fa fa-users"></span></a>
                         </td>
                     </tr>
                     <?php } ?>

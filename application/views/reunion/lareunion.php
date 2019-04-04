@@ -14,6 +14,7 @@
 </div>
 <?php echo form_open('reunion/registrareunion'); ?>
 <input type="hidden" name="idreunion_id" id="idreunion_id" value="<?php echo $reunion['reunion_id']; ?>" />
+<input type="hidden" name="idgrupo_id" id="idgrupo_id" value="<?php echo $reunion['grupo_id']; ?>" />
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -91,7 +92,7 @@
                             <span id="totalr">R = 0</span><br>
                         </td>
                         <td></td>
-                        <td><input type="number" name="totalpagado" id="totalpagado" value="0.00" class="text-right" readonly /></td>
+                        <td><input type="number" step="any" min="0" name="totalpagado" id="totalpagado" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" name="totalretraso" id="totalretraso" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" name="totalfaltas" id="totalfaltas" value="0.00" class="text-right" readonly /></td>
                         <td></td>
