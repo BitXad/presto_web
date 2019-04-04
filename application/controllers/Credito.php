@@ -10,6 +10,7 @@ class Credito extends CI_Controller{
         parent::__construct();
         $this->load->model('Credito_model');
         $this->load->model('Cuota_model');
+        $this->load->model('Cliente_model');
     } 
 
     /*
@@ -170,17 +171,18 @@ class Credito extends CI_Controller{
         $usuario_id = 1;
         $credito_fechainicio = date("Y-m-d");
         $credito_horainicio = date("H:i:s");
-
+        $cliente_id = $this->input->post('cliente_id');
          $params = array(
                 'estado_id' => 9,
                 //'grupo_id' => $this->input->post('grupo_id'),
                 //'garantia_id' => $this->input->post('garantia_id'),
                 'usuario_id' => $usuario_id,
                 'tipocredito_id' => $this->input->post('tipo_credito'),
-                'cliente_id' => $this->input->post('cliente_id'),
+                'cliente_id' => $cliente_id,
                 'credito_fechainicio' => $credito_fechainicio,
                 'credito_horainicio' => $credito_horainicio,
                 'credito_monto' => $this->input->post('credito_monto'),
+                'credito_saldo' => $this->input->post('credito_monto'),
                 'credito_interes' => $this->input->post('credito_interes'),
                 'credito_custodia' => $this->input->post('credito_custodia'),
                 'credito_comision' => $this->input->post('credito_comision'),
@@ -192,6 +194,16 @@ class Credito extends CI_Controller{
             );
             
             $credito_id = $this->Credito_model->add_credito($params);
+            
+             $cli = array(
+                    
+                    'cliente_nombre' => $this->input->post('cliente_nombre'),
+                    'cliente_apellido' => $this->input->post('cliente_apellido'),
+                    'cliente_telefono' => $this->input->post('cliente_telefono'),
+                   
+                );
+
+                $this->Cliente_model->update_cliente($cliente_id,$cli);   
     $cuotas =  $this->input->post('credito_cuotas');
     $fechalimite = $this->input->post('credito_fechalimite');
     $tipo_interes = $this->input->post('tipo_interes');

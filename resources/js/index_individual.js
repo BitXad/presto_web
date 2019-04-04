@@ -49,7 +49,7 @@ function tablacreditos(dato){
                     for (var i = 0; i < x ; i++){
                     	html += "<tr>";
                     	html += "<td>"+registros[i]["credito_id"]+"</td>";
-						html += "<td>"+registros[i]["cliente_nombre"]+"</td>";
+						html += "<td>"+registros[i]["cliente_nombre"]+" "+registros[i]["cliente_apellido"]+"</td>";
 						html += "<td>"+registros[i]["cliente_ci"]+"</td>";
 						html += "<td>"+registros[i]["cliente_telefono"]+"</td>";
 						html += "<td>"+moment(registros[i]["credito_fechainicio"]).format('DD/MM/YYYY')+"</td>";

@@ -162,6 +162,9 @@ function finalizarindividual()
     var tipo_credito = 2;
     var tipo_interes = document.getElementById('tipoint_id').value;
     var tipo_garantia = document.getElementById('tipogarant_id').value;
+    var cliente_nombre = document.getElementById('cliente_nombre').value;
+    var cliente_apellido = document.getElementById('cliente_apellido').value;
+    var cliente_telefono = document.getElementById('cliente_telefono').value;
    
     var cliente_id = document.getElementById('cliente_id').value;
     if(cliente_id == 0 || credito_monto=='' || credito_monto==null){
@@ -175,7 +178,8 @@ function finalizarindividual()
            type:"POST",
            data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,
             credito_custodia:credito_custodia,credito_fechalimite:credito_fechalimite,credito_cuotas:credito_cuotas,
-            cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id},
+            cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id,cliente_nombre:cliente_nombre,
+            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono},
            success:function(respuesta){ 
             location.href = base_url+'credito/individual';
              },
