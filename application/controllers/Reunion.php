@@ -98,10 +98,32 @@ class Reunion extends CI_Controller{
         else
             show_error('The reunion you are trying to delete does not exist.');
     }
-    /* Reunion de un grupo; agarra el ID de una reunion!!*/
-    function lareunion()
+    /* Genera la asistencia a una reunion!!*/
+    function genasistencia($reunion_id)
     {
-        $reunion_id = 1;
+        $integrantes = $this->Reunion_model->get_idintegrantes($reunion_id);
+        $existe = $this->Reunion_model->registrado_ya_asistencia($reunion_id, $integrantes[0]['integrante_id']);
+        $res = count($existe);
+        if($res<=0){
+            foreach ($integrantes as $integrante) {
+                $params = array(
+                    'reunion_id' => $reunion_id,
+                    'integrante_id' => $integrante['integrante_id'],
+                    'asistencia_pagado' => '0',
+                    'asistencia_ahorro' => '0',
+                    'asistencia_retraso' => '0',
+                    'asistencia_falta' => '0',
+                );
+                 $this->load->model('Asistencia_model');
+                $this->Asistencia_model->add_asistencia($params);
+            }
+        }
+       redirect('reunion/lareunion/'.$reunion_id);
+    }
+    /* Reunion de un grupo; agarra el ID de una reunion!!*/
+    function lareunion($reunion_id)
+    {
+        //$reunion_id = 1;
         $data['reunion'] = $this->Reunion_model->get_this_reunion($reunion_id);
        // $data['all_clientes'] = $this->Reunion_model->get_this_clientesgrupo($data['reunion']['grupo_id']);
         
@@ -125,16 +147,14 @@ class Reunion extends CI_Controller{
             $multa_numrec = 0;
             //$observacion = "";
             for ($cont = 0; $cont < $num_clientes; $cont++) {
-                $cliente_id = $this->input->post('cliente_id'.$cont);
+                $integrante_id = $this->input->post('integrante_id'.$cont);
                 $retraso = $this->input->post('retraso'.$cont);
                 $falta   = $this->input->post('falta'.$cont);
-                $multa_numrecr = $this->input->post('multa_numrecr'.$cont);
-                $multa_numrecf = $this->input->post('multa_numrecf'.$cont);
                 //$observacion   = $this->input->post('observacion'.$cont);
-                if(isset($retraso)){
+               /* if(isset($retraso)){
                     $multa_monto = $retraso;
                     $multa_detalle = "Retraso";
-                    $multa_numrec = $multa_numrecr;
+                    $multa_numrec = $this->input->post('multa_numrecr'.$cont);
                     $params = array(
                         'reunion_id' => $reunion_id,
                         'usuario_id' => $usuario_id,
@@ -149,7 +169,7 @@ class Reunion extends CI_Controller{
                 }elseif(isset($falta)){
                     $multa_monto = $falta;
                     $multa_detalle = "Falta";
-                    $multa_numrec = $multa_numrecf;
+                    $multa_numrec = $this->input->post('multa_numrecf'.$cont);
                     $params = array(
                         'reunion_id' => $reunion_id,
                         'usuario_id' => $usuario_id,
@@ -161,15 +181,21 @@ class Reunion extends CI_Controller{
                 );
                 $this->load->model('Multa_model');
                 $multa_id = $this->Multa_model->add_multa($params);
-                }
+                } */
                 
                 $param = array(
+                        'asistencia_pagado' => $this->input->post('asistencia_pagado'.$cont),
+                        'asistencia_ahorro' => $this->input->post('asistencia_ahorro'.$cont),
+                        'asistencia_retraso' => $this->input->post('asistencia_retraso'.$cont),
+                        'asistencia_falta' => $this->input->post('asistencia_falta'.$cont),
+                        'asistencia_recibor' => $this->input->post('asistencia_recibor'.$cont),
+                        'asistencia_recibof' => $this->input->post('asistencia_recibof'.$cont),
                         'asistencia_observacion' => $this->input->post('observacion'.$cont),
                 );
                 $this->load->model('Asistencia_model');
-                $this->Asistencia_model->update_this_asistencia($cliente_id, $reunion_id, $param);
+                $this->Asistencia_model->update_this_asistencia($integrante_id, $reunion_id, $param);
             }
-            redirect('reunion/index');
+            redirect('reunion');
         }
         else
         {
@@ -190,9 +216,9 @@ class Reunion extends CI_Controller{
             $this->load->model('Asistencia_model');
             
             $asistencia = $this->input->post('asistencia');
-            $cliente_id = $this->input->post('cliente_id');
+            $integrante_id = $this->input->post('integrante_id');
             $reunion_id = $this->input->post('reunion_id');
-            $asistencia_id = $this->Asistencia_model->get_this_asistencia($cliente_id, $reunion_id);
+            $asistencia_id = $this->Asistencia_model->get_this_asistencia($integrante_id, $reunion_id);
             $reunion_fecha = date("Y-m-d");
             $reunion_hora = date("H:i:s");
             if($asistencia_id >0){
@@ -206,7 +232,7 @@ class Reunion extends CI_Controller{
             }else{
                 $params = array(
                                 'reunion_id' => $reunion_id,
-                                'cliente_id' => $cliente_id,
+                                'integrante_id' => $integrante_id,
                                 'asistencia_fecha' => $reunion_fecha,
                                 'asistencia_hora' => $reunion_hora,
                                 'asistencia_registro' => $asistencia,
@@ -232,9 +258,10 @@ class Reunion extends CI_Controller{
         if ($this->input->is_ajax_request())
         {
             $reunion_id = $this->input->post('reunion_id');
+            $grupo_id = $this->input->post('grupo_id');
             
-            $data['reunion'] = $this->Reunion_model->get_this_reunion($reunion_id);
-            $datos = $this->Reunion_model->get_this_clientesgrupo($data['reunion']['grupo_id']);
+            //$data['reunion'] = $this->Reunion_model->get_this_reunion($reunion_id);
+            $datos = $this->Reunion_model->get_this_clientesgrupo($reunion_id, $grupo_id);
             
             echo json_encode($datos);
         }
@@ -243,5 +270,15 @@ class Reunion extends CI_Controller{
             show_404();
         }
         
+    }
+    /* Reunion de un grupo; agarra el ID de una reunion!!*/
+    function lareunionprint($reunion_id)
+    {
+        $data['reunion'] = $this->Reunion_model->get_this_reunion($reunion_id);
+        if(isset($data['reunion']['reunion_id']))
+        {
+            $data['_view'] = 'reunion/lareunionprint';
+            $this->load->view('layouts/main',$data);
+        }else{ echo "La reunión que intenta imorimir no existe!.";}
     }
 }

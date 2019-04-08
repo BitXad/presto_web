@@ -79,7 +79,7 @@ class Asistencia_model extends CI_Model
     /*
      * Get this asistencia by cliente_id and reunion_id
      */
-    function get_this_asistencia($cliente_id, $reunion_id)
+    function get_this_asistencia($integrante_id, $reunion_id)
     {
         $asistencia = $this->db->query("
             SELECT
@@ -88,7 +88,7 @@ class Asistencia_model extends CI_Model
                 asistencia a
             WHERE
                 a.reunion_id = $reunion_id
-                and a.cliente_id = $cliente_id
+                and a.integrante_id = $integrante_id
         ")->row_array();
 
         return $asistencia['asistencia_id'];
@@ -96,17 +96,9 @@ class Asistencia_model extends CI_Model
     /*
      * function to update asistencia
      */
-    function update_this_asistencia($cliente_id, $reunion_id, $params)
+    function update_this_asistencia($integrante_id, $reunion_id, $params)
     {
-        /*
-        $sql = " UPDATE asistencia
-            SET ".$params."
-            WHERE
-                cliente_id = ".$cliente_id." 
-                and reunion_id = ".$reunion_id;
-        return $this->db->query($sql);
-        */
-        $this->db->where('cliente_id',$cliente_id);
+        $this->db->where('integrante_id',$integrante_id);
         $this->db->where('reunion_id',$reunion_id);
         return $this->db->update('asistencia',$params);
     }
