@@ -1,3 +1,5 @@
+<script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('resources/js/cuotas.js'); ?>"></script>
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
@@ -67,7 +69,7 @@
                         <td align="right"><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
-                        <td><a href="#" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
+                        <td><a href="#" onclick="cobrarcuota(<?php echo $c['cuota_id']; ?>)" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
 <!---------------------------------MODAL DE PAGAR------------------------->
 
   <div class="modal fade" id="pagar<?php echo $c['cuota_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -80,24 +82,29 @@
                 </button>
               </div>
               <div class="modal-body">
-         
+        <form action="<?php echo base_url('cuota/pagar/'.$c['cuota_id']); ?>"  method="POST" class="form" > 
               <div class="col-md-12">
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">PAGO</label>
                 <div class="form-group">
-                    <input type="number" name="cuota_cancelado" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_cancelado" />
+                  <input type="hidden" name="credito" value="<?php echo $c['credito_id']; ?>" class="form-control"  />
+                  <input type="hidden" name="cuota_monto<?php echo $c['cuota_id']; ?>" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_monto<?php echo $c['cuota_id']; ?>" />
+                    <input type="number" name="cuota_montocancelado" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_montocancelado<?php echo $c['cuota_id']; ?>" step="any"/>
                 </div>
                 </div>
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">SALDO</label>
                   <div class="form-group">
-                     <input type="number" name="saldo" value="0" class="form-control" id="saldo" />
+                     <input type="number" name="cuota_saldocapital" value="0" class="form-control" id="cuota_saldocapital<?php echo $c['cuota_id']; ?>" step="any" />
                 </div>
                 </div>
                 <div class="col-md-6">
                   <label for="cuota_numrecibo" class="control-label">Numero Recibo</label>
                   <div class="form-group">
                     <input type="text" name="cuota_numrecibo" value="" class="form-control" id="cuota_numrecibo" />
+                    <input type="hidden" name="cuota_fechapago" value="<?php echo date('Y-m-d') ?>" class="form-control" id="cuota_fechapago" />
+                    <input type="hidden" name="cuota_horapago" value="<?php echo date('H:i:s') ?>" class="form-control" id="cuota_horapago" />
+
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -115,7 +122,7 @@
                 <span class="fa fa-money"></span>   Amortizar  
              
             </button> 
-        
+        </form>
             <button class="btn btn-md btn-danger" data-dismiss="modal">
             
                 <span class="fa fa-close"></span>   Cancelar  

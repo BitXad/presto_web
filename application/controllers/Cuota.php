@@ -55,7 +55,103 @@ class Cuota extends CI_Controller{
      
     
     } 
-         
+     
+    function pagar($cuota_id)
+    {
+        $credito_id = $this->input->post('credito');
+        $fecha = $this->input->post('cuota_fechapago');
+        $pagado = $this->input->post('cuota_montocancelado');
+        $params = array(
+                    'estado_id' => 10,                    
+                    'cuota_montocancelado' => $this->input->post('cuota_montocancelado'),
+                    'cuota_fechapago' => $this->input->post('cuota_fechapago'),
+                    'cuota_horapago' => $this->input->post('cuota_horapago'),
+                    'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),
+                    'cuota_numrecibo' => $this->input->post('cuota_numrecibo'),
+                    //'cuota_banco' => $this->input->post('cuota_banco'),
+                    'cuota_glosa' => $this->input->post('cuota_glosa'),
+                );
+
+                $this->Cuota_model->update_cuota($cuota_id,$params);
+
+
+                $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito);      
+                redirect('cuota/individual/'.$credito_id);  
+
+    } 
+
+    function interes()
+    {
+        $credito_id = $this->input->post('credito_id');
+        $fecha = $this->input->post('cuota_fechapago');
+        $interes = $this->input->post('credito_interes');
+        $comison = $this->input->post('credito_comision');
+        $custodio = $this->input->post('credito_custodia');
+        $suma = $interes+$comison+$custodio;
+        $params = array(
+                'credito_id' => $credito_id,
+                //'usuario_id' => $this->input->post('usuario_id'),
+                'estado_id' => 10,
+                'cuota_numero' => 1,
+                'cuota_capital' => $this->input->post('credito_monto'),
+                'cuota_interes' => $suma,
+                'cuota_descuento' => 0,
+                'cuota_monto' => $this->input->post('cuota_monto'),
+                //'cuota_fechalimite' => $this->input->post('cuota_fechalimite'),
+                'cuota_montocancelado' => $this->input->post('cuota_montocancelado'),
+                'cuota_fechapago' => $this->input->post('cuota_fechapago'),
+                'cuota_horapago' => $this->input->post('cuota_horapago'),
+                'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),
+                'cuota_numrecibo' => $this->input->post('cuota_numrecibo'),
+                //'cuota_banco' => $this->input->post('cuota_banco'),
+                'cuota_glosa' => $this->input->post('cuota_glosa'),
+            );
+            
+            $cuota_id = $this->Cuota_model->add_cuota($params);
+
+                $credito = "UPDATE credito SET credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito);
+                        
+                redirect('cuota/sintiempo/'.$credito_id);  
+
+    }    
+    function amortizar()
+    {
+        $credito_id = $this->input->post('credito_id1');
+        $fecha = $this->input->post('cuota_fechapago1');
+        $pagado = $this->input->post('cuota_montocancelado1');
+        $interes = $this->input->post('cuota_interes1');
+        $comison = $this->input->post('cuota_comision1');
+        $custodio = $this->input->post('cuota_custodio1');
+        $suma = $interes+$comison+$custodio;
+        $params = array(
+                'credito_id' => $credito_id,
+                //'usuario_id' => $this->input->post('usuario_id'),
+                'estado_id' => 10,
+                'cuota_numero' => 1,
+                'cuota_capital' => $this->input->post('credito_monto1'),
+                'cuota_interes' => $suma,
+                'cuota_descuento' => 0,
+                'cuota_monto' => $this->input->post('cuota_monto1'),
+                //'cuota_fechalimite' => $this->input->post('cuota_fechalimite'),
+                'cuota_montocancelado' => $this->input->post('cuota_montocancelado1'),
+                'cuota_fechapago' => $this->input->post('cuota_fechapago1'),
+                'cuota_horapago' => $this->input->post('cuota_horapago1'),
+                'cuota_saldocapital' => $this->input->post('cuota_saldocapital1'),
+                'cuota_numrecibo' => $this->input->post('cuota_numrecibo1'),
+                //'cuota_banco' => $this->input->post('cuota_banco'),
+                'cuota_glosa' => $this->input->post('cuota_glosa1'),
+            );
+            
+            $cuota_id = $this->Cuota_model->add_cuota($params);
+
+
+              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito);         
+                redirect('cuota/sintiempo/'.$credito_id);  
+
+    } 
     /*
      * Adding a new cuota
      */

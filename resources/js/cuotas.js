@@ -16,6 +16,7 @@ function cobrarinteres(){
 		var comision =  Number(document.getElementById('credito_comision').value);
 		var suaminteres = Number(interes+custodio+comision);
 		var total = Number(saldo*suaminteres/100);
+		$("#cuota_monto").val(saldo*suaminteres/100)
       	if (saldo>0) {
             $("#cuota_montocancelado").val(saldo*suaminteres/100).keyup(function () {
               var value = $(this).val();
@@ -25,4 +26,29 @@ function cobrarinteres(){
 
         }
  
+}
+function cobrarcuota(cuota_id){
+		
+			
+            $("#cuota_montocancelado"+cuota_id+"").keyup(function () {
+              var value = $(this).val();
+              var cuota = Number(document.getElementById("cuota_monto"+cuota_id+"").value);
+
+               $("#cuota_saldocapital"+cuota_id+"").val(cuota-value);
+              
+          });
+
+}
+
+function amortizar(){
+		
+			
+            $("#cuota_montocancelado1").keyup(function () {
+              var value = $(this).val();
+              var cuota = Number(document.getElementById("credito_saldo1").value);
+
+               $("#cuota_saldocapital1").val(cuota-value);
+              
+          });
+
 }

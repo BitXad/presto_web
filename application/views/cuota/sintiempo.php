@@ -36,17 +36,20 @@
                 </button>
               </div>
               <div class="modal-body" >
+          <form action="<?php echo base_url('cuota/interes'); ?>"  method="POST" class="form" > 
                 <div class="col-md-12">
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">Cobrar</label>
                 <div class="form-group">
+                    <input type="hidden" name="cuota_monto" class="form-control" id="cuota_monto" />
                     <input type="number" name="cuota_montocancelado" class="form-control" id="cuota_montocancelado" />
                     <div hidden>
                     <input type="text" name="credito_monto" value="<?php echo $credito[0]['credito_monto']; ?>" id="credito_monto" />
                     <input type="text" name="credito_saldo" value="<?php echo $credito[0]['credito_saldo']; ?>" id="credito_saldo" />
                     <input type="text" name="credito_interes" value="<?php echo $credito[0]['credito_interes']; ?>" id="credito_interes" />
                   <input type="text" name="credito_custodia" value="<?php echo $credito[0]['credito_custodia']; ?>" id="credito_custodia" />
-                    <input type="text" name="credito_comision" value="<?php echo $credito[0]['credito_comision']; ?>" id="credito_comision" /></div>
+                    <input type="text" name="credito_comision" value="<?php echo $credito[0]['credito_comision']; ?>" id="credito_comision" />
+                    <input type="text" name="credito_id" value="<?php echo $credito[0]['credito_id']; ?>" id="credito_id" /></div>
                 </div>
                 </div>
                 <div class="col-md-6">
@@ -59,6 +62,8 @@
                   <label for="cuota_numrecibo" class="control-label">Numero Recibo</label>
                   <div class="form-group">
                     <input type="text" name="cuota_numrecibo" value="" class="form-control" id="cuota_numrecibo" />
+                     <input type="hidden" name="cuota_fechapago" value="<?php echo date('Y-m-d') ?>" class="form-control" id="cuota_fechapago" />
+                    <input type="hidden" name="cuota_horapago" value="<?php echo date('H:i:s') ?>" class="form-control" id="cuota_horapago" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -76,7 +81,8 @@
               
                 <span class="fa fa-money"></span>   Cobrar  
              
-            </button> 
+            </button>
+      </form> 
         
             <button class="btn btn-md btn-danger" data-dismiss="modal">
             
@@ -89,7 +95,7 @@
         </div>
         </div>
         <!---------------------------------FIN MODAL DE PAGAR------------------------->
-            <button  href="#" data-toggle="modal" data-target="#amortizar"  class="btn btn-warning btn-foursquarexs" onclick="fechadecompra('and 1')" ><font size="5"><span class="fa fa-money"></span></font><br><small>Amortizar</small></button>
+            <button  href="#" onclick="amortizar()" data-toggle="modal" data-target="#amortizar"  class="btn btn-warning btn-foursquarexs" onclick="fechadecompra('and 1')" ><font size="5"><span class="fa fa-money"></span></font><br><small>Amortizar</small></button>
              <!---------------------------------MODAL DE PAGAR------------------------->
 
   <div class="modal fade" id="amortizar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -102,29 +108,40 @@
                 </button>
               </div>
               <div class="modal-body">
+        <form action="<?php echo base_url('cuota/amortizar'); ?>"  method="POST" class="form" >   
               <div class="col-md-12">
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">PAGO</label>
                 <div class="form-group">
-                    <input type="number" name="cuota_cancelado" value="<?php echo $credito[0]['credito_saldo']; ?>" class="form-control" id="cuota_cancelado" />
+                    <input type="hidden" name="cuota_monto1" class="form-control" id="cuota_monto1" />
+                    <input type="number" name="cuota_montocancelado1" class="form-control" value="<?php echo $credito[0]['credito_saldo']; ?>" id="cuota_montocancelado1" />
+                    <div hidden>
+                    <input type="text" name="credito_monto1" value="<?php echo $credito[0]['credito_monto']; ?>" id="credito_monto1" />
+                    <input type="text" name="credito_saldo1" value="<?php echo $credito[0]['credito_saldo']; ?>" id="credito_saldo1" />
+                    <input type="text" name="credito_interes1" value="<?php echo $credito[0]['credito_interes']; ?>" id="credito_interes1" />
+                  <input type="text" name="credito_custodia1" value="<?php echo $credito[0]['credito_custodia']; ?>" id="credito_custodia1" />
+                    <input type="text" name="credito_comision1" value="<?php echo $credito[0]['credito_comision']; ?>" id="credito_comision1" />
+                    <input type="text" name="credito_id1" value="<?php echo $credito[0]['credito_id']; ?>" id="credito_id1" /></div>
                 </div>
                 </div>
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">SALDO</label>
                   <div class="form-group">
-                     <input type="number" name="saldo" value="0" class="form-control" id="saldo" />
+                     <input type="number" name="cuota_saldocapital1" value="0" class="form-control" id="cuota_saldocapital1" />
                 </div>
                 </div>
                 <div class="col-md-6">
                   <label for="cuota_numrecibo" class="control-label">Numero Recibo</label>
                   <div class="form-group">
-                    <input type="text" name="cuota_numrecibo" value="" class="form-control" id="cuota_numrecibo" />
+                    <input type="text" name="cuota_numrecibo1" value="" class="form-control" id="cuota_numrecibo" />
+                    <input type="hidden" name="cuota_fechapago1" value="<?php echo date('Y-m-d') ?>" class="form-control" id="cuota_fechapago1" />
+                    <input type="hidden" name="cuota_horapago1" value="<?php echo date('H:i:s') ?>" class="form-control" id="cuota_horapago1" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <label for="cuota_glosa" class="control-label">Glosa</label>
                   <div class="form-group">
-                    <input type="text" name="cuota_glosa" value="" class="form-control" id="cuota_glosa" />
+                    <input type="text" name="cuota_glosa1" value="" class="form-control" id="cuota_glosa1" />
                   </div>
                 </div>
               </div>
@@ -136,7 +153,7 @@
                 <span class="fa fa-money"></span>   Amortizar  
              
             </button> 
-        
+        </form>
             <button class="btn btn-md btn-danger" data-dismiss="modal">
             
                 <span class="fa fa-close"></span>   Cancelar  
@@ -183,21 +200,26 @@
                                  ?>
                         <tr>
                         <td><?php echo $c['cuota_numero']; ?></td>
-                        <td><?php echo number_format($c['cuota_capital'], 2, ".", ","); ?></td>
-                        <td><?php echo number_format($c['cuota_interes'], 2, ".", ","); ?></td>
-                        <td><?php echo number_format($c['cuota_descuento'], 2, ".", ","); ?></td>
-                        <td><b><?php echo number_format($c['cuota_monto'], 2, ".", ","); ?></b></td>
+                        <td align="right"><?php echo number_format($c['cuota_capital'], 2, ".", ","); ?></td>
+                        <td align="right"><?php echo number_format($c['cuota_interes'], 2, ".", ","); ?></td>
+                        <td align="right"><?php echo number_format($c['cuota_descuento'], 2, ".", ","); ?></td>
+                        <td align="right"><b><?php echo number_format($c['cuota_monto'], 2, ".", ","); ?></b></td>
+                        <?php if($c['cuota_fechalimite']=='0000-00-00' || $c['cuota_fechalimite']==null) { ?>
+                        <td></td>
+                        <?php } else { ?>
                         <td><?php echo date('d/m/Y',strtotime($c['cuota_fechalimite'])); ?></td>
-                        <td><b><?php echo number_format($c['cuota_montocancelado'], 2, ".", ","); ?></b></td>
+                        <?php } ?>
+
+                        <td align="right"><b><?php echo number_format($c['cuota_montocancelado'], 2, ".", ","); ?></b></td>
                         <?php if($c['cuota_fechapago']=='0000-00-00' || $c['cuota_fechapago']==null) { ?>
                         <td></td> 
                         <td></td>
                         <?php } else { ?>
                         <td><?php echo date('d/m/Y',strtotime($c['cuota_fechapago'])); ?></td>
                         <td><?php echo $c['cuota_horapago']; ?></td>
-                         <?php } ?>
+                        <?php } ?>
                         <td><?php echo $c['cuota_numrecibo']; ?></td>
-                        <td><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
+                        <td align="right"><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
                         
