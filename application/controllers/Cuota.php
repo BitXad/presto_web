@@ -10,6 +10,7 @@ class Cuota extends CI_Controller{
         parent::__construct();
         $this->load->model('Cuota_model');
         $this->load->model('Credito_model');
+        $this->load->helper('numeros');
     } 
 
     /*
@@ -61,6 +62,12 @@ class Cuota extends CI_Controller{
         $credito_id = $this->input->post('credito');
         $fecha = $this->input->post('cuota_fechapago');
         $pagado = $this->input->post('cuota_montocancelado');
+        $interes = $this->input->post('credito_interes');
+        $comison = $this->input->post('credito_comision');
+        $custodio = $this->input->post('credito_custodia');
+        $saldar = $this->input->post('saldo');
+        $suma = $interes+$comison+$custodio;
+        $cuota_capital = $this->input->post('cuota_capital');
         $params = array(
                     'estado_id' => 10,                    
                     'cuota_montocancelado' => $this->input->post('cuota_montocancelado'),
@@ -75,7 +82,7 @@ class Cuota extends CI_Controller{
                 $this->Cuota_model->update_cuota($cuota_id,$params);
 
 
-                $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+                $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$cuota_capital.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
                 $this->db->query($credito);      
                 redirect('cuota/individual/'.$credito_id);  
 
@@ -84,6 +91,7 @@ class Cuota extends CI_Controller{
     function interes()
     {
         $credito_id = $this->input->post('credito_id');
+        $usuario_id = 1;
         $fecha = $this->input->post('cuota_fechapago');
         $interes = $this->input->post('credito_interes');
         $comison = $this->input->post('credito_comision');
@@ -91,10 +99,10 @@ class Cuota extends CI_Controller{
         $suma = $interes+$comison+$custodio;
         $params = array(
                 'credito_id' => $credito_id,
-                //'usuario_id' => $this->input->post('usuario_id'),
+                'usuario_id' => $usuario_id,
                 'estado_id' => 10,
                 'cuota_numero' => 1,
-                'cuota_capital' => $this->input->post('credito_monto'),
+                'cuota_capital' => 0,
                 'cuota_interes' => $suma,
                 'cuota_descuento' => 0,
                 'cuota_monto' => $this->input->post('cuota_monto'),
@@ -119,18 +127,19 @@ class Cuota extends CI_Controller{
     function amortizar()
     {
         $credito_id = $this->input->post('credito_id1');
+        $usuario_id = 1;
         $fecha = $this->input->post('cuota_fechapago1');
         $pagado = $this->input->post('cuota_montocancelado1');
-        $interes = $this->input->post('cuota_interes1');
-        $comison = $this->input->post('cuota_comision1');
-        $custodio = $this->input->post('cuota_custodio1');
+        $interes = $this->input->post('credito_interes1');
+        $comison = $this->input->post('credito_comision1');
+        $custodio = $this->input->post('credito_custodia1');
         $suma = $interes+$comison+$custodio;
         $params = array(
                 'credito_id' => $credito_id,
-                //'usuario_id' => $this->input->post('usuario_id'),
+                'usuario_id' => $usuario_id,
                 'estado_id' => 10,
                 'cuota_numero' => 1,
-                'cuota_capital' => $this->input->post('credito_monto1'),
+                'cuota_capital' => $this->input->post('cuota_montocancelado1'),
                 'cuota_interes' => $suma,
                 'cuota_descuento' => 0,
                 'cuota_monto' => $this->input->post('cuota_monto1'),
@@ -147,11 +156,20 @@ class Cuota extends CI_Controller{
             $cuota_id = $this->Cuota_model->add_cuota($params);
 
 
-              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."', credito_cuotas=+1 WHERE credito_id=".$credito_id." ";
                 $this->db->query($credito);         
                 redirect('cuota/sintiempo/'.$credito_id);  
 
     } 
+
+    function reciboindividual($credito_id,$cuota_id)
+    {
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $data['cuota'] = $this->Cuota_model->get_cuota($cuota_id);
+       
+        $data['_view'] = 'cuota/reciboindividual';
+        $this->load->view('layouts/main',$data);
+    }
     /*
      * Adding a new cuota
      */

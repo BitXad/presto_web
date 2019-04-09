@@ -1,6 +1,22 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/nuevocredito.js'); ?>"></script>
 <script src="<?php echo base_url('resources/js/index_individual.js'); ?>"></script>
+<!----------------------------- script buscador --------------------------------------->
+<script src="<?php echo base_url('resources/js/funciones_cliente.js'); ?>" type="text/javascript"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#ci').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script>   
+<!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
@@ -243,7 +259,7 @@
 						
 						<th></th>
                     </tr>
-                    <tbody id="tablacreditos">
+                    <tbody  class="buscar" id="tablacreditos">
                 
                   </tbody>
                 </table>

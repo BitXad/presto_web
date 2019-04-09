@@ -113,7 +113,7 @@
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">PAGO</label>
                 <div class="form-group">
-                    <input type="hidden" name="cuota_monto1" class="form-control" id="cuota_monto1" />
+                    <input type="hidden" name="cuota_monto1" class="form-control" value="<?php echo $credito[0]['credito_saldo']; ?>" id="cuota_monto1" />
                     <input type="number" name="cuota_montocancelado1" class="form-control" value="<?php echo $credito[0]['credito_saldo']; ?>" id="cuota_montocancelado1" />
                     <div hidden>
                     <input type="text" name="credito_monto1" value="<?php echo $credito[0]['credito_monto']; ?>" id="credito_monto1" />
@@ -222,6 +222,9 @@
                         <td align="right"><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
+                        <td><?php if ($c['estado_id']==10) {  ?>
+          <a href="<?php echo site_url('cuota/reciboindividual/'.$c['credito_id'].'/'.$c['cuota_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a> 
+        <?php }      ?></td>
                         
                     </tr>
                     <?php } ?>
