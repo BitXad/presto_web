@@ -83,7 +83,14 @@ class Cuota extends CI_Controller{
 
 
                 $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$cuota_capital.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
-                $this->db->query($credito);      
+                $this->db->query($credito); 
+
+                $saldo = "SELECT credito_saldo as saldito FROM credito WHERE credito_id=".$credito_id." ";
+              $saldito = $this->db->query($saldo)->row_array();
+              if ($saldito['saldito']==0) {
+                  $credito_estado = "UPDATE credito SET estado_id=10 WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito_estado);    
+                  }         
                 redirect('cuota/individual/'.$credito_id);  
 
     } 
@@ -156,8 +163,14 @@ class Cuota extends CI_Controller{
             $cuota_id = $this->Cuota_model->add_cuota($params);
 
 
-              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."', credito_cuotas=+1 WHERE credito_id=".$credito_id." ";
-                $this->db->query($credito);         
+              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito);
+              $saldo = "SELECT credito_saldo as saldito FROM credito WHERE credito_id=".$credito_id." ";
+              $saldito = $this->db->query($saldo)->row_array();
+              if ($saldito['saldito']==0) {
+                  $credito_estado = "UPDATE credito SET estado_id=10 WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito_estado);    
+                  }    
                 redirect('cuota/sintiempo/'.$credito_id);  
 
     } 
@@ -170,6 +183,8 @@ class Cuota extends CI_Controller{
         $data['_view'] = 'cuota/reciboindividual';
         $this->load->view('layouts/main',$data);
     }
+
+    
     /*
      * Adding a new cuota
      */

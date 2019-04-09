@@ -328,6 +328,15 @@ if ($tipo_interes==2) { //interes fijo//
         $this->load->view('layouts/main',$data);
     }
 
+     function planpago($credito_id)
+    {
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+        $data['empresa'] = $this->Credito_model->get_empresa(1);
+        $data['_view'] = 'cuota/planpago';
+        $this->load->view('layouts/main',$data);
+    }
+
     function edit($credito_id)
     {   
         // check if the credito exists before trying to edit it

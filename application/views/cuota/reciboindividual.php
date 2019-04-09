@@ -65,7 +65,7 @@
                 </td>
                 <td style="text-align: left;">
                    
-                   CUOTA N:             <?php echo $cuota['cuota_numero']; ?> / <?php echo $credito[0]['credito_cuotas']; ?><br>
+                   CUOTA N:             <?php echo $cuota['cuota_numero']; ?> / <?php if ($credito[0]['credito_cuotas']==0){ echo $cuota['cuota_numero']; }else{ echo $credito[0]['credito_cuotas']; }?><br>
                    LIMITE DE PAGO:      <?php echo date('d/m/Y',strtotime($cuota['cuota_fechalimite'])); ?> <br>
                    OTROS: Bs            ..............................................<br>
                    GLOSA.-              <?php echo $cuota['cuota_glosa']; ?> <br>

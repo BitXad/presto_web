@@ -101,7 +101,7 @@
         <table class="table table-striped" id="latabla">
                   
                     <tr>
-						<td>MONTO: <?php echo $credito[0]['credito_monto']; ?></td>
+						<td>MONTO: <?php echo number_format($credito[0]['credito_monto'], 2, ".", ","); ?></td>
 						<td>MONEDA: BOLIVIANOS</td>
 					</tr>
 					<tr>
