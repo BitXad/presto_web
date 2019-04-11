@@ -9,6 +9,8 @@ class Credito extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Credito_model');
+        $this->load->model('Cuota_model');
+        $this->load->model('Cliente_model');
     } 
 
     /*
@@ -37,6 +39,24 @@ class Credito extends CI_Controller{
         $data['all_tipo_garantia'] = $this->Tipo_garantia_model->get_all_tipo_garantia();
         $data['_view'] = 'credito/individual';
         $this->load->view('layouts/main',$data);
+    }
+
+    function creditos()
+    {   
+        
+     if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+           
+            $datos = $this->Credito_model->get_buscar_credito($parametro);
+            
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }
+        
     }
     /*
      * Adding a new credito
@@ -151,20 +171,21 @@ class Credito extends CI_Controller{
         $usuario_id = 1;
         $credito_fechainicio = date("Y-m-d");
         $credito_horainicio = date("H:i:s");
-
+        $cliente_id = $this->input->post('cliente_id');
          $params = array(
                 'estado_id' => 9,
                 //'grupo_id' => $this->input->post('grupo_id'),
                 //'garantia_id' => $this->input->post('garantia_id'),
                 'usuario_id' => $usuario_id,
                 'tipocredito_id' => $this->input->post('tipo_credito'),
-                'cliente_id' => $this->input->post('cliente_id'),
+                'cliente_id' => $cliente_id,
                 'credito_fechainicio' => $credito_fechainicio,
                 'credito_horainicio' => $credito_horainicio,
                 'credito_monto' => $this->input->post('credito_monto'),
+                'credito_saldo' => $this->input->post('credito_monto'),
                 'credito_interes' => $this->input->post('credito_interes'),
                 'credito_custodia' => $this->input->post('credito_custodia'),
-                'credito_comision' => $this->input->post('credito_custodia'),
+                'credito_comision' => $this->input->post('credito_comision'),
                 'credito_cuotas' => $this->input->post('credito_cuotas'),
                 'credito_fechalimite' => $this->input->post('credito_fechalimite'),
                 'credito_ultimopago' => $credito_fechainicio,
@@ -173,6 +194,99 @@ class Credito extends CI_Controller{
             );
             
             $credito_id = $this->Credito_model->add_credito($params);
+            
+             $cli = array(
+                    
+                    'cliente_nombre' => $this->input->post('cliente_nombre'),
+                    'cliente_apellido' => $this->input->post('cliente_apellido'),
+                    'cliente_telefono' => $this->input->post('cliente_telefono'),
+                   
+                );
+
+                $this->Cliente_model->update_cliente($cliente_id,$cli);   
+    $cuotas =  $this->input->post('credito_cuotas');
+    $fechalimite = $this->input->post('credito_fechalimite');
+    $tipo_interes = $this->input->post('tipo_interes');
+    $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
+    $patron = ($numcuota*0.5) + 0.5;
+             //credito individual //
+                    
+                        
+if ($tipo_interes==2) { //interes fijo//
+                                                 
+    if($cuotas==0){   //sin tiempo limite//
+                 
+              //fin //
+                            
+    }else{  //numero de cuotas//
+        
+        for ($numero = 1; $numero <= $cuotas; $numero++) {
+            $credito_interes = $this->input->post('credito_interes');
+            $credito_custodia = $this->input->post('credito_custodia');
+            $credito_comision = $this->input->post('credito_comision');
+            $monto = $this->input->post('credito_monto');
+            $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
+            $mod_date = strtotime($fechalimite."+ ".($numero - 1)." months");
+             $params = array(
+                'credito_id' => $credito_id,
+                'usuario_id' => $usuario_id,
+                'estado_id' => 9,
+                'cuota_numero' => $numero,
+                'cuota_capital' => ($monto/$cuotas),
+                'cuota_interes' => $sumainteres,
+                'cuota_descuento' => 0,
+                'cuota_monto' => ($sumainteres / 100 * $monto) + ($monto/$cuotas),
+                'cuota_fechalimite' => date("Y-m-d",$mod_date),
+                'cuota_montocancelado' => 0,
+                //'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),//falta
+            );
+            
+            $cuota_id = $this->Cuota_model->add_cuota($params);
+            
+        }
+
+    }
+} else { //interes sobre saldo//
+    if($cuotas==0){   //sin tiempo limite//
+                 
+              //fin //
+                            
+    }else{  //numero de cuotas//
+        $monto = $this->input->post('credito_monto');
+        
+        $cuota_total = $monto;
+        $saldo_deudor = $cuota_total;
+        $cuota_capital = $monto/$cuotas;
+        for ($numero = 1; $numero <= $cuotas; $numero++) {
+            $credito_interes = $this->input->post('credito_interes');
+            $credito_custodia = $this->input->post('credito_custodia');
+            $credito_comision = $this->input->post('credito_comision');
+            
+            $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
+            $mod_date = strtotime($fechalimite."+ ".($numero - 1)." months");
+            $variable = $saldo_deudor * ($sumainteres/100);        
+             $params = array(
+                'credito_id' => $credito_id,
+                'usuario_id' => $usuario_id,
+                'estado_id' => 9,
+                'cuota_numero' => $numero,
+                'cuota_capital' => ($monto/$cuotas),
+                'cuota_interes' => $sumainteres,
+                'cuota_descuento' => 0,
+                'cuota_monto' => $variable + ($monto/$cuotas),
+                'cuota_fechalimite' => date("Y-m-d",$mod_date),
+                'cuota_montocancelado' => 0,
+                //'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),//falta
+            );
+            
+            $cuota_id = $this->Cuota_model->add_cuota($params);
+            $cuota_total = $saldo_deudor;
+            $saldo_deudor = $cuota_total - $cuota_capital;
+            
+        }
+
+    }
+}   
     $vaciar_garantia = "INSERT INTO garantia 
    (estado_id,
    garantia_descripcion,
@@ -211,6 +325,15 @@ class Credito extends CI_Controller{
         $data['garantias'] = $this->Garantia_model->get_garantia_credito($credito_id);
         $data['empresa'] = $this->Credito_model->get_empresa(1);
         $data['_view'] = 'credito/completo';
+        $this->load->view('layouts/main',$data);
+    }
+
+     function planpago($credito_id)
+    {
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+        $data['empresa'] = $this->Credito_model->get_empresa(1);
+        $data['_view'] = 'cuota/planpago';
         $this->load->view('layouts/main',$data);
     }
 

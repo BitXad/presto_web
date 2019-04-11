@@ -1,5 +1,22 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/nuevocredito.js'); ?>"></script>
+<script src="<?php echo base_url('resources/js/index_individual.js'); ?>"></script>
+<!----------------------------- script buscador --------------------------------------->
+<script src="<?php echo base_url('resources/js/funciones_cliente.js'); ?>" type="text/javascript"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#ci').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script>   
+<!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
@@ -8,8 +25,9 @@
     <div class="col-md-12">
     	
   	<div class="col-md-7">
-        <div class="panel">
+        <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
+          <center><b><u>CLIENTE</u></b></center>
 <!--------------------- cliente_id --------------------->
 <div class="container" hidden>
     <input type="text" name="cliente_id" value="0" class="form-control" id="cliente_id" >
@@ -34,10 +52,7 @@
         <div class="col-md-3">
             <label for="cliente_apellido" class="control-label">APELLIDO</label>
             <div class="form-group">
-            <div class="form-group">
                 <input type="text" name="cliente_apellido" class="form-control" id="cliente_apellido" value=""  />
-            </div>
-                
             </div>
         </div>
 
@@ -50,8 +65,9 @@
         </div>
         </div><!--BOX BODY-->
          </div><!--BOX-->
-        <div class="panel">
+        <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
+          <center><b><u>GARANTIA</u></b></center>
 					<div class="col-md-6">
 						<label for="garantia_descripcion" class="control-label">Descripcion</label>
 						<div class="form-group">
@@ -94,8 +110,9 @@
       
     </div><!--COL7-->
     <div class="col-md-5">
-    	 <div class="panel">
+    	 <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
+          <center><b><u>CREDITO</u></b></center>
     	 		<div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Monto:</span>
                     <input type="text" name="credito_monto" value="<?php echo $this->input->post('credito_monto'); ?>" class="form-control" id="credito_monto" />
@@ -201,11 +218,25 @@
 
 </div><!--ROW-->
 <div class="row">
+  
     <div class="col-md-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Creditos</h3>
+                <h3 class="box-title">Creditos Individuaes</h3>
             	
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-5">
+              Desde: <input type="date" style=" width: 38%;" class="btn btn-success btn-sm form-control" value="" id="fecha_desde" name="fecha_desde"  >
+                  
+                      Hasta: <input type="date" style=" width: 38%;" class="btn btn-success btn-sm form-control" value="" id="fecha_hasta" name="fecha_hasta"  >
+              </div>
+              <div class="col-md-3">
+                <input id="ci" name="ci" value="" type="text" class="form-control" placeholder="Ingrese C.I. del Cliente">
+              </div>
+              <div class="col-md-2">
+                <a class="btn btn-success" onclick="tablacreditos(2)"><i class="fa fa-search"></i> Buscar</a>
+              </div>
             </div>
             <div class="box-body">
                 <table class="table table-striped" id="mitabla">
@@ -228,31 +259,9 @@
 						
 						<th></th>
                     </tr>
-                    <?php foreach($credito as $c){ ?>
-                    <tr>
-						<td><?php echo $c['credito_id']; ?></td>
-						<td><?php echo $c['cliente_nombre']; ?></td>
-						<td><?php echo $c['cliente_ci']; ?></td>
-						<td><?php echo $c['cliente_telefono']; ?></td>
-						<td><?php echo $c['credito_fechainicio']; ?></td>
-						<td><?php echo $c['credito_horainicio']; ?></td>
-						<td><?php echo $c['credito_fechalimite']; ?></td>
-						<td><?php echo $c['credito_monto']; ?></td>
-						<td><?php echo $c['credito_interes']; ?></td>
-						<td><?php echo $c['credito_comision']; ?></td>
-						<td><?php echo $c['credito_custodia']; ?></td>
-						<td><?php echo $c['tipoint_nombre']; ?></td>
-						<td><?php echo $c['tipogarant_nombre']; ?></td>
-						<td><?php echo $c['usuario_nombre']; ?></td>
-						<td style="background: <?php echo $c['estado_color']; ?>"><?php echo $c['estado_descripcion']; ?></td>
-						<td>
-                            <a href="<?php echo site_url('credito/edit/'.$c['credito_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a> 
-                            <a href="<?php echo site_url('credito/remove/'.$c['credito_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
-                            <a href="<?php echo site_url('credito/completo/'.$c['credito_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a>
-                           
-                        </td>
-                    </tr>
-                    <?php } ?>
+                    <tbody  class="buscar" id="tablacreditos">
+                
+                  </tbody>
                 </table>
                                 
             </div>

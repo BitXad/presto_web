@@ -50,6 +50,29 @@ class Cuota_model extends CI_Model
 
         return $cuota;
     }
+    function get_all_cuotas($credito_id)
+    {
+        
+        
+        $credito = $this->db->query("
+            SELECT
+                c.*, k.*, e.*
+
+            FROM
+                credito c, cuota k, estado e
+
+            WHERE
+                k.credito_id = c.credito_id 
+                and k.estado_id = e.estado_id
+                and ".$credito_id." = k.credito_id
+
+            ORDER BY `cuota_numero` ASC
+
+           
+        ")->result_array();
+
+        return $credito;
+    }
         
     /*
      * function to add new cuota
