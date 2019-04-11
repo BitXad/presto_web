@@ -16,7 +16,7 @@ class Grupo extends CI_Controller{
      */
     function index()
     {
-        
+        date_default_timezone_set("America/La_Paz");
         $data['grupo'] = $this->Grupo_model->get_all_grupos();
         
         $data['_view'] = 'grupo/index';
@@ -48,7 +48,7 @@ class Grupo extends CI_Controller{
             
             $grupo_id = $this->Grupo_model->add_grupo($params);
             //redirect('grupo/index');
-            redirect('grupo/integrantes');
+            redirect('grupo/integrantes/'.$grupo_id);
         }
         else
         {
@@ -144,9 +144,12 @@ class Grupo extends CI_Controller{
             {
 				$this->load->model('Grupo_model');
 				$data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
-//
-//				$this->load->model('Usuario_model');
-//				$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
+				$this->load->model('Cliente_model');
+				$data['all_cliente'] = $this->Cliente_model->get_all_cliente();
+                                
+				$this->load->model('Cliente_model');
+				$data['integrantes'] = $this->Cliente_model->get_all_integrantes($grupo_id);
 //
 //				$this->load->model('Estado_model');
 //				$data['all_estado'] = $this->Estado_model->get_all_estado();
@@ -174,6 +177,21 @@ class Grupo extends CI_Controller{
         }
         else
             show_error('The grupo you are trying to delete does not exist.');
+    }
+
+    /*
+     * Deleting grupo
+     */
+    function agregar_integrante()
+    {
+
+        $grupo_id = $this->input->post('grupo_id');
+        $cliente_id = $this->input->post('cliente_id');
+        
+        // check if the grupo exists before trying to delete it
+        $this->Grupo_model->agregar_integrante_grupo($grupo_id, $cliente_id);
+        redirect('grupo/integrantes/'.$grupo_id);
+       
     }
     
 }

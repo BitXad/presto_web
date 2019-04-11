@@ -52,6 +52,18 @@ class Cliente_model extends CI_Model
     }
         
     /*
+     * Get all integrantes
+     */
+    function get_all_integrantes($grupo_id)
+    {
+        $sql = "select * from cliente c, integrante i 
+                where i.cliente_id = c.cliente_id and 
+                i.grupo_id = ".$grupo_id;
+        $cliente = $this->db->query($sql)->result_array();
+        return $cliente;
+    }
+        
+    /*
      * function to add new cliente
      */
     function add_cliente($params)
