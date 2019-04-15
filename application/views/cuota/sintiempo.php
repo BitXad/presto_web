@@ -22,6 +22,8 @@
     <b>TIPO DE GARANTIA:</b> <?php echo $credito[0]['tipogarant_nombre']; ?>
 </div>
 <div class="col-md-4 no-print">
+           <input type="radio" name="inter1" id="inter1" checked> Interes Mensual<br>
+           <input type="radio" name="inter1" id="inter1" value="2"> Interes por Dia<br>
               
             <a href="#" onclick="cobrarinteres()" data-toggle="modal" data-target="#pagarint" class="btn btn-success btn-foursquarexs" ><font size="5"><span class="fa fa-money"></span></font><br><small>Cobrar Int.</small></a>
              <!---------------------------------MODAL DE PAGAR------------------------->
@@ -38,6 +40,14 @@
               <div class="modal-body" >
           <form action="<?php echo base_url('cuota/interes'); ?>"  method="POST" class="form" > 
                 <div class="col-md-12">
+                <div class="col-md-6" id="misele">
+                  <select name="dias" class="form-control" id="dias" onchange="calcularinteres()">
+                    <option value="0"></option>
+                  </select>
+                </div>
+                <div class="col-md-6"><label for="credito_ultimopago" class="control-label">Ultimo Pago</label><div class="form-group">
+                  <input type="text" name="credito_ultimopago" class="form-control" value="<?php echo $credito[0]['credito_ultimopago']; ?>" id="credito_ultimopago" />
+                </div></div>
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">Cobrar</label>
                 <div class="form-group">
