@@ -2,7 +2,7 @@
 <script src="<?php echo base_url('resources/js/nuevocredito.js'); ?>"></script>
 <script src="<?php echo base_url('resources/js/index_individual.js'); ?>"></script>
 <!----------------------------- script buscador --------------------------------------->
-<script src="<?php echo base_url('resources/js/funciones_cliente.js'); ?>" type="text/javascript"></script>
+
 <script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
