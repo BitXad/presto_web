@@ -90,4 +90,16 @@ class Grupo_model extends CI_Model
     {
         return $this->db->delete('grupo',array('grupo_id'=>$grupo_id));
     }
+    
+    /*
+     * funcion para agregar grupo
+     */
+    function agregar_integrante_grupo($grupo_id, $cliente_id)
+    {
+        $integrante_fechareg =  date('Y-m-d');
+        $integrante_horareg =  date('H-i-s');
+        $sql = "insert integrante(cliente_id, grupo_id, integrante_fechareg, integrante_horareg) value(".
+                $cliente_id.",".$grupo_id.",'".$integrante_fechareg."','".$integrante_horareg."')";
+        return $this->db->query($sql);
+    }
 }
