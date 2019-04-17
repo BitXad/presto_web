@@ -232,7 +232,7 @@ if ($tipo_interes==2) { //interes fijo//
                 'usuario_id' => $usuario_id,
                 'estado_id' => 9,
                 'cuota_numero' => $numero,
-                'cuota_capital' => $this->input->post('credito_monto'),
+                'cuota_capital' => ($monto/$cuotas),
                 'cuota_interes' => $sumainteres,
                 'cuota_descuento' => 0,
                 'cuota_monto' => ($sumainteres / 100 * $monto) + ($monto/$cuotas),
@@ -270,7 +270,7 @@ if ($tipo_interes==2) { //interes fijo//
                 'usuario_id' => $usuario_id,
                 'estado_id' => 9,
                 'cuota_numero' => $numero,
-                'cuota_capital' => $this->input->post('credito_monto'),
+                'cuota_capital' => ($monto/$cuotas),
                 'cuota_interes' => $sumainteres,
                 'cuota_descuento' => 0,
                 'cuota_monto' => $variable + ($monto/$cuotas),
@@ -325,6 +325,15 @@ if ($tipo_interes==2) { //interes fijo//
         $data['garantias'] = $this->Garantia_model->get_garantia_credito($credito_id);
         $data['empresa'] = $this->Credito_model->get_empresa(1);
         $data['_view'] = 'credito/completo';
+        $this->load->view('layouts/main',$data);
+    }
+
+     function planpago($credito_id)
+    {
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+        $data['empresa'] = $this->Credito_model->get_empresa(1);
+        $data['_view'] = 'cuota/planpago';
         $this->load->view('layouts/main',$data);
     }
 

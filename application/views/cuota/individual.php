@@ -69,7 +69,9 @@
                         <td align="right"><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
-                        <td><a href="#" onclick="cobrarcuota(<?php echo $c['cuota_id']; ?>)" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
+                        <td>
+                        <?php if ($c['estado_id']==9) {  ?>
+                          <a href="#" onclick="cobrarcuota(<?php echo $c['cuota_id']; ?>)" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
 <!---------------------------------MODAL DE PAGAR------------------------->
 
   <div class="modal fade" id="pagar<?php echo $c['cuota_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -90,6 +92,9 @@
                   <input type="hidden" name="credito" value="<?php echo $c['credito_id']; ?>" class="form-control"  />
                   <input type="hidden" name="cuota_monto<?php echo $c['cuota_id']; ?>" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_monto<?php echo $c['cuota_id']; ?>" />
                     <input type="number" name="cuota_montocancelado" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_montocancelado<?php echo $c['cuota_id']; ?>" step="any"/>
+          
+              <input type="hidden" name="cuota_capital" value="<?php echo $c['cuota_capital']; ?>" id="cuota_capital" />
+            
                 </div>
                 </div>
                 <div class="col-md-6">
@@ -135,7 +140,12 @@
         </div>
         </div>
         <!---------------------------------FIN MODAL DE PAGAR------------------------->
-                   </td> </tr>
+         <?php }      ?>
+        <?php if ($c['estado_id']==10) {  ?>
+          <a href="<?php echo site_url('cuota/reciboindividual/'.$c['credito_id'].'/'.$c['cuota_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a> 
+        <?php }      ?>
+                   
+                 </td> </tr>
                     <?php } ?>
                     <tr>
                       <td colspan="6"><b>TOTAL</b></td>

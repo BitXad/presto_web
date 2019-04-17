@@ -22,6 +22,8 @@
     <b>TIPO DE GARANTIA:</b> <?php echo $credito[0]['tipogarant_nombre']; ?>
 </div>
 <div class="col-md-4 no-print">
+           <input type="radio" name="inter1" id="inter1" > Interes Mensual<br>
+           <input type="radio" name="inter1" id="inter1" > Interes por Dia<br>
               
             <a href="#" onclick="cobrarinteres()" data-toggle="modal" data-target="#pagarint" class="btn btn-success btn-foursquarexs" ><font size="5"><span class="fa fa-money"></span></font><br><small>Cobrar Int.</small></a>
              <!---------------------------------MODAL DE PAGAR------------------------->
@@ -38,6 +40,14 @@
               <div class="modal-body" >
           <form action="<?php echo base_url('cuota/interes'); ?>"  method="POST" class="form" > 
                 <div class="col-md-12">
+                <div class="col-md-6" id="misele">
+                  <select name="dias" class="form-control" id="dias" >
+                    <option value="0"></option>
+                  </select>
+                </div>
+                <div class="col-md-6"><label for="credito_ultimopago" class="control-label">Ultimo Pago</label><div class="form-group">
+                  <input type="text" name="credito_ultimopago" class="form-control" value="<?php echo $credito[0]['credito_ultimopago']; ?>" id="credito_ultimopago" />
+                </div></div>
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">Cobrar</label>
                 <div class="form-group">
@@ -113,7 +123,7 @@
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">PAGO</label>
                 <div class="form-group">
-                    <input type="hidden" name="cuota_monto1" class="form-control" id="cuota_monto1" />
+                    <input type="hidden" name="cuota_monto1" class="form-control" value="<?php echo $credito[0]['credito_saldo']; ?>" id="cuota_monto1" />
                     <input type="number" name="cuota_montocancelado1" class="form-control" value="<?php echo $credito[0]['credito_saldo']; ?>" id="cuota_montocancelado1" />
                     <div hidden>
                     <input type="text" name="credito_monto1" value="<?php echo $credito[0]['credito_monto']; ?>" id="credito_monto1" />
@@ -222,6 +232,9 @@
                         <td align="right"><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
+                        <td><?php if ($c['estado_id']==10) {  ?>
+          <a href="<?php echo site_url('cuota/reciboindividual/'.$c['credito_id'].'/'.$c['cuota_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a> 
+        <?php }      ?></td>
                         
                     </tr>
                     <?php } ?>
