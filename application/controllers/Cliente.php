@@ -177,7 +177,7 @@ class Cliente extends CI_Controller{
             $data['_view'] = 'cliente/add';
             $this->load->view('layouts/main',$data);
         }
-    }  
+    }
 
     /*
      * Editing a cliente
@@ -344,5 +344,36 @@ class Cliente extends CI_Controller{
             show_404();
         }
         
+    }
+    /*
+     * declaracion jurada de un cliente
+     */
+    function declaracionj($cliente_id)
+    {
+        // check if the cliente exists before trying to mostrar la declaracion juarada
+        $data['cliente'] = $this->Cliente_model->get_inf_cliente($cliente_id);
+        if(isset($data['cliente']['cliente_id']))
+        {
+            /*
+            $this->load->model('Estado_civil_model');
+            $data['all_estado_civil'] = $this->Estado_civil_model->get_all_estado_civil(
+                    );
+            $this->load->model('Estado_model');
+            $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+            $this->load->model('Extencion_model');
+            $data['all_extencion'] = $this->Extencion_model->get_all_extencion();
+
+            $this->load->model('Categoria_model');
+            $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+
+            $this->load->model('Asesor_model');
+            $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+            */
+            $data['_view'] = 'cliente/declaracionj';
+            $this->load->view('layouts/main',$data);
+        }
+        else
+            show_error('El cliente no esta registrado, y por lo tanto no muestra la declaracion jurada.');
     }
 }
