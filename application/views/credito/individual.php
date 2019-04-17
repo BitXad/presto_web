@@ -15,6 +15,18 @@
                 })
             }(jQuery));
         });
+</script>
+<script type="text/javascript">
+function ocultar(){
+               
+                     var value = document.getElementById('modo').value;
+                     if (value==1) {
+                    $('#credito_cuotas').hide();
+                   }else{
+                    $('#credito_cuotas').show();
+                   }
+                
+      }      
 </script>   
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
@@ -174,6 +186,14 @@
                   </div></div>
                  </div>
                  <div class="col-md-12">
+                  <div class="input-group no-print"> <span class="input-group-addon">Modo de Cobro:</span>
+                    <select name="modo" class="form-control" id="modo" onchange="ocultar()">
+                      <option value="0">Mensual</option>
+                      <option value="1">Diario</option> 
+                    </select>
+                  </div>
+                 </div>
+                 <div class="col-md-12">
                  	<?php  $date = date("Y-m-d"); $mod_date = strtotime($date."+ 1 months");?>
                   <div class="input-group no-print"> <span class="input-group-addon">Fecha Pago:</span>
                    <input type="date" name="credito_fechalimite" value="<?php echo date("Y-m-d",$mod_date); ?>" class=" form-control" id="credito_fechalimite" />
@@ -183,12 +203,8 @@
                   <div class="input-group no-print"> <span class="input-group-addon">Capitalista:</span>
                     <input id="Capitalista" type="text" class="form-control" >
                   </div>
-                 </div>
-                 <div class="col-md-12">
-                  <div class="input-group no-print"> <span class="input-group-addon">Capital Disponible:</span>
-                    <input id="capitaler" type="text" class="form-control" >
-                  </div>
                  </div>-->
+                 
                   <div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Cuotas:</span>
                    
@@ -206,11 +222,14 @@
 </select>
                   </div>
                  </div>
-                 <div class="col-md-12">
+                 <div class="col-md-12" id="boton" style='display:block;'>
 						
 					<a class="btn btn-success" onclick="finalizarindividual()"><i class="fa fa-save"></i> Finalizar</a>
-				
+		
             	</div>
+  <div class="row" id='loader'  style='display:none; text-align: center'>
+  <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
+  </div>
     	</div><!--box-->
     	</div><!--boxBODY-->
     </div><!--COL5-->

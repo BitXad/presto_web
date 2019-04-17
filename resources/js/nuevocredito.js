@@ -150,6 +150,8 @@ function tablagarantia(){
 }
 function finalizarindividual()
 {
+    document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
+    document.getElementById('boton').style.display = 'none'; //ocultar el bloque del loader 
     var base_url    = document.getElementById('base_url').value;
     var usuario_id    = document.getElementById('usuario_id').value;
     var controlador = base_url+'credito/finalizar/';   
@@ -157,6 +159,7 @@ function finalizarindividual()
     var credito_interes = document.getElementById('credito_interes').value;
     var credito_comision = document.getElementById('credito_comision').value;
     var credito_custodia = document.getElementById('credito_custodia').value;
+    var modo = document.getElementById('modo').value;
     var credito_fechalimite = document.getElementById('credito_fechalimite').value;
     var credito_cuotas = document.getElementById('credito_cuotas').value;
     var tipo_credito = 2;
@@ -179,9 +182,10 @@ function finalizarindividual()
            data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,
             credito_custodia:credito_custodia,credito_fechalimite:credito_fechalimite,credito_cuotas:credito_cuotas,
             cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id,cliente_nombre:cliente_nombre,
-            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono},
-           success:function(respuesta){ 
-            location.href = base_url+'credito/individual';
+            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono,modo:modo},
+           success:function(respuesta){
+
+             location.href = base_url+'credito/individual';
              },
             
             });  
