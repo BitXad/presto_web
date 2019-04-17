@@ -18,8 +18,6 @@
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <style type="text/css">
-   
-.<style type="text/css">
     .ale{
          font-family: "Arial", Arial, Arial, arial;
     font-size: 9px;
