@@ -128,6 +128,7 @@
                     <tr>
                         <th>#</th>
                         <th>Nombre</th>
+                        <th>Datos Adicionales</th>
                         <th>Dirección</th>
                         <th class="no-print">Map</th>
                         <th>Categoria</th>
