@@ -134,4 +134,24 @@ class Cliente_model extends CI_Model
         return $cliente;
 
     }
+    /*
+     * Funcion que muestra informacion completa de un cliente
+     */
+    function get_inf_cliente($cliente_id)
+    {
+        $sql = "SELECT
+                c.*, cc.categoria_nombre, concat(a.asesor_nombre, ' ', a.asesor_apellido) as miasesor,
+                ec.estadocivil_nombre
+            FROM
+                cliente c
+            LEFT JOIN estado e on c.estado_id = e.estado_id
+            LEFT JOIN categoria cc on c.categoria_id = cc.categoria_id
+            LEFT JOIN asesor a on c.asesor_id = a.asesor_id
+            LEFT JOIN estado_civil ec on c.estadocivil_id = ec.estadocivil_id
+            WHERE
+                c.cliente_id = $cliente_id";
+        $cliente = $this->db->query($sql)->row_array();
+        return $cliente;
+
+    }
 }
