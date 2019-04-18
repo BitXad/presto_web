@@ -1,5 +1,13 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <style type="text/css">
+    @media print {
+    body {
+       
+   transform: scale(0.94);
+   transform-origin: 0.94;
+ 
+       
+    } }
     hr{
         border-top: 2px solid #000;
         margin: 0;
@@ -12,7 +20,7 @@
     }
 </style>
 <div>
-    <table style="border: #000 3px solid;">
+    <table style="border: #000 3px solid; padding-left: -10mm;">
     <tr>
         <td>
 <div class="row">
