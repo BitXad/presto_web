@@ -24,7 +24,7 @@
 <div class="col-md-4 no-print">
            <input type="radio" name="inter1" id="inter1" > Interes Mensual<br>
            <input type="radio" name="inter1" id="inter1" > Interes por Dia<br>
-              
+                
             <a href="#" onclick="cobrarinteres()" data-toggle="modal" data-target="#pagarint" class="btn btn-success btn-foursquarexs" ><font size="5"><span class="fa fa-money"></span></font><br><small>Cobrar Int.</small></a>
              <!---------------------------------MODAL DE PAGAR------------------------->
 
@@ -105,7 +105,7 @@
         </div>
         </div>
         <!---------------------------------FIN MODAL DE PAGAR------------------------->
-            <button  href="#" onclick="amortizar()" data-toggle="modal" data-target="#amortizar"  class="btn btn-warning btn-foursquarexs" onclick="fechadecompra('and 1')" ><font size="5"><span class="fa fa-money"></span></font><br><small>Amortizar</small></button>
+            <button  href="#" onclick="amortizar()" data-toggle="modal" data-target="#amortizar"  class="btn btn-warning btn-foursquarexs"><font size="5"><span class="fa fa-money"></span></font><br><small>Amortizar</small></button>
              <!---------------------------------MODAL DE PAGAR------------------------->
 
   <div class="modal fade" id="amortizar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -120,12 +120,19 @@
               <div class="modal-body">
         <form action="<?php echo base_url('cuota/amortizar'); ?>"  method="POST" class="form" >   
               <div class="col-md-12">
+                <div class="col-md-6"><label for="dian" class="control-label">nose</label>
+                  <input type="text" name="dian" class="form-control"  value="" id="dian" readonly />
+                </div>
+                <div class="col-md-6"><label for="interes1" class="control-label">Monto Interes</label>
+                  <input type="number" name="interes1" class="form-control"  value="" id="interes1" readonly />
+                </div>
                 <div class="col-md-6">
                   <label for="cliente_nombre" class="control-label">PAGO</label>
                 <div class="form-group">
                     <input type="hidden" name="cuota_monto1" class="form-control" value="<?php echo $credito[0]['credito_saldo']; ?>" id="cuota_monto1" />
                     <input type="number" name="cuota_montocancelado1" class="form-control" value="<?php echo $credito[0]['credito_saldo']; ?>" id="cuota_montocancelado1" />
                     <div hidden>
+                    
                     <input type="text" name="credito_monto1" value="<?php echo $credito[0]['credito_monto']; ?>" id="credito_monto1" />
                     <input type="text" name="credito_saldo1" value="<?php echo $credito[0]['credito_saldo']; ?>" id="credito_saldo1" />
                     <input type="text" name="credito_interes1" value="<?php echo $credito[0]['credito_interes']; ?>" id="credito_interes1" />
