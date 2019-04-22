@@ -55,7 +55,7 @@
                         <tr>
                         <td><?php echo $c['cuota_numero']; ?></td>
                         <td align="right"><?php echo number_format($c['cuota_capital'], 2, ".", ","); ?></td>
-                        <td align="right"><?php echo number_format($c['cuota_interes'], 2, ".", ","); ?></td>
+                        <td align="right"><?php echo number_format($c['cuota_monto']-$c['cuota_capital'], 2, ".", ","); ?></td>
                         <td align="right"><?php echo number_format($c['cuota_descuento'], 2, ".", ","); ?></td>
                         <td align="right"><b><?php echo number_format($c['cuota_monto'], 2, ".", ","); ?></b></td>
                         <td><?php echo date('d/m/Y',strtotime($c['cuota_fechalimite'])); ?></td>

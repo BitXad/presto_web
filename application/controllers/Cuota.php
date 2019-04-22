@@ -135,6 +135,7 @@ class Cuota extends CI_Controller{
     {
         $credito_id = $this->input->post('credito_id1');
         $usuario_id = 1;
+        $interestotal = $this->input->post('interes1');
         $fecha = $this->input->post('cuota_fechapago1');
         $pagado = $this->input->post('cuota_montocancelado1');
         $interes = $this->input->post('credito_interes1');
@@ -163,7 +164,7 @@ class Cuota extends CI_Controller{
             $cuota_id = $this->Cuota_model->add_cuota($params);
 
 
-              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado."+".$interestotal.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
                 $this->db->query($credito);
               $saldo = "SELECT credito_saldo as saldito FROM credito WHERE credito_id=".$credito_id." ";
               $saldito = $this->db->query($saldo)->row_array();

@@ -218,6 +218,7 @@ class Credito extends CI_Controller{
 
     $diff = $fechahoy->diff($fechafin);
     $diferencia = $diff->days;
+    $diferenciatotal = $diferencia+1;
     $tipo_interes = $this->input->post('tipo_interes');
    
     //$patron = ($numcuota*0.5) + 0.5;
@@ -226,10 +227,10 @@ class Credito extends CI_Controller{
                         
 if ($tipo_interes==2) { //interes fijo//
                                                  
-    if($cuotas==0){   //sin tiempo limite//
+   
            if ($modo==1) {
-
-                for ($numero = 1; $numero <= $diferencia+1; $numero++) {
+           
+                for ($numero = 1; $numero <= $cuotas; $numero++) {
             
             $monto = $this->input->post('credito_monto');
             
@@ -239,24 +240,20 @@ if ($tipo_interes==2) { //interes fijo//
                 'usuario_id' => $usuario_id,
                 'estado_id' => 9,
                 'cuota_numero' => $numero,
-                'cuota_capital' => ($monto/$diferencia),
-                'cuota_interes' => $sumainteres/$diferencia,
+                'cuota_capital' => ($monto/$cuotas),
+                'cuota_interes' => $sumainteres/$cuotas,
                 'cuota_descuento' => 0,
-                'cuota_monto' => ($sumainteres / 100 * $monto / $diferencia) + ($monto/$diferencia),
+                'cuota_monto' => ($sumainteres / 100 * $monto / $cuotas) + ($monto/$cuotas),
                 'cuota_fechalimite' => date("Y-m-d",$mod_date),
                 'cuota_montocancelado' => 0,
                 //'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),//falta
             );
             
             $cuota_id = $this->Cuota_model->add_cuota($params);
-            $crediup = array(
-                    'credito_cuotas' => $diferencia,
-                );
-                $this->Credito_model->update_credito($credito_id,$crediup);  
+            
             
         }
-    }
-            
+                
               //fin //
                             
     }else{  //numero de cuotas//
@@ -286,27 +283,28 @@ if ($tipo_interes==2) { //interes fijo//
 
     }
 } else { //interes sobre saldo//
-    if($cuotas==0){   //sin tiempo limite//
+     
         if ($modo==1) {
        
                  $monto = $this->input->post('credito_monto');
         
         $cuota_total = $monto;
         $saldo_deudor = $cuota_total;
-        $cuota_capital = $monto/$diferencia;
-        for ($numero = 1; $numero <= $diferencia+1; $numero++) {
+        $cuota_capital = $monto/$cuotas;
+       
+        for ($numero = 1; $numero <= $cuotas; $numero++) {
            
             $mod_date = strtotime($fechalimite."+ ".($numero)." days");
-            $variable = $saldo_deudor * ($sumainteres/100/$diferencia);        
+            $variable = $saldo_deudor * ($sumainteres/100/$cuotas);        
              $params = array(
                 'credito_id' => $credito_id,
                 'usuario_id' => $usuario_id,
                 'estado_id' => 9,
                 'cuota_numero' => $numero,
-                'cuota_capital' => ($monto/$diferencia),
-                'cuota_interes' => $sumainteres/$diferencia,
+                'cuota_capital' => ($monto/$cuotas),
+                'cuota_interes' => $sumainteres/$cuotas,
                 'cuota_descuento' => 0,
-                'cuota_monto' => $variable + ($monto/$diferencia),
+                'cuota_monto' => $variable + ($monto/$cuotas),
                 'cuota_fechalimite' => date("Y-m-d",$mod_date),
                 'cuota_montocancelado' => 0,
                 //'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),//falta
@@ -315,13 +313,10 @@ if ($tipo_interes==2) { //interes fijo//
             $cuota_id = $this->Cuota_model->add_cuota($params);
             $cuota_total = $saldo_deudor;
             $saldo_deudor = $cuota_total - $cuota_capital;
-            $crediup = array(
-                    'credito_cuotas' => $diferencia,
-                );
-                $this->Credito_model->update_credito($credito_id,$crediup);        
+                   
         }
 
-        }
+        
 
               //fin //
                             

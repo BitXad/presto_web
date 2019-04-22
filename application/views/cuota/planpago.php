@@ -121,7 +121,7 @@
                         <td><?php echo $cont ?></td>
                        
                         <td style="text-align: right;"><?php echo number_format($c['cuota_capital'], 2, ".", ","); ?></td>
-                        <td style="text-align: right;"><?php echo number_format($c['cuota_interes'], 2, ".", ","); ?></td>
+                        <td align="right"><?php echo number_format($c['cuota_monto']-$c['cuota_capital'], 2, ".", ","); ?></td>
                         <td style="text-align: center;"><?php echo $fecha_format = date('d/m/Y', strtotime($c['cuota_fechalimite']));  ?></td>
                         
                         <td style="text-align: right;"><b><?php echo number_format($c['cuota_monto'], 2, ".", ","); ?></b></td>
