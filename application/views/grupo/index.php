@@ -31,7 +31,7 @@
                 <table class="table table-striped" id="mitabla">
                     <tr>
                             <th>#</th>
-                            <th>Nombre</th>
+                            <th>Grupo</th>
                             <th>Codigo</th>
                             <th>Integ.</th>
                             <th>Asesor</th>
@@ -66,6 +66,21 @@
                         </td>
                     </tr>
                     <?php } ?>
+                    <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                    </tr>                    
+                    
                 </table>
                                 
             </div>
