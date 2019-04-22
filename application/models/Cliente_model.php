@@ -58,7 +58,7 @@ class Cliente_model extends CI_Model
     {
         $sql = "select * from cliente c, integrante i 
                 where i.cliente_id = c.cliente_id and 
-                i.grupo_id = ".$grupo_id;
+                i.grupo_id = ".$grupo_id." order by i.integrante_id asc";
         $cliente = $this->db->query($sql)->result_array();
         return $cliente;
     }

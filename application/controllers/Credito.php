@@ -41,6 +41,22 @@ class Credito extends CI_Controller{
         $this->load->view('layouts/main',$data);
     }
 
+    function grupal()
+    {   
+        $usuario_id = 1;
+        $data['usuario_id'] = $usuario_id;
+        $data['grupos'] = $this->Credito_model->get_todo_grupos();
+        $data['credito'] = $this->Credito_model->get_todo_credito();
+        $this->load->model('Tipo_credito_model');
+        $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+        $this->load->model('Tipo_interes_model');
+        $data['all_tipo_interes'] = $this->Tipo_interes_model->get_all_tipo_interes();
+        $this->load->model('Tipo_garantia_model');
+        $data['all_tipo_garantia'] = $this->Tipo_garantia_model->get_all_tipo_garantia();
+        $data['_view'] = 'credito/grupal';
+        $this->load->view('layouts/main',$data);
+    }
+
     function creditos()
     {   
         

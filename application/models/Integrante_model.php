@@ -45,7 +45,7 @@ class Integrante_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `integrante_id` DESC
+            ORDER BY `integrante_id` ASC
         ")->result_array();
 
         return $integrante;

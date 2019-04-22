@@ -177,4 +177,15 @@ class Credito_model extends CI_Model
     {
         return $this->db->delete('credito',array('credito_id'=>$credito_id));
     }
+    
+    function get_todo_grupos()
+    {
+        $credito = $this->db->query("
+            SELECT * from grupo
+               
+        ")->result_array();
+
+        return $credito;
+    }    
+    
 }

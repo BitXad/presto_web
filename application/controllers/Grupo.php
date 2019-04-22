@@ -44,6 +44,15 @@ class Grupo extends CI_Controller{
 				'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
 				'grupo_monto' => $this->input->post('grupo_monto'),
 				'grupo_integrantes' => $this->input->post('grupo_integrantes'),
+                                'grupo_departamento' => $this->input->post('grupo_departamento'),
+				'grupo_municipio' => $this->input->post('grupo_municipio'),
+				'grupo_provincia' => $this->input->post('grupo_provincia'),
+				'grupo_zona' => $this->input->post('grupo_zona'),
+				'grupo_fechahora' => $this->input->post('grupo_fechahora'),
+				'grupo_multafalta' => $this->input->post('grupo_multafalta'),
+				'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
+				'grupo_ahorro' => $this->input->post('grupo_ahorro'),
+				'grupo_cuotas' => $this->input->post('grupo_cuotas'),
             );
             
             $grupo_id = $this->Grupo_model->add_grupo($params);
@@ -79,16 +88,26 @@ class Grupo extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
-					'asesor_id' => $this->input->post('asesor_id'),
-					'usuario_id' => $this->input->post('usuario_id'),
-					'estado_id' => $this->input->post('estado_id'),
-					'grupo_fecha' => $this->input->post('grupo_fecha'),
-					'grupo_hora' => $this->input->post('grupo_hora'),
-					'grupo_nombre' => $this->input->post('grupo_nombre'),
-					'grupo_codigo' => $this->input->post('grupo_codigo'),
-					'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
-					'grupo_monto' => $this->input->post('grupo_monto'),
-					'grupo_integrantes' => $this->input->post('grupo_integrantes'),
+                            'asesor_id' => $this->input->post('asesor_id'),
+                            'usuario_id' => $this->input->post('usuario_id'),
+                            'estado_id' => $this->input->post('estado_id'),
+                            'grupo_fecha' => $this->input->post('grupo_fecha'),
+                            'grupo_hora' => $this->input->post('grupo_hora'),
+                            'grupo_nombre' => $this->input->post('grupo_nombre'),
+                            'grupo_codigo' => $this->input->post('grupo_codigo'),
+                            'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
+                            'grupo_monto' => $this->input->post('grupo_monto'),
+                            'grupo_integrantes' => $this->input->post('grupo_integrantes'),
+                            'grupo_departamento' => $this->input->post('grupo_departamento'),
+                            'grupo_municipio' => $this->input->post('grupo_municipio'),
+                            'grupo_provincia' => $this->input->post('grupo_provincia'),
+                            'grupo_zona' => $this->input->post('grupo_zona'),
+                            'grupo_fechahora' => $this->input->post('grupo_fechahora'),
+                            'grupo_multafalta' => $this->input->post('grupo_multafalta'),
+                            'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
+                            'grupo_ahorro' => $this->input->post('grupo_ahorro'),
+                            'grupo_cuotas' => $this->input->post('grupo_cuotas'),
+                    
                 );
 
                 $this->Grupo_model->update_grupo($grupo_id,$params);            
@@ -187,11 +206,24 @@ class Grupo extends CI_Controller{
 
         $grupo_id = $this->input->post('grupo_id');
         $cliente_id = $this->input->post('cliente_id');
+        $integrante_cargo = $this->input->post('integrante_cargo');
         
         // check if the grupo exists before trying to delete it
-        $this->Grupo_model->agregar_integrante_grupo($grupo_id, $cliente_id);
+        $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo);
         redirect('grupo/integrantes/'.$grupo_id);
        
     }
+    
+    /*
+     * Mostrar integrantes de un grupo
+     */
+    function buscar_integrante($grupo_id)
+    {
+        $this->load->model('Cliente_model');
+        $integrantes = $this->Cliente_model->get_all_integrantes($grupo_id);
+        echo json_encode($integrantes);
+    
+    }
+    
     
 }

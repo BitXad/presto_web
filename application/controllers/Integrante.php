@@ -30,12 +30,14 @@ class Integrante extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
-				'cliente_id' => $this->input->post('cliente_id'),
-				'tipointeg_id' => $this->input->post('tipointeg_id'),
-				'garantia_id' => $this->input->post('garantia_id'),
-				'grupo_id' => $this->input->post('grupo_id'),
-				'integrante_fechareg' => $this->input->post('integrante_fechareg'),
-				'integrante_horareg' => $this->input->post('integrante_horareg'),
+                'cliente_id' => $this->input->post('cliente_id'),
+                'tipointeg_id' => $this->input->post('tipointeg_id'),
+                'garantia_id' => $this->input->post('garantia_id'),
+                'grupo_id' => $this->input->post('grupo_id'),
+                'integrante_fechareg' => $this->input->post('integrante_fechareg'),
+                'integrante_horareg' => $this->input->post('integrante_horareg'),
+                'integrante_horareg' => $this->input->post('integrante_horareg'),
+                'integrante_cargo' => $this->input->post('integrante_cargo'),
             );
             
             $integrante_id = $this->Integrante_model->add_integrante($params);
@@ -73,12 +75,13 @@ class Integrante extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
-					'cliente_id' => $this->input->post('cliente_id'),
-					'tipointeg_id' => $this->input->post('tipointeg_id'),
-					'garantia_id' => $this->input->post('garantia_id'),
-					'grupo_id' => $this->input->post('grupo_id'),
-					'integrante_fechareg' => $this->input->post('integrante_fechareg'),
-					'integrante_horareg' => $this->input->post('integrante_horareg'),
+                    'cliente_id' => $this->input->post('cliente_id'),
+                    'tipointeg_id' => $this->input->post('tipointeg_id'),
+                    'garantia_id' => $this->input->post('garantia_id'),
+                    'grupo_id' => $this->input->post('grupo_id'),
+                    'integrante_fechareg' => $this->input->post('integrante_fechareg'),
+                    'integrante_horareg' => $this->input->post('integrante_horareg'),
+                    'integrante_cargo' => $this->input->post('integrante_cargo'),
                 );
 
                 $this->Integrante_model->update_integrante($integrante_id,$params);            
@@ -109,7 +112,7 @@ class Integrante extends CI_Controller{
     /*
      * Deleting integrante
      */
-    function remove($integrante_id)
+    function remove($integrante_id,$grupo_id)
     {
         $integrante = $this->Integrante_model->get_integrante($integrante_id);
 
@@ -117,7 +120,7 @@ class Integrante extends CI_Controller{
         if(isset($integrante['integrante_id']))
         {
             $this->Integrante_model->delete_integrante($integrante_id);
-            redirect('integrante/index');
+            redirect('grupo/integrantes/'.$grupo_id);
         }
         else
             show_error('The integrante you are trying to delete does not exist.');

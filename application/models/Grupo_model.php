@@ -94,12 +94,14 @@ class Grupo_model extends CI_Model
     /*
      * funcion para agregar grupo
      */
-    function agregar_integrante_grupo($grupo_id, $cliente_id)
+    function agregar_integrante_grupo($grupo_id, $cliente_id,$integrante_cargo)
     {
         $integrante_fechareg =  date('Y-m-d');
         $integrante_horareg =  date('H-i-s');
-        $sql = "insert integrante(cliente_id, grupo_id, integrante_fechareg, integrante_horareg) value(".
-                $cliente_id.",".$grupo_id.",'".$integrante_fechareg."','".$integrante_horareg."')";
+                
+        $sql = "insert integrante(cliente_id, grupo_id, integrante_fechareg, integrante_horareg,integrante_cargo) value(".
+                $cliente_id.",".$grupo_id.",'".$integrante_fechareg."','".$integrante_horareg."', '".$integrante_cargo."')";
         return $this->db->query($sql);
+        
     }
 }
