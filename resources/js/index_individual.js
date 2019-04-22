@@ -64,7 +64,7 @@ function tablacreditos(dato){
 						html += "<td>"+registros[i]["usuario_nombre"]+"</td>";
 						html += "<td style='background: "+registros[i]["estado_color"]+"'>"+registros[i]["estado_descripcion"]+"</td>";
 						html += "<td><a href='"+base_url+"credito/completo/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-facebook btn-xs'><span class='fa fa-print'></span></a>";
-            html += "<td><a href='"+base_url+"credito/planpago/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-info btn-xs'><span class='fa fa-doc'></span></a>";
+            html += " <a href='"+base_url+"credito/planpago/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-info btn-xs'><span class='fa fa-file-powerpoint-o'></span></a>";
                      	if (registros[i]['credito_cuotas']==0) {
                      	html += " <a href='"+base_url+"cuota/sintiempo/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-success btn-xs'><span class='fa fa-money'></span></a></td>";	
                      	}else{

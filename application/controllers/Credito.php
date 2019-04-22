@@ -11,6 +11,7 @@ class Credito extends CI_Controller{
         $this->load->model('Credito_model');
         $this->load->model('Cuota_model');
         $this->load->model('Cliente_model');
+         $this->load->helper('numeros');
     } 
 
     /*
@@ -220,28 +221,63 @@ class Credito extends CI_Controller{
                 );
 
                 $this->Cliente_model->update_cliente($cliente_id,$cli);   
+    $modo =  $this->input->post('modo');
     $cuotas =  $this->input->post('credito_cuotas');
     $fechalimite = $this->input->post('credito_fechalimite');
-    $tipo_interes = $this->input->post('tipo_interes');
+    $fechafin = new DateTime($fechalimite);
+    $fechahoy = new DateTime();
+    $credito_interes = $this->input->post('credito_interes');
+    $credito_custodia = $this->input->post('credito_custodia');
+    $credito_comision = $this->input->post('credito_comision');
+            
     $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
-    $patron = ($numcuota*0.5) + 0.5;
+
+    $diff = $fechahoy->diff($fechafin);
+    $diferencia = $diff->days;
+    $diferenciatotal = $diferencia+1;
+    $tipo_interes = $this->input->post('tipo_interes');
+   
+    //$patron = ($numcuota*0.5) + 0.5;
              //credito individual //
                     
                         
 if ($tipo_interes==2) { //interes fijo//
                                                  
-    if($cuotas==0){   //sin tiempo limite//
-                 
+   
+           if ($modo==1) {
+           
+                for ($numero = 1; $numero <= $cuotas; $numero++) {
+            
+            $monto = $this->input->post('credito_monto');
+            
+            $mod_date = strtotime($credito_fechainicio."+ ".$numero." day");
+             $params = array(
+                'credito_id' => $credito_id,
+                'usuario_id' => $usuario_id,
+                'estado_id' => 9,
+                'cuota_numero' => $numero,
+                'cuota_capital' => ($monto/$cuotas),
+                'cuota_interes' => $sumainteres/$cuotas,
+                'cuota_descuento' => 0,
+                'cuota_monto' => ($sumainteres / 100 * $monto / $cuotas) + ($monto/$cuotas),
+                'cuota_fechalimite' => date("Y-m-d",$mod_date),
+                'cuota_montocancelado' => 0,
+                //'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),//falta
+            );
+            
+            $cuota_id = $this->Cuota_model->add_cuota($params);
+            
+            
+        }
+                
               //fin //
                             
     }else{  //numero de cuotas//
         
         for ($numero = 1; $numero <= $cuotas; $numero++) {
-            $credito_interes = $this->input->post('credito_interes');
-            $credito_custodia = $this->input->post('credito_custodia');
-            $credito_comision = $this->input->post('credito_comision');
+            
             $monto = $this->input->post('credito_monto');
-            $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
+            
             $mod_date = strtotime($fechalimite."+ ".($numero - 1)." months");
              $params = array(
                 'credito_id' => $credito_id,
@@ -263,8 +299,41 @@ if ($tipo_interes==2) { //interes fijo//
 
     }
 } else { //interes sobre saldo//
-    if($cuotas==0){   //sin tiempo limite//
-                 
+     
+        if ($modo==1) {
+       
+                 $monto = $this->input->post('credito_monto');
+        
+        $cuota_total = $monto;
+        $saldo_deudor = $cuota_total;
+        $cuota_capital = $monto/$cuotas;
+       
+        for ($numero = 1; $numero <= $cuotas; $numero++) {
+           
+            $mod_date = strtotime($fechalimite."+ ".($numero)." days");
+            $variable = $saldo_deudor * ($sumainteres/100/$cuotas);        
+             $params = array(
+                'credito_id' => $credito_id,
+                'usuario_id' => $usuario_id,
+                'estado_id' => 9,
+                'cuota_numero' => $numero,
+                'cuota_capital' => ($monto/$cuotas),
+                'cuota_interes' => $sumainteres/$cuotas,
+                'cuota_descuento' => 0,
+                'cuota_monto' => $variable + ($monto/$cuotas),
+                'cuota_fechalimite' => date("Y-m-d",$mod_date),
+                'cuota_montocancelado' => 0,
+                //'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),//falta
+            );
+            
+            $cuota_id = $this->Cuota_model->add_cuota($params);
+            $cuota_total = $saldo_deudor;
+            $saldo_deudor = $cuota_total - $cuota_capital;
+                   
+        }
+
+        
+
               //fin //
                             
     }else{  //numero de cuotas//
@@ -274,11 +343,7 @@ if ($tipo_interes==2) { //interes fijo//
         $saldo_deudor = $cuota_total;
         $cuota_capital = $monto/$cuotas;
         for ($numero = 1; $numero <= $cuotas; $numero++) {
-            $credito_interes = $this->input->post('credito_interes');
-            $credito_custodia = $this->input->post('credito_custodia');
-            $credito_comision = $this->input->post('credito_comision');
             
-            $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
             $mod_date = strtotime($fechalimite."+ ".($numero - 1)." months");
             $variable = $saldo_deudor * ($sumainteres/100);        
              $params = array(

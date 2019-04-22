@@ -37,7 +37,7 @@
                         <th>Fecha</th>
                         <th>Hora</th>
                         <th>Num.<br>recibo</th>
-                        <th>Saldo</th>
+                        <th colspan="2">Saldo<br>Exc./Falt.</th>
                         <th>Glosa</th>
                         <th>Estado</th>
                         <th></th>
@@ -46,14 +46,16 @@
                          <?php 
                     
                       $cancelados = 0;
+                      $saldos = 0;
                    
                           foreach($cuota as $c) {
                            $cancelados += $c['cuota_montocancelado'];     
+                           $saldos += $c['cuota_saldocapital'];     
                                  ?>
                         <tr>
                         <td><?php echo $c['cuota_numero']; ?></td>
                         <td align="right"><?php echo number_format($c['cuota_capital'], 2, ".", ","); ?></td>
-                        <td align="right"><?php echo number_format($c['cuota_interes'], 2, ".", ","); ?></td>
+                        <td align="right"><?php echo number_format($c['cuota_monto']-$c['cuota_capital'], 2, ".", ","); ?></td>
                         <td align="right"><?php echo number_format($c['cuota_descuento'], 2, ".", ","); ?></td>
                         <td align="right"><b><?php echo number_format($c['cuota_monto'], 2, ".", ","); ?></b></td>
                         <td><?php echo date('d/m/Y',strtotime($c['cuota_fechalimite'])); ?></td>
@@ -66,7 +68,11 @@
                         <td><?php echo $c['cuota_horapago']; ?></td>
                          <?php } ?>
                         <td><?php echo $c['cuota_numrecibo']; ?></td>
-                        <td align="right"><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
+                        <?php if($c['cuota_saldocapital']<= 0)  { ?>
+                        <td align="right"><b><?php echo number_format(abs($c['cuota_saldocapital']), 2, ".", ","); ?></b></td><td></td>
+                        <?php } else { ?>
+                        <td></td><td align="right"><b><?php echo number_format($c['cuota_saldocapital'], 2, ".", ","); ?></b></td>
+                        <?php } ?>
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
                         <td>
@@ -150,7 +156,14 @@
                     <tr>
                       <td colspan="6"><b>TOTAL</b></td>
                       <td align="right"><b><?php echo number_format($cancelados, 2, ".", ","); ?></b></td>
-                      <td colspan="7"></td>
+                      <td colspan="3"></td>
+                      <?php if ($saldos >= 0) { ?>
+                        <td align="center" colspan="2"><b><?php echo number_format($saldos, 2, ".", ","); ?></b> Falt.</td>
+                       <?php } else { ?>
+                      <td align="center" colspan="2"><b><?php echo number_format(abs($saldos), 2, ".", ","); ?></b> Exc.</td>
+                        <?php } ?>
+                      
+                      <td colspan="3"></td>
                     </tr>
 </table>
 </div>

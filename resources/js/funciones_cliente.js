@@ -162,6 +162,14 @@ function tablaresultadoscliente(limite)
                         if(registros[i]["cliente_fechanac"] != "0000-00-00" && registros[i]["cliente_fechanac"] != null){
                             fnac = "<b>F. Nac.:</b> "+moment(registros[i]["cliente_fechanac"]).format("DD/MM/YYYY");
                         }
+                        var vencimiento= ""
+                        if(registros[i]['cliente_fechavenc'] != "0000-00-00" && registros[i]["cliente_fechavenc"] != null){
+                            vencimiento = "<b>Vence:</b> "+moment(registros[i]["cliente_fechavenc"]).format("DD/MM/YYYY");
+                        }
+                        var sexo="";
+                        if(registros[i]["cliente_sexo"] != null && registros[i]["cliente_fechanac"] != ""){
+                            sexo="<b> Sexo: </b>"+registros[i]['cliente_sexo'];
+                        }
                         if(registros[i]["cliente_codigo"] != null && registros[i]["cliente_codigo"] != ""){
                             codigo = registros[i]["cliente_codigo"];
                         }
@@ -177,21 +185,51 @@ function tablaresultadoscliente(limite)
                         }
                         //html += "<img src='"+base_url+"/resources/images/"+mimagen+"' />";
                         var estadocivil="";
-                        if(registros[i]["estadocivil_id"] != null || registros[i]["estadocivil_id"] != 0 || registros[i]["estadocivil_id"] != ""){
+                        if(registros[i]["estadocivil_id"] != null && registros[i]["estadocivil_id"] != 0 && registros[i]["estadocivil_id"] != ""){
                             estadocivil = "<b>Est. Civil: </b>"+registros[i]["estadocivil_nombre"];
-                        } /*else{
-                            estadocivil = registros[i]["estadocivil_nombre"];
-                        }*/
+                        }
+                        var apcasado = "";
+                       if(registros[i]["cliente_apcasado"] != null && registros[i]["cliente_apcasado"] != ""){
+                           apcasado = " de "+registros[i]["cliente_apcasado"];
+                       }
                         html += mimagen;
                         html += "</div>";
                         html += "<div style='padding-left: 4px'>";
-                        html += "<b id='masg'>"+registros[i]["cliente_nombre"]+" "+registros[i]["cliente_apellido"]+"</b><br>";
-                        html += "<b>Codigo: </b>"+codigo+" "+fnac+"<br>";
-                        html += "<b>C.I.: </b>"+registros[i]["cliente_ci"]+" "+registros[i]["cliente_extencionci"]+" "+estadocivil;
+                        html += "<b id='masg'>"+registros[i]["cliente_nombre"]+" "+registros[i]["cliente_apellido"]+apcasado+"</b><br>";
+                        html += "<b>Codigo: </b>"+codigo+" "+fnac+sexo+"<br>";
+                        html += "<b>"+registros[i]['cliente_tipodoc']+": </b>"+registros[i]["cliente_ci"]+" "+registros[i]["cliente_extencionci"]+" "+vencimiento;
+                        html += "<br>"+estadocivil;
                         html+= "<br>";
                         html += "<b>Tel.: </b>"+telef+linea+celular;
+                        html += "<br><b>Tipo Vivienda: </b>"+registros[i]['cliente_tipovivienda'];
+                        html += " <b>Pertenencia Dom.: </b>"+registros[i]['cliente_pertenenciadom'];
+                        html += "<br><b>Pertenencia Tiempo: </b>"+registros[i]['cliente_pertenenciatiempo'];
+                        html += " <b>Num. Hijos: </b>"+registros[i]['cliente_numhijos'];
                         html += "</div>";
                         html += "</div>";
+                        html += "</td>";
+                        html += "<td>";
+                        if(registros[i]['cliente_conyuge']){
+                            html += "<b>Conyuge: </b>"+registros[i]['cliente_conyuge'];
+                        }
+                        if(registros[i]['conyuge_ci']){
+                            html += "<br><b>Dcto.: </b>"+registros[i]['conyuge_ci'];
+                        }
+                        if(registros[i]['conyuge_telef']){
+                            html += "<br><b>Telef: </b>"+registros[i]['conyuge_telef'];
+                        }
+                        if(registros[i]['cliente_referencia1']){
+                            html += "<br><b>Ref #1: </b>"+registros[i]['cliente_referencia1'];
+                        }
+                        if(registros[i]['cliente_reftelef1']){
+                            html += "<b> Telef #1: </b>"+registros[i]['cliente_reftelef1'];
+                        }
+                        if(registros[i]['cliente_referencia2']){
+                            html += "<br><b>Ref #2: </b>"+registros[i]['cliente_referencia2'];
+                        }
+                        if(registros[i]['cliente_reftelef2']){
+                            html += "<b> Telef #2: </b>"+registros[i]['cliente_reftelef2'];
+                        }
                         html += "</td>";
                         html += "<td>";
                         //html += "<div style='white-space: nowrap;'><b>Neg.: </b>"+neg+"<br></div>";
@@ -266,6 +304,7 @@ function tablaresultadoscliente(limite)
                         html += "<td style='background-color: "+registros[i]["estado_color"]+";'>"+registros[i]["estado_descripcion"]+"</td>";
                         html += "<td class='no-print'>";
                         html += "<a href='"+base_url+"cliente/edit/"+registros[i]["cliente_id"]+"' class='btn btn-info btn-xs' title='Modificar datos de Cliente'><span class='fa fa-pencil'></span></a>";
+                        html += "<a href='"+base_url+"cliente/declaracionj/"+registros[i]["cliente_id"]+"' class='btn btn-primary btn-xs' title='Declaración jurada'><span class='fa fa-list-ul'></span></a>";
                         //html += "<a class='btn btn-danger btn-xs' data-toggle='modal' data-target='#myModal"+i+"' title='Eliminar'><span class='fa fa-trash'></span></a>";
                         
                         html += "<!------------------------ INICIO modal para confirmar eliminación ------------------->";

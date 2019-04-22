@@ -77,26 +77,71 @@ function mostrar(a) {
           	<div class="box-body">
                     <div class="row clearfix">
                         <div class="col-md-4">
-                            <label for="cliente_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
+                            <label for="cliente_nombre" class="control-label"><span class="text-danger">*</span>Nombres</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_nombre" value="<?php echo $this->input->post('cliente_nombre'); ?>" class="form-control" id="cliente_nombre" onKeyUp='this.value = this.value.toUpperCase();' required autofocus />
                                 <span class="text-danger"><?php echo form_error('cliente_nombre');?></span>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="cliente_apellido" class="control-label"><span class="text-danger">*</span>Apellido</label>
+                            <label for="cliente_apellido" class="control-label"><span class="text-danger">*</span>Apellidos</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_apellido" value="<?php echo $this->input->post('cliente_apellido'); ?>" class="form-control" id="cliente_apellido" onKeyUp="this.value = this.value.toUpperCase();" required />
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <label for="cliente_apcasado" class="control-label">Apellido de Casada(o)</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_apcasado" value="<?php echo $this->input->post('cliente_apcasado'); ?>" class="form-control" id="cliente_apcasado" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
                         <div class="col-md-2">
-                            <label for="cliente_ci" class="control-label">C.I.</label>
+                            <label for="cliente_codigo" class="control-label">Código</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_codigo" value="<?php echo $this->input->post('cliente_codigo'); ?>" class="form-control" id="cliente_codigo" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cliente_sexo" class="control-label">Sexo</label>
+                            <div class="form-group">
+                                <select name="cliente_sexo" id="cliente_sexo" class="form-control" style="width: 100%">
+                                    <option value="F">F</option>
+                                    <option value="M">M</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="estadocivil_id" class="control-label">Estado Civil</label>
+                            <div class="form-group">
+                                <select name="estadocivil_id" id="estadocivil_id" class="form-control">
+                                    <option value="0">- ESTADO CIVIL -</option>
+                                    <?php 
+                                    foreach($all_estado_civil as $estado_civil)
+                                    {
+                                        $selected = ($estado_civil['estadocivil_id'] == $this->input->post('estadocivil_id')) ? ' selected="selected"' : "";
+                                        echo '<option value="'.$estado_civil['estadocivil_id'].'" '.$selected.'>'.$estado_civil['estadocivil_nombre'].'</option>';
+                                    } 
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cliente_tipodoc" class="control-label">Tipo de Documento</label>
+                            <div class="form-group">
+                                <select name="cliente_tipodoc" id="cliente_tipodoc" class="form-control">
+                                    <option value="C.I.">C.I.</option>
+                                    <option value="RUN">RUN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cliente_ci" class="control-label">Nro. Dcto.</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_ci" value="<?php echo $this->input->post('cliente_ci'); ?>" class="form-control" id="cliente_ci" onKeyUp="this.value = this.value.toUpperCase();" />
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label for="cliente_extencionci" class="control-label">Extención C.I.</label>
+                            <label for="cliente_extencionci" class="control-label">Extención Dcto.</label>
                             <div class="form-group">
                                 <select name="cliente_extencionci" class="form-control">
                                     <option value="">- EXTENCION -</option>
@@ -111,9 +156,9 @@ function mostrar(a) {
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="cliente_codigo" class="control-label">Código</label>
+                            <label for="cliente_fechavenc" class="control-label"><span class="text-danger">*</span>Fecha Venc. Dcto.</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_codigo" value="<?php echo $this->input->post('cliente_codigo'); ?>" class="form-control" id="cliente_codigo" readonly />
+                                <input type="date" name="cliente_fechavenc" value="<?php echo $this->input->post('cliente_fechavenc'); ?>" class="form-control" id="cliente_fechavenc" required />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -132,6 +177,89 @@ function mostrar(a) {
                             <label for="cliente_celular" class="control-label">Celular</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_celular" value="<?php echo $this->input->post('cliente_celular'); ?>" class="form-control" id="cliente_celular" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_conyuge" class="control-label">Pareja</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_conyuge" value="<?php echo $this->input->post('cliente_conyuge'); ?>" class="form-control" id="cliente_conyuge" onKeyUp='this.value = this.value.toUpperCase();' />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="conyuge_ci" class="control-label">Pareja Dcto.</label>
+                            <div class="form-group">
+                                <input type="text" name="conyuge_ci" value="<?php echo $this->input->post('conyuge_ci'); ?>" class="form-control" id="cliente_ci" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="conyuge_telef" class="control-label">Pareja Telef.:</label>
+                            <div class="form-group">
+                                <input type="text" name="conyuge_telef" value="<?php echo $this->input->post('conyuge_telef'); ?>" class="form-control" id="conyuge_telef" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_referencia1" class="control-label">Referencia #1</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_referencia1" value="<?php echo $this->input->post('cliente_referencia1'); ?>" class="form-control" id="cliente_referencia1" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cliente_reftelef1" class="control-label">Teléfono Ref. #1</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_reftelef1" value="<?php echo $this->input->post('cliente_reftelef1'); ?>" class="form-control" id="cliente_reftelef1" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_referencia2" class="control-label">Referencia #2</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_referencia2" value="<?php echo $this->input->post('cliente_referencia2'); ?>" class="form-control" id="cliente_referencia2" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cliente_reftelef2" class="control-label">Teléfono Ref. #2</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_reftelef2" value="<?php echo $this->input->post('cliente_reftelef2'); ?>" class="form-control" id="cliente_reftelef2" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cliente_tipovivienda" class="control-label">Tipo de Vivienda</label>
+                            <div class="form-group">
+                                <select name="cliente_tipovivienda" id="cliente_tipovivienda"  class="form-control"  style="width: 100%">
+                                    <option value="DEPARTAMENTO">DEPARTAMENTO</option>
+                                    <option value="CASA">CASA</option>
+                                    <option value="CUARTO">CUARTO</option>
+                                    <option value="OTRO">OTRO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_pertenenciadom" class="control-label">Pertenencia Dom.</label>
+                            <div class="form-group">
+                                <select name="cliente_pertenenciadom" id="cliente_pertenenciadom"  class="form-control" style="width: 100%">
+                                    <option value="PROPIO">PROPIO</option>
+                                    <option value="ALQUILER">ALQUILER</option>
+                                    <option value="ANTICRETICO">ANTICRETICO</option>
+                                    <option value="MIXTO">MIXTO</option>
+                                    <option value="OTROS">OTRO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_pertenenciatiempo" class="control-label">Antiguedad Domiciliaria</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_pertenenciatiempo" value="<?php echo $this->input->post('cliente_pertenenciatiempo'); ?>" class="form-control" id="cliente_pertenenciatiempo" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_numhijos" class="control-label">Nro. de Hijos</label>
+                            <div class="form-group">
+                                <input type="number" min="0" name="cliente_numhijos" value="<?php echo $this->input->post('cliente_numhijos'); ?>" class="form-control" id="cliente_numhijos" onKeyUp="this.value = this.value.toUpperCase();" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cliente_direccion" class="control-label">Dirección</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_direccion" value="<?php echo $this->input->post('cliente_direccion'); ?>" class="form-control" id="cliente_direccion" onKeyUp="this.value = this.value.toUpperCase();" />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -213,12 +341,7 @@ function mostrar(a) {
                                 <input type="text" name="cliente_longitud" value="<?php echo $this->input->post('cliente_longitud'); ?>" class="form-control" id="cliente_longitud" readonly />
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="cliente_direccion" class="control-label">Dirección</label>
-                            <div class="form-group">
-                                <input type="text" name="cliente_direccion" value="<?php echo $this->input->post('cliente_direccion'); ?>" class="form-control" id="cliente_direccion" onKeyUp="this.value = this.value.toUpperCase();" />
-                            </div>
-                        </div>
+                        
                         
                         <div class="col-md-6">
                             <label for="cliente_referencia" class="control-label">Referencia</label>
@@ -226,13 +349,13 @@ function mostrar(a) {
                                 <input type="text" name="cliente_referencia" value="<?php echo $this->input->post('cliente_referencia'); ?>" class="form-control" id="cliente_referencia" onKeyUp="this.value = this.value.toUpperCase();" />
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <label for="cliente_foto" class="control-label">Foto</label>
                             <div class="form-group">
                                 <input type="file" name="cliente_foto" value="<?php echo $this->input->post('cliente_foto'); ?>" class="btn btn-success btn-sm form-control" id="cliente_foto" accept="image/png, image/jpeg, jpg, image/gif" />
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="cliente_email" class="control-label">E-mail</label>
                             <div class="form-group">
                                 <input type="email" name="cliente_email" value="<?php echo $this->input->post('cliente_email'); ?>" class="form-control" id="cliente_email" />
@@ -244,31 +367,16 @@ function mostrar(a) {
                                 <input type="number" min="0" name="cliente_nit" value="<?php echo ($this->input->post('cliente_nit') > 0) ? $this->input->post('cliente_nit'): 0 ; ?>" class="form-control" id="cliente_nit" />
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="cliente_razon" class="control-label">Razón</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_razon" value="<?php echo $this->input->post('cliente_razon'); ?>" class="form-control" id="cliente_razon" onKeyUp="this.value = this.value.toUpperCase();" />
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <label for="estadocivil_id" class="control-label">Estado Civil</label>
-                            <div class="form-group">
-                                <select name="estadocivil_id" class="form-control">
-                                    <option value="0">- ESTADO CIVIL -</option>
-                                    <?php 
-                                    foreach($all_estado_civil as $estado_civil)
-                                    {
-                                        $selected = ($estado_civil['estadocivil_id'] == $this->input->post('estadocivil_id')) ? ' selected="selected"' : "";
-                                        echo '<option value="'.$estado_civil['estadocivil_id'].'" '.$selected.'>'.$estado_civil['estadocivil_nombre'].'</option>';
-                                    } 
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-md-3">
                             <label for="categoria_id" class="control-label">Categoria</label>
                             <div class="form-group">
-                                <select name="categoria_id" class="form-control">
+                                <select name="categoria_id" id="categoria_id" class="form-control">
                                     <option value="0">- CATEGORIA -</option>
                                     <?php 
                                     foreach($all_categoria as $categoria)
@@ -283,13 +391,13 @@ function mostrar(a) {
                         <div class="col-md-3">
                             <label for="asesor_id" class="control-label">Asesor</label>
                             <div class="form-group">
-                                <select name="asesor_id" class="form-control">
+                                <select name="asesor_id" id="asesor_id" class="form-control">
                                     <option value="0">- ASESOR -</option>
                                     <?php 
                                     foreach($all_asesor as $asesor)
                                     {
                                         $selected = ($asesor['asesor_id'] == $this->input->post('asesor_id')) ? ' selected="selected"' : "";
-                                        echo '<option value="'.$asesor['asesor_id'].'" '.$selected.'>'.$asesor['asesor_nombre'].'</option>';
+                                        echo '<option value="'.$asesor['asesor_id'].'" '.$selected.'>'.$asesor['asesor_nombre']." ".$asesor['asesor_apellido'].'</option>';
                                     } 
                                     ?>
                                 </select>
