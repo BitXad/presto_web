@@ -79,6 +79,17 @@ CREATE TABLE `grupo` (
   `grupo_iniciosolicitud` date DEFAULT NULL,
   `grupo_monto` float DEFAULT NULL,
   `grupo_integrantes` int(11) DEFAULT NULL,
+  `grupo_departamento` varchar(150) DEFAULT NULL,
+  `grupo_municipio` varchar(150) DEFAULT NULL,
+  `grupo_provincia` varchar(150) DEFAULT NULL,
+  `grupo_zona` varchar(150) DEFAULT NULL,
+  `grupo_fechahora` datetime DEFAULT NULL,
+  `grupo_multafalta` float DEFAULT NULL,
+  `grupo_multaretraso` float DEFAULT NULL,
+  `grupo_ahorro` float DEFAULT NULL,
+  `grupo_cuotas` int(11) DEFAULT NULL,
+  `grupo_diareunion` varchar(20) DEFAULT NULL,
+  `grupo_horareunion` time DEFAULT NULL,
   PRIMARY KEY (`grupo_id`),
   KEY `fk_asesor_grupo` (`asesor_id`),
   KEY `fk_estado_grupo` (`estado_id`),
@@ -86,7 +97,7 @@ CREATE TABLE `grupo` (
   CONSTRAINT `fk_asesor_grupo` FOREIGN KEY (`asesor_id`) REFERENCES `asesor` (`asesor_id`),
   CONSTRAINT `fk_estado_grupo` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
   CONSTRAINT `fk_usuario_grupo` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `reunion` table : 
@@ -160,6 +171,7 @@ CREATE TABLE `cliente` (
   `asesor_id` int(11) DEFAULT NULL,
   `cliente_nombre` varchar(50) DEFAULT NULL,
   `cliente_apellido` varchar(50) DEFAULT NULL,
+  `cliente_apcasado` varchar(50) DEFAULT NULL,
   `cliente_ci` varchar(50) DEFAULT NULL,
   `cliente_codigo` varchar(50) DEFAULT NULL,
   `cliente_telefono` varchar(50) DEFAULT NULL,
@@ -184,7 +196,7 @@ CREATE TABLE `cliente` (
   CONSTRAINT `fk_estadocivil_cliente` FOREIGN KEY (`estadocivil_id`) REFERENCES `estado_civil` (`estadocivil_id`),
   CONSTRAINT `fk_estado_cliente` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
   CONSTRAINT `fk_extencion_ci` FOREIGN KEY (`cliente_extencionci`) REFERENCES `extencion` (`cliente_extencionci`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `garantia` table : 
@@ -231,8 +243,14 @@ CREATE TABLE `credito` (
   `credito_horainicio` time DEFAULT NULL,
   `credito_monto` float DEFAULT NULL,
   `credito_interes` float DEFAULT NULL,
+  `credito_custodia` float DEFAULT NULL,
+  `credito_comision` float DEFAULT NULL,
   `credito_cuotas` float DEFAULT NULL,
   `credito_fechalimite` date DEFAULT NULL,
+  `tipoint_id` int(11) DEFAULT NULL,
+  `tipogarant_id` int(11) DEFAULT NULL,
+  `credito_ultimopago` date DEFAULT NULL,
+  `credito_saldo` float DEFAULT NULL,
   PRIMARY KEY (`credito_id`),
   KEY `fk_credito_cliente` (`cliente_id`),
   KEY `fk_credito_garantia` (`garantia_id`),
@@ -274,7 +292,6 @@ CREATE TABLE `cuota` (
   KEY `fk_cuota_credito` (`credito_id`),
   KEY `fk_estado_cuota` (`estado_id`),
   KEY `fk_usuario_cuota` (`usuario_id`),
-  CONSTRAINT `fk_cuota_credito` FOREIGN KEY (`credito_id`) REFERENCES `credito` (`credito_id`),
   CONSTRAINT `fk_estado_cuota` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
   CONSTRAINT `fk_usuario_cuota` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -330,7 +347,6 @@ CREATE TABLE `garante` (
   KEY `fk_garante_credito` (`credito_id`),
   KEY `fk_garantia_garante` (`garantia_id`),
   CONSTRAINT `fk_garante_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`cliente_id`),
-  CONSTRAINT `fk_garante_credito` FOREIGN KEY (`credito_id`) REFERENCES `credito` (`credito_id`),
   CONSTRAINT `fk_garantia_garante` FOREIGN KEY (`garantia_id`) REFERENCES `garantia` (`garantia_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -373,6 +389,8 @@ CREATE TABLE `integrante` (
   `grupo_id` int(11) DEFAULT NULL,
   `integrante_fechareg` date DEFAULT NULL,
   `integrante_horareg` time DEFAULT NULL,
+  `integrante_cargo` varchar(50) DEFAULT NULL,
+  `integrante_montosolicitado` float DEFAULT NULL,
   PRIMARY KEY (`integrante_id`),
   KEY `fk_es_un` (`cliente_id`),
   KEY `fk_garantia_integrante` (`garantia_id`),
@@ -382,7 +400,7 @@ CREATE TABLE `integrante` (
   CONSTRAINT `fk_garantia_integrante` FOREIGN KEY (`garantia_id`) REFERENCES `garantia` (`garantia_id`),
   CONSTRAINT `fk_integrante_grupo` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`grupo_id`),
   CONSTRAINT `fk_tipo_integrante` FOREIGN KEY (`tipointeg_id`) REFERENCES `tipo_integrante` (`tipointeg_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `multa` table : 
@@ -402,6 +420,26 @@ CREATE TABLE `multa` (
   KEY `fk_usuario_multa` (`usuario_id`),
   CONSTRAINT `fk_multa_reunion` FOREIGN KEY (`reunion_id`) REFERENCES `reunion` (`reunion_id`),
   CONSTRAINT `fk_usuario_multa` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `tipo_garantia` table : 
+#
+
+CREATE TABLE `tipo_garantia` (
+  `tipogarant_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipogarant_nombre` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`tipogarant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `tipo_interes` table : 
+#
+
+CREATE TABLE `tipo_interes` (
+  `tipoint_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipoint_nombre` varchar(55) DEFAULT NULL,
+  PRIMARY KEY (`tipoint_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -444,12 +482,21 @@ COMMIT;
 # Data for the `grupo` table  (LIMIT 0,500)
 #
 
-INSERT INTO `grupo` (`grupo_id`, `asesor_id`, `usuario_id`, `estado_id`, `grupo_fecha`, `grupo_hora`, `grupo_nombre`, `grupo_codigo`, `grupo_iniciosolicitud`, `grupo_monto`, `grupo_integrantes`) VALUES 
-  (1,2,1,1,'0000-00-00','14:00:00','crecer','cr234','0000-00-00',21000,6),
-  (2,2,1,1,'0000-00-00','00:00:00','Paramos del Sur','32234','0000-00-00',35000,7),
-  (3,2,NULL,NULL,'2019-03-28','15:36:14','LOS GRILLOS','34SDS','0000-00-00',40000,5),
-  (4,2,1,3,'0000-00-00','15:52:47','LOS LOCOS DEL SWING','43EW','0000-00-00',20000,6),
-  (5,2,1,3,'2019-03-28','15:53:56','EPITOME','4WE','2019-03-28',45000,7);
+INSERT INTO `grupo` (`grupo_id`, `asesor_id`, `usuario_id`, `estado_id`, `grupo_fecha`, `grupo_hora`, `grupo_nombre`, `grupo_codigo`, `grupo_iniciosolicitud`, `grupo_monto`, `grupo_integrantes`, `grupo_departamento`, `grupo_municipio`, `grupo_provincia`, `grupo_zona`, `grupo_fechahora`, `grupo_multafalta`, `grupo_multaretraso`, `grupo_ahorro`, `grupo_cuotas`, `grupo_diareunion`, `grupo_horareunion`) VALUES 
+  (1,2,1,1,'0000-00-00','14:00:00','crecer','cr234','0000-00-00',21000,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (2,2,1,1,'0000-00-00','00:00:00','Paramos del Sur','32234','0000-00-00',35000,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (3,2,NULL,NULL,'2019-03-28','15:36:14','LOS GRILLOS','34SDS','0000-00-00',40000,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (4,2,1,3,'0000-00-00','15:52:47','LOS LOCOS DEL SWING','43EW','0000-00-00',20000,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (5,2,1,1,'2019-03-28','15:53:56','EPITOME','4WE','2019-03-28',45000,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (6,1,1,3,'2019-03-29','20:53:11','LOS CASIMIROS','EW34','2019-03-29',45000,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (7,2,1,3,'2019-03-29','23:48:34','JUAN PARDO','SADSA2132','2019-03-29',45000,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (8,1,1,3,'2019-03-30','06:23:26','MAGIMBU V2','MBV2','2019-03-30',35000,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (9,2,1,3,'2019-03-30','06:25:13','RINGUTAN M3','RGM3','2019-03-30',35000,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (10,1,1,3,'2019-04-11','14:31:12','LAS ESTRELLITAS','YRTEY343','2019-04-11',40000,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (11,2,1,3,'2019-04-15','13:20:48','LO PINOCHOS','TE55','2019-04-15',35000,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+  (12,2,1,3,'2019-04-15','13:29:23','LOS FIEROS','34E','2019-04-15',50000,4,'Cochabamaba','Cochabamba','Cercado','Encañada','0000-00-00 00:00:00',50,3,100,350,NULL,NULL),
+  (13,1,1,3,'2019-04-15','17:47:08','LOS PAJARRACOS','JK','2019-04-15',50000,6,'cochabamba','QUILLACOLLO','QUILLACOLLO','CENTRAL','0000-00-00 00:00:00',10,5,0,93,NULL,NULL),
+  (14,2,1,3,'2019-04-22','14:44:16','LAS MARIPOSITAS','TE465','2019-04-22',3500,5,'','','','','0000-00-00 00:00:00',0,0,0,0,NULL,NULL);
 COMMIT;
 
 #
@@ -495,8 +542,9 @@ COMMIT;
 # Data for the `cliente` table  (LIMIT 0,500)
 #
 
-INSERT INTO `cliente` (`cliente_id`, `estadocivil_id`, `estado_id`, `categoria_id`, `cliente_extencionci`, `asesor_id`, `cliente_nombre`, `cliente_apellido`, `cliente_ci`, `cliente_codigo`, `cliente_telefono`, `cliente_celular`, `cliente_direccion`, `cliente_latitud`, `cliente_longitud`, `cliente_referencia`, `cliente_foto`, `cliente_email`, `cliente_fechanac`, `cliente_nit`, `cliente_razon`) VALUES 
-  (4,6,1,1,'LP',2,'JUAN MARCIAL','PEREZ LOPEZ','343253','535ETER','453645','709784596','AV. BLANCO GALINDO Nº 3654','','','PUERTA CAFE CASA DE DOS PISOS','','','0000-00-00','454353465','PEREZ');
+INSERT INTO `cliente` (`cliente_id`, `estadocivil_id`, `estado_id`, `categoria_id`, `cliente_extencionci`, `asesor_id`, `cliente_nombre`, `cliente_apellido`, `cliente_apcasado`, `cliente_ci`, `cliente_codigo`, `cliente_telefono`, `cliente_celular`, `cliente_direccion`, `cliente_latitud`, `cliente_longitud`, `cliente_referencia`, `cliente_foto`, `cliente_email`, `cliente_fechanac`, `cliente_nit`, `cliente_razon`) VALUES 
+  (4,6,1,1,'LP',2,'JUAN MARCIAL','PEREZ LOPEZ',NULL,'343253','535ETER','453645','709784596','AV. BLANCO GALINDO Nº 3654','','','PUERTA CAFE CASA DE DOS PISOS','','','0000-00-00','454353465','PEREZ'),
+  (5,5,1,3,'SC',2,'PEDRO SARACUSA','MARTINEZ PEREZ',NULL,'4343','PEZ639','4511518','77417605','AV. REDENTOR GOMEZ','-17.3981161','-66.1538312','','','','0000-00-00','4343','PEDRO SARACUSA MARTINEZ PEREZ');
 COMMIT;
 
 #
@@ -506,6 +554,35 @@ COMMIT;
 INSERT INTO `empresa` (`empresa_id`, `dosificacion_id`, `empresa_nombre`, `empresa_eslogan`, `empresa_direccion`, `empresa_telefono`, `empresa_imagen`, `empresa_zona`, `empresa_ubicacion`, `empresa_departamento`, `empresa_propietario`, `empresa_codigo`) VALUES 
   (1,1,'ROTE MARKET','COMPRE MAS, COMPRE MEJOR','AV SIMON LOPEZ S/N ENTRE M. CAMACHO','(591)75928038','1544749940.png','ZONA MAYORAZGO','CERCADO - COCHABAMBA','Cochabamba','GUSTAVO CORDOVA CHOQUE','rv9JQ0'),
   (2,1,'ROTE MARKET','COMPRE MAS, COMPRE MEJOR','AV SIMON LOPEZ S/N ENTRE M. CAMACHO','(591)75928038','1544447771.jpg','ZONA MAYORAZGO','CERCADO - COCHABAMBA','Cochabamba','GUSTAVO CORDOVA CHOQUE','');
+COMMIT;
+
+#
+# Data for the `integrante` table  (LIMIT 0,500)
+#
+
+INSERT INTO `integrante` (`integrante_id`, `cliente_id`, `tipointeg_id`, `garantia_id`, `grupo_id`, `integrante_fechareg`, `integrante_horareg`, `integrante_cargo`, `integrante_montosolicitado`) VALUES 
+  (1,5,NULL,NULL,6,NULL,NULL,NULL,NULL),
+  (2,5,NULL,NULL,6,NULL,NULL,NULL,NULL),
+  (3,4,NULL,NULL,6,'2019-03-29','00:00:21',NULL,NULL),
+  (4,4,NULL,NULL,6,'2019-03-29','00:00:21',NULL,NULL),
+  (5,4,NULL,NULL,6,'2019-03-29','00:00:22',NULL,NULL),
+  (6,5,NULL,NULL,1,'2019-03-30','00:00:01',NULL,NULL),
+  (7,4,NULL,NULL,1,'2019-03-30','00:00:01',NULL,NULL),
+  (8,5,NULL,NULL,1,'2019-03-30','00:00:01',NULL,NULL),
+  (9,5,NULL,NULL,9,'2019-03-30','00:00:06',NULL,NULL),
+  (10,4,NULL,NULL,9,'2019-03-30','00:00:06',NULL,NULL),
+  (11,5,NULL,NULL,10,'2019-04-11','00:00:14',NULL,NULL),
+  (12,4,NULL,NULL,10,'2019-04-11','00:00:14',NULL,NULL),
+  (13,5,NULL,NULL,12,'2019-04-15','00:00:13',NULL,NULL),
+  (14,4,NULL,NULL,12,'2019-04-15','00:00:13',NULL,NULL),
+  (15,5,NULL,NULL,12,'2019-04-15','00:00:13',NULL,NULL),
+  (16,5,NULL,NULL,12,'2019-04-15','00:00:13','INTEGRANTE',NULL),
+  (31,5,NULL,NULL,11,'2019-04-15','00:00:14','PRESIDENTE(A)',NULL),
+  (32,4,NULL,NULL,11,'2019-04-15','00:00:14','SECRETARIA(O)',NULL),
+  (33,5,NULL,NULL,13,'2019-04-15','00:00:18','PRESIDENTE(A)',NULL),
+  (34,4,NULL,NULL,13,'2019-04-15','00:00:18','SECRETARIA(O)',NULL),
+  (35,5,NULL,NULL,13,'2019-04-15','00:00:18','INTEGRANTE',NULL),
+  (36,4,NULL,NULL,13,'2019-04-15','00:00:18','INTEGRANTE',NULL);
 COMMIT;
 
 
