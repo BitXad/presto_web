@@ -27,15 +27,10 @@
 					</div>
                 
                                         <!-------------------------------- TITULO --------------------------->
-                                        <div class="box-header with-border">
+                                        <div class="box-header panel-primary">
                                             <center>
                                             <h3 class="box-title" >
-                                                <table id="mitabla">
-                                                    <th>
-                                                        <tr><b>UBICACIÓN</b></tr>                                                        
-                                                    </th>
-                                                </table>    
-                                                
+                                                <b>UBICACIÓN</b>
                                             </h3>                                                
                                             </center>
                                         </div> 
