@@ -27,9 +27,9 @@
                 <!-- Logo -->
                 <a href="" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini">presto_web</span>
+                    <span class="logo-mini">Presto_web</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg">presto_web</span>
+                    <span class="logo-lg">Presto_web</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -90,7 +90,7 @@
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="header">MAIN NAVIGATION</li>
+                        <li class="header">MENU</li>
                         <li>
                             <a href="<?php echo site_url();?>">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -98,248 +98,99 @@
                         </li>
 						<li>
                             <a href="#">
-                                <i class="fa fa-unsorted"></i> <span>Asesor</span>
+                                <i class="fa fa-registered"></i> <span>Registros</span>
                             </a>
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('asesor/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('asesor/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                            <li>
+                            <a href="<?php echo site_url('asesor/index');?>"><i class="fa fa-user-secret"></i> <span>Asesor</span></a>
+                            </li>
+                            <li>
+                               <a href="<?php echo site_url('cliente/index');?>"><i class="fa fa-users"></i> Cliente</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('garante/index');?>"><i class="fa fa-handshake-o"></i> Garante</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('garantia/index');?>"><i class="fa fa-archive"></i> Garantia</a>
+                            </li>
+                            </ul>
                         </li>
-						<li>
+                        <li>
                             <a href="#">
-                                <i class="fa fa-check-square-o"></i> <span>Asistencia</span>
+                                <i class="fa fa-credit-card"></i> <span>Credito</span>
                             </a>
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('asistencia/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('asistencia/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                            <li>
+                                <a href="<?php echo site_url('credito/individual');?>"><i class="fa fa-user"></i> Individual</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('credito/nohay');?>"><i class="fa fa-users"></i> Grupal</a>
+                            </li>
+                            </ul>
                         </li>
 						<li>
-                            <a href="#">
-                                <i class="fa fa-braille"></i> <span>Categoria</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('categoria/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('categoria/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+						<a href="#">
+                            <i class="fa fa-list"></i> <span>Parametros</span>
+                        </a>
+                        <ul class="treeview-menu">
+                        <li>
+                                    <a href="<?php echo site_url('categoria/index');?>"><i class="fa fa-braille"></i> Categoria</a>
                         </li>
 						<li>
-                            <a href="#">
-                                <i class="fa fa-users"></i> <span>Cliente</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('cliente/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('cliente/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-bank"></i> <span>Credito</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('credito/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('credito/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-database"></i> <span>Cuota</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('cuota/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('cuota/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
+                            <a href="<?php echo site_url('estado/index');?>">
                                 <i class="fa fa-desktop"></i> <span>Estado</span>
                             </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('estado/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('estado/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                            
                         </li>
 						<li>
-                            <a href="#">
+                            <a href="<?php echo site_url('estado_civil/index');?>">
                                 <i class="fa fa-gavel"></i> <span>Estado Civil</span>
                             </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('estado_civil/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('estado_civil/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                            
                         </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-chrome"></i> <span>Extencion</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('extencion/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('extencion/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                        <li>
+                            <a href="<?php echo site_url('extencion/index');?>"><i class="fa fa-chrome"></i> Extencion</a>
                         </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-desktop"></i> <span>Factura</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('factura/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('factura/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                        <li>
+                            <a href="<?php echo site_url('tipo_credito/index');?>"><i class="fa fa-exchange"></i> Tipo Credito</a>
                         </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-desktop"></i> <span>Garante</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('garante/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('garante/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-archive"></i> <span>Garantia</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('garantia/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('garantia/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                        <li>
+                            <a href="<?php echo site_url('tipo_integrante/index');?>"><i class="fa fa-user-circle"></i> Tipo Integrante</a>
+                        </li></ul>
                         </li>
 						<li>
                             <a href="#">
                                 <i class="fa fa-group"></i> <span>Grupo</span>
                             </a>
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('grupo/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
+								
 								<li>
-                                    <a href="<?php echo site_url('grupo/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
+                                    <a href="<?php echo site_url('grupo/index');?>"><i class="fa fa-group"></i> Grupos</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('integrante/index');?>"><i class="fa fa-address-book-o"></i> Integrante</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('multa/index');?>"><i class="fa fa-bitcoin"></i> Multa</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('reunion/index');?>"><i class="fa fa-american-sign-language-interpreting"></i> Reunion</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('asistencia/index');?>"><i class="fa fa-check-square-o"></i> Asistencia</a>
                                 </li>
 							</ul>
                         </li>
 						<li>
                             <a href="#">
-                                <i class="fa fa-address-book-o"></i> <span>Integrante</span>
+                                <i class="fa fa-lock"></i> <span>Seguridad</span>
                             </a>
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('integrante/add');?>"><i class="fa fa-plus"></i> Add</a>
+                                <li>
+                                    <a href="<?php echo site_url('factura/index');?>"><i class="fa fa-file-text-o"></i> Factura</a>
                                 </li>
 								<li>
-                                    <a href="<?php echo site_url('integrante/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-bitcoin"></i> <span>Multa</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('multa/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('multa/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-american-sign-language-interpreting"></i> <span>Reunion</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('reunion/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('reunion/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-exchange"></i> <span>Tipo Credito</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('tipo_credito/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('tipo_credito/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-user-circle"></i> <span>Tipo Integrante</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('tipo_integrante/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('tipo_integrante/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-user"></i> <span>Usuario</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('usuario/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
+                                    <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-user"></i> Usuario</a>
                                 </li>
 							</ul>
                         </li>
