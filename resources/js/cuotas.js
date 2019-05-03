@@ -137,7 +137,7 @@ function amortizar(){
     var diventero = Math.trunc(division);
     var divdecimal = division-diventero;
    
-    if (radio1==true && meses>0){
+    if (radio1==true){
        var factor=1;
       if (divdecimal<=0.5) {
         
