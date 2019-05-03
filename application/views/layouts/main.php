@@ -124,7 +124,7 @@
                                 <a href="<?php echo site_url('credito/individual');?>"><i class="fa fa-user"></i> Individual</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('credito/nohay');?>"><i class="fa fa-users"></i> Grupal</a>
+                                <a href="<?php echo site_url('credito/grupal');?>"><i class="fa fa-users"></i> Grupal</a>
                             </li>
                             </ul>
                         </li>

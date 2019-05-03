@@ -3,7 +3,17 @@
 <script src="<?php echo base_url('resources/js/index_individual.js'); ?>"></script>
 <link rel="stylesheet" href="<?php echo site_url('resources/css/Admin.css');?>">
 <!----------------------------- script buscador --------------------------------------->
-
+<script>
+      $(document).ready(function () {
+        $("[type=text]").keyup(function () {
+          var subtotal = parseFloat($("#cuota_parcial").val()) + parseFloat($("#cuota_interes").val());
+           $("#cuota_fija").val(subtotal);
+          
+          });
+         
+          
+      });
+</script>
 <script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
@@ -190,11 +200,7 @@
                    <input type="date" name="credito_fechalimite" value="<?php echo date("Y-m-d",$mod_date); ?>" class=" form-control" id="credito_fechalimite" onchange="ocultar()"/>
                   </div>
                  </div>
-                 <!--<div class="col-md-12">
-                  <div class="input-group no-print"> <span class="input-group-addon">Capitalista:</span>
-                    <input id="Capitalista" type="text" class="form-control" >
-                  </div>
-                 </div>-->
+                 
                  
                   <div class="col-md-12" id="cuotas">
                   <div class="input-group no-print"> <span class="input-group-addon">Numero Cuotas:</span>
@@ -212,6 +218,11 @@
 <option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option>
 </select>
                   </div>
+                 </div>
+                 <div class="col-md-12" id="diaria" style="display: none;">
+                  <div class='input-group no-print'> <span class='input-group-addon'>Cuota Parcial:</span><input type='text' name='cuota_parcial' class='form-control'  id='cuota_parcial'  /></div>
+                  <div class='input-group no-print'> <span class='input-group-addon'>Interes Cuotas:</span><input type='text' name='cuota_interes' class='form-control' id='cuota_interes'  /></div>
+                  <div class='input-group no-print'> <span class='input-group-addon'>Cuota Fija:</span><input type='text' name='cuota_fija' class='form-control'  id='cuota_fija' readonly /></div>
                  </div>
                  <div class="col-md-12" id="boton" style='display:block;'>
 						

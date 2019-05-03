@@ -192,7 +192,8 @@ class Credito extends CI_Controller{
          $params = array(
                 'estado_id' => 9,
                 //'grupo_id' => $this->input->post('grupo_id'),
-                //'garantia_id' => $this->input->post('garantia_id'),
+                'credito_cuotadia' => $this->input->post('cuota_parcial'),
+                'credito_cuotainteres' => $this->input->post('cuota_interes'),
                 'usuario_id' => $usuario_id,
                 'tipocredito_id' => $this->input->post('tipo_credito'),
                 'cliente_id' => $cliente_id,
@@ -245,8 +246,11 @@ if ($tipo_interes==2) { //interes fijo//
                                                  
    
            if ($modo==1) {
+
+            /*$ptq="UPDATE credito set credito_formapago=1 WHERE credito_id=".$credito_id." ";
+            $this->db->query($ptq);*/
            
-                for ($numero = 1; $numero <= $cuotas; $numero++) {
+                /*for ($numero = 1; $numero <= $cuotas; $numero++) {
             
             $monto = $this->input->post('credito_monto');
             
@@ -268,7 +272,7 @@ if ($tipo_interes==2) { //interes fijo//
             $cuota_id = $this->Cuota_model->add_cuota($params);
             
             
-        }
+        }*/
                 
               //fin //
                             
@@ -307,8 +311,10 @@ if ($tipo_interes==2) { //interes fijo//
         $cuota_total = $monto;
         $saldo_deudor = $cuota_total;
         $cuota_capital = $monto/$cuotas;
+        /*$ptq="UPDATE credito set credito_formapago=1 WHERE credito_id=".$credito_id." ";
+        $this->db->query($ptq);*/
        
-        for ($numero = 1; $numero <= $cuotas; $numero++) {
+        /*for ($numero = 1; $numero <= $cuotas; $numero++) {
            
             $mod_date = strtotime($fechalimite."+ ".($numero)." days");
             $variable = $saldo_deudor * ($sumainteres/100/$cuotas);        
@@ -330,13 +336,13 @@ if ($tipo_interes==2) { //interes fijo//
             $cuota_total = $saldo_deudor;
             $saldo_deudor = $cuota_total - $cuota_capital;
                    
-        }
+        }*/
 
         
 
-              //fin //
+              //fin ///  
                             
-    }else{  //numero de cuotas//
+   }else{  //numero de cuotas//
         $monto = $this->input->post('credito_monto');
         
         $cuota_total = $monto;
