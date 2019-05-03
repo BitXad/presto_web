@@ -9,10 +9,11 @@
                     
                    
           		<div class="row clearfix">
+                            
 					<div class="col-md-12">
 						<label for="asesor_id" class="control-label">Asesor(*)</label>
 						<div class="form-group">
-                                                    <select name="asesor_id" class="form-control" required autofocus="true">
+                                                    <select name="asesor_id" class="form-control" required>
 								<option value="">- ASESOR -</option>    
 								<?php 
 								foreach($all_asesor as $asesor)
@@ -27,7 +28,7 @@
 					</div>
                 
                                         <!-------------------------------- TITULO --------------------------->
-                                        <div class="box-header panel-primary">
+                                        <div class="box-header panel-primary ">
                                             <center>
                                             <h3 class="box-title" >
                                                 <b>UBICACIÓN</b>
@@ -144,7 +145,7 @@
                                         </div> 
                                         <!-------------------------------- FIN TITULO --------------------------->
                                         
-<div class="col-md-4">
+                                        <div class="col-md-4">
 						<label for="grupo_diareunion" class="control-label">Dia reunión</label>
 						<div class="form-group">
 							<!--<input type="text" name="grupo_diareunion" value="<?php echo $this->input->post('grupo_diareunion'); ?>" class="form-control" id="grupo_diareunion" />-->
@@ -232,6 +233,7 @@
 
 				</div>
 			</div>
+            
           	<div class="box-footer">
             	<button type="submit" class="btn btn-success">
             		<i class="fa fa-floppy-o"></i> Guardar
