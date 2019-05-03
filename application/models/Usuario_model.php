@@ -45,10 +45,45 @@ class Usuario_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `usuario_id` DESC
+            ORDER BY `usuario_id` 
         ")->result_array();
 
         return $usuario;
+    }
+
+    function get_todos_usuario()
+    {
+        $usuario = $this->db->query("
+            SELECT
+                u.*, e.*, tu.*
+
+            FROM
+                usuario u, estado e, tipo_usuario tu
+
+            WHERE
+                u.estado_id=e.estado_id
+                and u.tipousuario_id=tu.tipousuario_id
+
+            ORDER BY `usuario_id` 
+        ")->result_array();
+
+        return $usuario;
+    }
+     public function getCurrentPassword($usuario_id)
+    {
+       $query = $this->db->where('usuario_id',$usuario_id)
+                        ->get('usuario');
+            if ($query->num_rows() > 0) {
+                return $query->row();
+            }
+    }
+    public function password($usuario_id, $new_password)
+    {
+            $data = array(
+                    'usuario_clave'=> $new_password
+            );
+            $this->db->where('usuario_id',$usuario_id);
+             return $this->db->update('usuario',$data);
     }
         
     /*
@@ -75,5 +110,18 @@ class Usuario_model extends CI_Model
     function delete_usuario($usuario_id)
     {
         return $this->db->delete('usuario',array('usuario_id'=>$usuario_id));
+    }
+
+    function inactivar_usuario($usuario_id)
+    {
+        $sql = "update usuario set estado_id = 2 where usuario_id = ".$usuario_id;
+        
+        return $this->db->query($sql);
+    }
+    function activar_usuario($usuario_id)
+    {
+        $sql = "update usuario set estado_id = 1 where usuario_id = ".$usuario_id;
+        
+        return $this->db->query($sql);
     }
 }

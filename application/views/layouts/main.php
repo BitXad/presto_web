@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <?php
+            $session_data = $this->session->userdata('logged_in');
+        ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>presto_web</title>
@@ -27,9 +30,9 @@
                 <!-- Logo -->
                 <a href="" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini">Presto_web</span>
+                    <span class="logo-mini">Presto web</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg">Presto_web</span>
+                    <span class="logo-lg">Presto web</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -46,26 +49,25 @@
                         <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Alexander Pierce</span>
+                                    <img src="<?php echo site_url('resources/images/usuarios/'.$session_data['thumb']);?>" class="user-image" alt="User Image">
+                                    <span class="hidden-xs"><?php echo $session_data['usuario_nombre']?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
-
+                                        <?php if($session_data['usuario_imagen']!= ""){ ?>
+                                        <img src="<?php echo site_url('resources/images/usuarios/'.$session_data['usuario_imagen']);?>" class="img-circle" alt="User Image">
+                                        <?php }else{ ?>
+                                        <img src="<?php echo site_url('resources/images/usuarios/default.jpg');?>" class="img-circle" alt="User Image">
+                                        <?php } ?>
                                     <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        <?php echo $session_data['usuario_nombre']?> - <?php echo $session_data['tipousuario_descripcion']?>
                                     </p>
                                     </li>
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                        </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="<?php echo site_url() ?>login/logout" class="btn btn-default btn-flat">Salir</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -81,10 +83,10 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
+                            <img src="<?php echo site_url('resources/images/usuarios/'.$session_data['thumb']);?>" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Alexander Pierce</p>
+                            <div  style=" white-space: normal; word-wrap: break-word;"><?php echo $session_data['usuario_nombre']?></div>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -189,10 +191,16 @@
                                 <li>
                                     <a href="<?php echo site_url('factura/index');?>"><i class="fa fa-file-text-o"></i> Factura</a>
                                 </li>
-								<li>
+                                <li class="active">
+                                    <a href="<?php echo site_url('rol');?>"><i class="fa fa-users"></i> Roles</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('tipo_usuario');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
+                                </li>
+                                <li>
                                     <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-user"></i> Usuario</a>
                                 </li>
-							</ul>
+                            </ul>
                         </li>
                     </ul>
                 </section>
