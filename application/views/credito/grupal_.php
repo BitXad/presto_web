@@ -1,9 +1,8 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo base_url('resources/js/nuevocredito.js'); ?>"></script>
+<script src="<?php echo base_url('resources/js/credito_grupal.js'); ?>"></script>
 <script src="<?php echo base_url('resources/js/index_individual.js'); ?>"></script>
-<link rel="stylesheet" href="<?php echo site_url('resources/css/Admin.css');?>">
 <!----------------------------- script buscador --------------------------------------->
-
+<script src="<?php echo base_url('resources/js/funciones_cliente.js'); ?>" type="text/javascript"></script>
 <script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
@@ -16,9 +15,7 @@
                 })
             }(jQuery));
         });
-
-</script>
-
+</script>   
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
@@ -30,7 +27,7 @@
   	<div class="col-md-7">
         <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
-          <center><b><u>CLIENTE</u></b></center>
+          <center><b><u>GRUPO</u></b></center>
 <!--------------------- cliente_id --------------------->
 <div class="container" hidden>
     <input type="text" name="cliente_id" value="0" class="form-control" id="cliente_id" >
@@ -38,34 +35,31 @@
 </div>
 
 <!--------------------- fin cliente_id --------------------->
-        
-        <div class="col-md-3">
-            <label for="cliente_ci" class="control-label">C.I.</label>
-            <div class="form-group">
-                <input type="number" name="cliente_ci" class="form-control" id="cliente_ci" value=""  onkeypress="validar(event,1)"  />
-            </div>
-        </div>
-        
-        <div class="col-md-3">
-            <label for="cliente_nombre" class="control-label">NOMBRE</label>
-            <div class="form-group">
-                <input type="text" name="cliente_nombre" class="form-control" id="cliente_nombre" value=""  />
-            </div>
-        </div>
-        <div class="col-md-3">
-            <label for="cliente_apellido" class="control-label">APELLIDO</label>
-            <div class="form-group">
-                <input type="text" name="cliente_apellido" class="form-control" id="cliente_apellido" value=""  />
-            </div>
-        </div>
 
-        
-        <div class="col-md-3">
-            <label for="cliente_telefono" class="control-label">TELEFONO</label>
+        <div class="col-md-12">
+            <label for="grupo_id" class="control-label">GRUPO</label>
             <div class="form-group">
-                <input type="number" name="cliente_telefono" class="form-control" id="cliente_telefono"  value=""/>
+
+                <!--<input type="number" name="cliente_ci" class="form-control" id="cliente_ci" value=""  onkeypress="validar(event,1)"  />-->
+                <select class="form-control" id="grupo_id" onchange="mostrar_grupo()">
+                    
+                <?php foreach($grupos as $g){?>
+                    <option value="<?php echo $g['grupo_id']; ?>"><?php echo $g['grupo_nombre']; ?></option>
+                <?php } ?>
+                
+                </select>
             </div>
         </div>
+        <div class="col-md-12">
+            <label for="grupo_id" class="control-label">GRUPO</label>
+            <div class="form-group">
+                <div class="box-body" id="tabla_grupo" >
+                    
+                </div>     
+                
+            </div>
+        </div>
+        
         </div><!--BOX BODY-->
          </div><!--BOX-->
         <div class="panel" style="margin-bottom: 1px;">
@@ -93,7 +87,7 @@
 					<div class="col-md-2">
 						<label for="garantia_precio" class="control-label"></label>
 						<div class="form-group">
-					<a class="btn btn-facebook btn-xs" onclick="creagarantia_aux()"><i class="fa fa-cart-arrow-down"></i> Agregar</a>
+					<a class="btn btn-success btn-xs" onclick="creagarantia_aux()"><i class="fa fa-cart-arrow-down"></i> Agregar</a>
 				</div>
             	</div>
             	
@@ -177,27 +171,23 @@
                   </div></div>
                  </div>
                  <div class="col-md-12">
-                  <div class="input-group no-print"> <span class="input-group-addon">Modo de Cobro:</span>
-                    <select name="modo" class="form-control" id="modo" onchange="ocultar()">
-                      <option value="0">Mensual</option>
-                      <option value="1">Diario</option> 
-                    </select>
-                  </div>
-                 </div>
-                 <div class="col-md-12">
                  	<?php  $date = date("Y-m-d"); $mod_date = strtotime($date."+ 1 months");?>
-                  <div class="input-group no-print"> <span class="input-group-addon" id="fechinga">Fecha Primer Pago:</span>
-                   <input type="date" name="credito_fechalimite" value="<?php echo date("Y-m-d",$mod_date); ?>" class=" form-control" id="credito_fechalimite" onchange="ocultar()"/>
+                  <div class="input-group no-print"> <span class="input-group-addon">Fecha Pago:</span>
+                   <input type="date" name="credito_fechalimite" value="<?php echo date("Y-m-d",$mod_date); ?>" class=" form-control" id="credito_fechalimite" />
                   </div>
                  </div>
                  <!--<div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Capitalista:</span>
                     <input id="Capitalista" type="text" class="form-control" >
                   </div>
+                 </div>
+                 <div class="col-md-12">
+                  <div class="input-group no-print"> <span class="input-group-addon">Capital Disponible:</span>
+                    <input id="capitaler" type="text" class="form-control" >
+                  </div>
                  </div>-->
-                 
-                  <div class="col-md-12" id="cuotas">
-                  <div class="input-group no-print"> <span class="input-group-addon">Numero Cuotas:</span>
+                  <div class="col-md-12">
+                  <div class="input-group no-print"> <span class="input-group-addon">Cuotas:</span>
                    
                     <select name="credito_cuotas" id="credito_cuotas"class="form-control"  >
 <option value="0">Sin Limite de Tiempo</option>
@@ -213,14 +203,11 @@
 </select>
                   </div>
                  </div>
-                 <div class="col-md-12" id="boton" style='display:block;'>
+                 <div class="col-md-12">
 						
-					<a class="btn btn-facebook" onclick="finalizarindividual()"><i class="fa fa-save"></i> Finalizar</a>
-		
+					<a class="btn btn-success" onclick="finalizarindividual()"><i class="fa fa-save"></i> Finalizar</a>
+				
             	</div>
-  <div class="row" id='loader'  style='display:none; text-align: center'>
-  <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
-  </div>
     	</div><!--box-->
     	</div><!--boxBODY-->
     </div><!--COL5-->
@@ -237,15 +224,15 @@
             </div>
             <div class="col-md-12">
               <div class="col-md-5">
-              Desde: <input type="date" style=" width: 38%;" class="btn btn-facebook btn-sm form-control" value="" id="fecha_desde" name="fecha_desde"  >
+              Desde: <input type="date" style=" width: 38%;" class="btn btn-success btn-sm form-control" value="" id="fecha_desde" name="fecha_desde"  >
                   
-                      Hasta: <input type="date" style=" width: 38%;" class="btn btn-facebook btn-sm form-control" value="" id="fecha_hasta" name="fecha_hasta"  >
+                      Hasta: <input type="date" style=" width: 38%;" class="btn btn-success btn-sm form-control" value="" id="fecha_hasta" name="fecha_hasta"  >
               </div>
               <div class="col-md-3">
                 <input id="ci" name="ci" value="" type="text" class="form-control" placeholder="Ingrese C.I. del Cliente">
               </div>
               <div class="col-md-2">
-                <a class="btn btn-facebook" onclick="tablacreditos(2)"><i class="fa fa-search"></i> Buscar</a>
+                <a class="btn btn-success" onclick="tablacreditos(2)"><i class="fa fa-search"></i> Buscar</a>
               </div>
             </div>
             <div class="box-body">
