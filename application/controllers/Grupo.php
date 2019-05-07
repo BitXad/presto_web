@@ -207,9 +207,10 @@ class Grupo extends CI_Controller{
         $grupo_id = $this->input->post('grupo_id');
         $cliente_id = $this->input->post('cliente_id');
         $integrante_cargo = $this->input->post('integrante_cargo');
+        $integrante_montosolicitado = $this->input->post('integrante_monto');
         
         // check if the grupo exists before trying to delete it
-        $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo);
+        $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo,$integrante_montosolicitado);
         redirect('grupo/integrantes/'.$grupo_id);
        
     }
