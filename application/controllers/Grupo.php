@@ -29,7 +29,7 @@ class Grupo extends CI_Controller{
     function add()
     {   
         $usuario_id = 1;
-        $estado_id = 3;
+        $estado_id = 5;
         
         if(isset($_POST) && count($_POST) > 0)     
         {   
@@ -218,10 +218,10 @@ class Grupo extends CI_Controller{
     /*
      * Mostrar integrantes de un grupo
      */
-    function buscar_integrante($grupo_id)
+    function buscar_integrantes($grupo_id)
     {
-        $this->load->model('Cliente_model');
-        $integrantes = $this->Cliente_model->get_all_integrantes($grupo_id);
+        $this->load->model('Grupo_model');
+        $integrantes = $this->Grupo_model->get_integrantes_grupo($grupo_id);
         echo json_encode($integrantes);
     
     }

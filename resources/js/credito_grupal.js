@@ -200,11 +200,64 @@ function mostrar_grupo(){
            data:{grupo_id:grupo_id},
            
            success:function(respuesta){ 
-               var registro = JSON.parse(respuesta);
-               
+               var registro = JSON.parse(respuesta);               
               
            },
             
-            });     
+            });         
+}
+
+function mostrar_integrantes(){
     
+     var base_url = document.getElementById('base_url').value;    
+     var grupo_id = document.getElementById('grupo_id').value;
+     var controlador = base_url+'grupo/buscar_integrantes/'+grupo_id;
+     
+     //alert(grupo_id);
+      $.ajax({url: controlador,
+           type:"POST",
+           data:{grupo_id:grupo_id},
+           success:function(respuesta){     
+                              
+               var registros =  JSON.parse(respuesta);
+                //alert('jola mundo');
+               if (registros != null){                   
+                   
+                    var limite = registros.length; //tamaño del arreglo de la consulta                   
+                    var suma = Number(0);                    
+                    html = "";
+                    
+                    for (var i = 0; i < limite ; i++){
+                     	suma += Number(registros[i]["integrante_montosolicitado"]);
+                        html += "<tr>";
+                        html += "<td>"+(i+1)+"</td>";
+                        html += "<td><b>"+registros[i]["cliente_apellido"]+", "+registros[i]["cliente_nombre"]+"</b></td>";
+                        html += "<td><b>"+registros[i]["cliente_ci"]+" "+registros[i]["cliente_extencionci"]+"</b></td>";
+                        html += "<td><b>"+registros[i]["integrante_cargo"]+"</b></td>";
+                        html += "<td align='right'><b>"+Number(registros[i]["integrante_montosolicitado"]).toFixed(2)+"</b></td>";
+                        html += "</tr>";
+                       }
+                       html += "<tr>";
+                       html += "<td></td>";
+                      
+                       html += "<td></td>";
+                       html += "<td></td>";
+                       html += "<td></td>";
+                       html += "<th align='right'>"+suma.toFixed(2)+"</th>";
+                       html += "</tr>";
+                        //$('#cotizacion_total').value(total_detalle.toFixed(2));
+                       $("#tabla_integrantes").html(html);
+                      // totality(total_detalle);
+            }
+            $("#credito_monto").val(suma.toFixed(2));
+            $("#grupo_integrantes").val(registros[0]["grupo_integrantes"]);
+            $("#tipocredito_id").val("GRUPAL");
+            
+        },
+        error:function(respuesta){
+          
+       
+   }
+    });
+
 }
