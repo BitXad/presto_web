@@ -29,7 +29,7 @@ class Grupo extends CI_Controller{
     function add()
     {   
         $usuario_id = 1;
-        $estado_id = 3;
+        $estado_id = 5;
         
         if(isset($_POST) && count($_POST) > 0)     
         {   
@@ -207,9 +207,10 @@ class Grupo extends CI_Controller{
         $grupo_id = $this->input->post('grupo_id');
         $cliente_id = $this->input->post('cliente_id');
         $integrante_cargo = $this->input->post('integrante_cargo');
+        $integrante_montosolicitado = $this->input->post('integrante_monto');
         
         // check if the grupo exists before trying to delete it
-        $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo);
+        $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo,$integrante_montosolicitado);
         redirect('grupo/integrantes/'.$grupo_id);
        
     }
@@ -217,10 +218,10 @@ class Grupo extends CI_Controller{
     /*
      * Mostrar integrantes de un grupo
      */
-    function buscar_integrante($grupo_id)
+    function buscar_integrantes($grupo_id)
     {
-        $this->load->model('Cliente_model');
-        $integrantes = $this->Cliente_model->get_all_integrantes($grupo_id);
+        $this->load->model('Grupo_model');
+        $integrantes = $this->Grupo_model->get_integrantes_grupo($grupo_id);
         echo json_encode($integrantes);
     
     }

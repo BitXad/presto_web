@@ -61,7 +61,8 @@
                             <td><?php echo $g['grupo_iniciosolicitud']; ?></td>
                             <td><font size="3"><b><?php echo number_format($g['grupo_monto'],2,".",","); ?></b></font size="3"></td>
                             <td>
-                            <a href="<?php echo site_url('grupo/edit/'.$g['grupo_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Modif.</a> 
+                                <a href="<?php echo site_url('grupo/edit/'.$g['grupo_id']); ?>" class="btn btn-info btn-xs" title="Modifcar caracteristicas del grupo"><span class="fa fa-pencil"></span> Modif.</a> 
+                            <a href="<?php echo site_url('grupo/integrantes/'.$g['grupo_id']); ?>" class="btn btn-facebook btn-xs" title="Modificar integrantes/montos solicitados"><span class="fa fa-users"></span> Modif.</a> 
                             <a href="<?php echo site_url('grupo/remove/'.$g['grupo_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Borrar</a>
                         </td>
                     </tr>

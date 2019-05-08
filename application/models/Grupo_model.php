@@ -94,14 +94,38 @@ class Grupo_model extends CI_Model
     /*
      * funcion para agregar grupo
      */
-    function agregar_integrante_grupo($grupo_id, $cliente_id,$integrante_cargo)
+    function agregar_integrante_grupo($grupo_id, $cliente_id,$integrante_cargo,$integrante_montosolicitado)
     {
         $integrante_fechareg =  date('Y-m-d');
         $integrante_horareg =  date('H-i-s');
                 
-        $sql = "insert integrante(cliente_id, grupo_id, integrante_fechareg, integrante_horareg,integrante_cargo) value(".
-                $cliente_id.",".$grupo_id.",'".$integrante_fechareg."','".$integrante_horareg."', '".$integrante_cargo."')";
+        $sql = "insert integrante(cliente_id, grupo_id, integrante_fechareg, integrante_horareg,integrante_cargo, integrante_montosolicitado) value(".
+                $cliente_id.",".$grupo_id.",'".$integrante_fechareg."','".$integrante_horareg."', '".$integrante_cargo."',".$integrante_montosolicitado.")";
         return $this->db->query($sql);
         
     }
+
+    function get_grupo_para_desembolso()
+    {
+        
+        $sql = "select * from grupo where estado_id = 5";
+        return $this->db->query($sql)->result_array();
+    }
+        
+    function get_integrantes_grupo($grupo_id)
+    {
+        
+        $sql = "SELECT i.*, t.tipointeg_nombre,c.*,g.*
+                FROM
+                  integrante i
+
+                left join tipo_integrante t on i.tipointeg_id = t.tipointeg_id
+                left join cliente c on i.cliente_id = c.cliente_id
+                left join grupo g on i.grupo_id = g.grupo_id
+                where i.grupo_id = ".$grupo_id;
+        
+        return $this->db->query($sql)->result_array();
+    }
+    
+    
 }

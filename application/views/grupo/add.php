@@ -28,13 +28,13 @@
 					</div>
                 
                                         <!-------------------------------- TITULO --------------------------->
-                                        <div class="box-header panel-primary ">
+<!--                                        <div class="box-header panel-primary ">
                                             <center>
                                             <h3 class="box-title" >
                                                 <b>UBICACIÓN</b>
                                             </h3>                                                
                                             </center>
-                                        </div> 
+                                        </div> -->
                                         <!-------------------------------- FIN TITULO --------------------------->
                                         
 					<div class="col-md-4">
@@ -109,12 +109,12 @@
 							<select name="usuario_id" class="form-control">
 								<option value="">select usuario</option>
 								<?php 
-								foreach($all_usuario as $usuario)
-								{
-									$selected = ($usuario['usuario_id'] == $this->input->post('usuario_id')) ? ' selected="selected"' : "";
-
-									echo '<option value="'.$usuario['usuario_id'].'" '.$selected.'>'.$usuario['usuario_nombre'].'</option>';
-								} 
+//								foreach($all_usuario as $usuario)
+//								{
+//									$selected = ($usuario['usuario_id'] == $this->input->post('usuario_id')) ? ' selected="selected"' : "";
+//
+//									echo '<option value="'.$usuario['usuario_id'].'" '.$selected.'>'.$usuario['usuario_nombre'].'</option>';
+//								} 
 								?>
 							</select>
 						</div>
@@ -125,12 +125,12 @@
 							<select name="estado_id" class="form-control">
 								<option value="">select estado</option>
 								<?php 
-								foreach($all_estado as $estado)
-								{
-									$selected = ($estado['estado_id'] == $this->input->post('estado_id')) ? ' selected="selected"' : "";
-
-									echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
-								} 
+//								foreach($all_estado as $estado)
+//								{
+//									$selected = ($estado['estado_id'] == $this->input->post('estado_id')) ? ' selected="selected"' : "";
+//
+//									echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
+//								} 
 								?>
 							</select>
 						</div>
@@ -138,11 +138,11 @@
 
                 
                                         <!-------------------------------- TITULO --------------------------->
-                                        <div class="box-header with-border">
+<!--                                        <div class="box-header with-border">
                                             <center>
                                             <h3 class="box-title" ><b>----------------- PARÁMETROS -----------------</b></h3>                                                
                                             </center>
-                                        </div> 
+                                        </div> -->
                                         <!-------------------------------- FIN TITULO --------------------------->
                                         
                                         <div class="col-md-4">
