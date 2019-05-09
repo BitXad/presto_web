@@ -94,7 +94,7 @@
                     <ul class="sidebar-menu">
                         <li class="header">MENU</li>
                         <li>
-                            <a href="<?php echo site_url();?>">
+                            <a href="<?php echo site_url('dashboard');?>">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
@@ -132,7 +132,7 @@
                         </li>
 						<li>
 						<a href="#">
-                            <i class="fa fa-list"></i> <span>Parametros</span>
+                        <i class="fa fa-list"></i> <span>Parametros</span>
                         </a>
                         <ul class="treeview-menu">
                         <li>
@@ -144,7 +144,7 @@
                             </a>
                             
                         </li>
-						<li>
+                        <li>
                             <a href="<?php echo site_url('estado_civil/index');?>">
                                 <i class="fa fa-gavel"></i> <span>Estado Civil</span>
                             </a>
@@ -158,7 +158,14 @@
                         </li>
                         <li>
                             <a href="<?php echo site_url('tipo_integrante/index');?>"><i class="fa fa-user-circle"></i> Tipo Integrante</a>
-                        </li></ul>
+                        </li>
+                        
+                                <li>
+                                    <a href="<?php echo site_url('multa/index');?>"><i class="fa fa-bitcoin"></i> Multa</a>
+                                </li>
+                       
+                        </ul>
+                                                    
                         </li>
 						<li>
                             <a href="#">
@@ -173,14 +180,12 @@
                                     <a href="<?php echo site_url('integrante/index');?>"><i class="fa fa-address-book-o"></i> Integrante</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo site_url('multa/index');?>"><i class="fa fa-bitcoin"></i> Multa</a>
-                                </li>
-                                <li>
                                     <a href="<?php echo site_url('reunion/index');?>"><i class="fa fa-american-sign-language-interpreting"></i> Reunion</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo site_url('asistencia/index');?>"><i class="fa fa-check-square-o"></i> Asistencia</a>
-                                </li>
+                                </li> 
+
 							</ul>
                         </li>
 						<li>

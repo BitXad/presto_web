@@ -46,7 +46,10 @@ class Credito extends CI_Controller{
     {   
         $usuario_id = 1;
         $data['usuario_id'] = $usuario_id;
-        $data['grupos'] = $this->Credito_model->get_todo_grupos();
+        
+        $this->load->model('Grupo_model');
+        $data['grupo'] = $this->Grupo_model->get_grupo_para_desembolso();
+        
         $data['credito'] = $this->Credito_model->get_todo_credito();
         $this->load->model('Tipo_credito_model');
         $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
@@ -478,4 +481,16 @@ if ($tipo_interes==2) { //interes fijo//
         else
             show_error('The credito you are trying to edit does not exist.');
     }
+    
+    function integrantes_grupo($grupo_id)
+    {   
+        $data['credito_id'] = $credito_id;
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $this->load->model('Garantia_model');
+        $data['garantias'] = $this->Garantia_model->get_garantia_credito($credito_id);
+        $data['empresa'] = $this->Credito_model->get_empresa(1);
+        $data['_view'] = 'credito/completo';
+        $this->load->view('layouts/main',$data);
+    }
+    
 }
