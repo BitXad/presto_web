@@ -191,6 +191,7 @@
                     <select name="modo" class="form-control" id="modo" onchange="ocultar()">
                       <option value="0">Mensual</option>
                       <option value="1">Diario</option> 
+                      <option value="2">Otro</option> 
                     </select>
                   </div>
                  </div>
@@ -219,7 +220,10 @@
 </select>
                   </div>
                  </div>
-                 <div class="col-md-12" id="diaria" style="display: none;">
+                 <div class="col-md-12" id="intervalos" style="display: none;">
+                  <div class='input-group no-print'> <span class='input-group-addon'>Intervalo:</span><input type='text' name='intervalo' class='form-control'  id='intervalo' value="1" onchange="ocultar()" /></div>
+                 </div>
+                  <div class="col-md-12" id="diaria" style="display: none;">
                   <div class='input-group no-print'> <span class='input-group-addon'>Cuota Parcial:</span><input type='text' name='cuota_parcial' class='form-control'  id='cuota_parcial'  /></div>
                   <div class='input-group no-print'> <span class='input-group-addon'>Interes Cuotas:</span><input type='text' name='cuota_interes' class='form-control' id='cuota_interes'  /></div>
                   <div class='input-group no-print'> <span class='input-group-addon'>Cuota Fija:</span><input type='text' name='cuota_fija' class='form-control'  id='cuota_fija' readonly /></div>
