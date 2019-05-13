@@ -68,7 +68,7 @@ function tablacreditos(dato){
                      	if (registros[i]['credito_cuotas']==0) {
                      	html += " <a href='"+base_url+"cuota/sintiempo/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-success btn-xs'><span class='fa fa-money'></span></a></td>";	
                      	}else if (registros[i]['credito_cuotadia']>=1) {
-                     	html += " <a href='"+base_url+"cuota/diario/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-success btn-xs'><span class='fa fa-money'></span></a></td>";	
+                     	html += " <a href='"+base_url+"cuota/individual/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-success btn-xs'><span class='fa fa-money'></span></a></td>";	
                         }else{
                         html += " <a href='"+base_url+"cuota/individual/"+registros[i]["credito_id"]+"' target='_blank' class='btn btn-success btn-xs'><span class='fa fa-money'></span></a></td>"; 
                      	}

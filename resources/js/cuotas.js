@@ -122,6 +122,7 @@ function calcularinteresmes(factor){
         }
 }
 function cuotadia(){
+    var intervalo = Number(document.getElementById('credito_cuotaintervalo').value);
     var diario = Number(document.getElementById('credito_cuotadia').value);
     var interes = Number(document.getElementById('credito_cuotainteres').value);
     var ultimopago = document.getElementById('credito_ultimopago').value;
@@ -130,9 +131,10 @@ function cuotadia(){
     var ultimo = moment(ultimopago).format("YYYY-MM-DD");
     var hoy = moment(today).format("YYYY-MM-DD");
     var diff = moment(hoy).diff(moment(ultimo), 'days');
-    $("#cuota_monto").val(Number(diff*monto).toFixed(2));
-    $("#cuota_montocancelado").val(Number(diff*monto).toFixed(2));
-    $("#dia").val(Number(diff));
+    var valor = Math.ceil(diff/intervalo);
+    $("#cuota_monto").val(Number(valor*monto).toFixed(2));
+    $("#cuota_montocancelado").val(Number(valor*monto).toFixed(2));
+    $("#dia").val(Math.ceil(diff/intervalo));
 
 
 }

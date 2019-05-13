@@ -22,6 +22,9 @@
     <b>TIPO DE GARANTIA:</b> <?php echo $credito[0]['tipogarant_nombre']; ?>
 </div>
 <div class="col-md-4">
+    <b>CUOTA :</b> <?php echo $credito[0]['credito_cuotadia']; ?>
+    <b>INTERES:</b> <?php echo $credito[0]['credito_cuotainteres']; ?><br>
+    <b>DIAS ENTRE CUOTAS:</b> <?php echo $credito[0]['credito_cuotaintervalo']; ?><br>
  <button  href="#" onclick="cuotadia()" data-toggle="modal" data-target="#amortizar"  class="btn btn-warning btn-foursquarexs"><font size="5"><span class="fa fa-money"></span></font><br><small>Cobrar</small></button>
              <!---------------------------------MODAL DE PAGAR------------------------->
 
@@ -39,14 +42,16 @@
               <div class="col-md-12">
                 <input type="hidden" name="credito_ultimopago" class="form-control" value="<?php echo $credito[0]['credito_ultimopago']; ?>" id="credito_ultimopago" />
                 <input type="hidden" name="credito_id" class="form-control" value="<?php echo $credito[0]['credito_id']; ?>" id="credito_id" />
-                
-                <div class="col-md-6"><label for="dian" class="control-label">Cuota Diaria</label>
+                <div class="col-md-6" hidden><label for="dian" class="control-label">Intervalo</label>
+                  <input type="text" name="credito_cuotaintervalo" value="<?php echo $credito[0]['credito_cuotaintervalo']; ?>" class="form-control" id="credito_cuotaintervalo" readonly/>
+                </div>
+                <div class="col-md-6" hidden><label for="dian" class="control-label">Cuota Diaria</label>
                   <input type="text" name="credito_cuotadia" value="<?php echo $credito[0]['credito_cuotadia']; ?>" class="form-control" id="credito_cuotadia" readonly/>
                 </div>
-                <div class="col-md-6"><label for="dian" class="control-label">Interes Diario</label>
+                <div class="col-md-6" hidden><label for="dian" class="control-label">Interes Diario</label>
                  <input type="text" name="credito_cuotainteres" value="<?php echo $credito[0]['credito_cuotainteres']; ?>" class="form-control" id="credito_cuotainteres" readonly/>
                 </div>
-                <div class="col-md-6"><label for="dian" class="control-label">Dias</label>
+                <div class="col-md-6"><label for="dian" class="control-label">Cuotas</label>
                   <input type="text" name="dia" class="form-control"  value="" id="dia" readonly />
                 </div>
                 <div class="col-md-6">
