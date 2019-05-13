@@ -171,7 +171,7 @@ function finalizarindividual()
     var cuota_parcial = document.getElementById('cuota_parcial').value;
     var cuota_interes = document.getElementById('cuota_interes').value;
     var intervalo = document.getElementById('intervalo').value;
-   
+    var grupo_id = 0;
     var cliente_id = document.getElementById('cliente_id').value;
     if(cliente_id == 0 || credito_monto=='' || credito_monto==null){
  alert("Debe ingresar Cliente y monto de Credito");
@@ -185,7 +185,7 @@ function finalizarindividual()
            data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,
             credito_custodia:credito_custodia,credito_fechalimite:credito_fechalimite,credito_cuotas:credito_cuotas,
             cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id,cliente_nombre:cliente_nombre,
-            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono,modo:modo,cuota_parcial:cuota_parcial,cuota_interes:cuota_interes,intervalo:intervalo},
+            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono,modo:modo,cuota_parcial:cuota_parcial,cuota_interes:cuota_interes,intervalo:intervalo,grupo_id:grupo_id},
            success:function(respuesta){
 
              location.href = base_url+'credito/individual';
