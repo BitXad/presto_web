@@ -195,10 +195,15 @@ class Credito extends CI_Controller{
         $intervalo = $this->input->post('intervalo');
          $params = array(
                 'estado_id' => 9,
+<<<<<<< HEAD
                 //'grupo_id' => $this->input->post('grupo_id'),
                 'credito_cuotadia' => $this->input->post('cuota_parcial'),
                 'credito_cuotainteres' => $this->input->post('cuota_interes'),
                 'credito_cuotaintervalo' => $this->input->post('intervalo'),
+=======
+                'grupo_id' => $this->input->post('grupo_id'),
+                //'garantia_id' => $this->input->post('garantia_id'),
+>>>>>>> master
                 'usuario_id' => $usuario_id,
                 'tipocredito_id' => $this->input->post('tipo_credito'),
                 'cliente_id' => $cliente_id,

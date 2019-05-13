@@ -165,6 +165,7 @@ function finalizarindividual()
     var cliente_nombre = document.getElementById('cliente_nombre').value;
     var cliente_apellido = document.getElementById('cliente_apellido').value;
     var cliente_telefono = document.getElementById('cliente_telefono').value;
+    var grupo_id = document.getElementById('grupo_id').value;
    
     var cliente_id = document.getElementById('cliente_id').value;
     if(cliente_id == 0 || credito_monto=='' || credito_monto==null){
@@ -179,9 +180,9 @@ function finalizarindividual()
            data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,
             credito_custodia:credito_custodia,credito_fechalimite:credito_fechalimite,credito_cuotas:credito_cuotas,
             cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id,cliente_nombre:cliente_nombre,
-            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono},
+            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono, grupo_id:grupo_id},
            success:function(respuesta){ 
-            location.href = base_url+'credito/individual';
+            //location.href = base_url+'credito/individual';
              },
             
             });  
@@ -249,9 +250,12 @@ function mostrar_integrantes(){
                        $("#tabla_integrantes").html(html);
                       // totality(total_detalle);
             }
-            $("#credito_monto").val(suma.toFixed(2));
+            
+            
+            $("#credito_montototal").val(suma.toFixed(2));
             $("#grupo_integrantes").val(registros[0]["grupo_integrantes"]);
             $("#tipocredito_id").val("GRUPAL");
+            $("#grupo").val(respuesta); 
             
         },
         error:function(respuesta){
@@ -259,5 +263,34 @@ function mostrar_integrantes(){
        
    }
     });
+
+}
+
+
+function registrar_credito(){
+    
+    var base_url = document.getElementById('base_url').value;    
+    var grupo_id = document.getElementById('grupo_id').value;
+    var controlador = base_url+'grupo/buscar_integrantes/'+grupo_id;
+    var integrante = JSON.parse(document.getElementById('grupo').value);
+    
+    
+    var tam = integrante.length;
+    
+    for(i=0;i<tam;i++){
+        $("#cliente_id").val(integrante[i].cliente_id);
+        $("#cliente_ci").val(integrante[i].cliente_ci);
+        $("#cliente_nombre").val(integrante[i].cliente_nombre);
+        $("#cliente_apellido").val(integrante[i].cliente_apellido);
+        $("#cliente_telefono").val(integrante[i].cliente_telefono);
+        $("#credito_monto").val(integrante[i].integrante_montosolicitado);        
+        
+        finalizarindividual();
+        
+        //alert(integrante[i].cliente_nombre);
+        
+    }
+    alert('Credito registrado con éxito..!');
+    
 
 }
