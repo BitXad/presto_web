@@ -77,7 +77,7 @@
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
                         <td>
-                        <?php if ($c['estado_id']==9) {  ?>
+                        <?php if ($c['estado_id']==9){  ?>
                           <a href="#" onclick="cobrarcuota(<?php echo $c['cuota_id']; ?>)" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
 <!---------------------------------MODAL DE PAGAR------------------------->
 
@@ -131,7 +131,7 @@
 
             <button class="btn btn-md btn-success"  >
               
-                <span class="fa fa-money"></span>   Amortizar  
+                <span class="fa fa-money"></span>   Cobrar  
              
             </button> 
         </form>
@@ -147,7 +147,7 @@
         </div>
         </div>
         <!---------------------------------FIN MODAL DE PAGAR------------------------->
-         <?php }      ?>
+         <?php }  else { }    ?>
         <?php if ($c['estado_id']==10) {  ?>
           <a href="<?php echo site_url('cuota/reciboindividual/'.$c['credito_id'].'/'.$c['cuota_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a> 
         <?php }      ?>

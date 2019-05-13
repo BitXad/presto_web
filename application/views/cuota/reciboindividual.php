@@ -51,8 +51,8 @@
         <table>
             <tr>
                 <td  style="text-align: left; padding-left: 30px;"> 
-                   SALDO TOTAL: Bs      <?php echo $credito[0]['credito_saldo']+$cuota['cuota_montocancelado']; ?> <br> 
-                   MONTO CUOTA: Bs      <?php echo $cuota['cuota_monto']; ?> <br>
+                   SALDO TOTAL: Bs      <?php echo $credito[0]['credito_saldo']+$cuota['cuota_capital']; ?> <br> 
+                   MONTO CUOTA: Bs      <?php echo $cuota['cuota_capital']; ?>  MONTO INTERES: Bs <?php echo $cuota['cuota_interes']; ?><br>
                    MONTO CANCELADO: Bs  <?php echo $cuota['cuota_montocancelado']; ?> (<?php echo num_to_letras($cuota['cuota_montocancelado']); ?>)<br>  
                    SALDO PARC: Bs       <?php echo $cuota['cuota_monto']-$cuota['cuota_montocancelado']; ?> <br>
                    SALDO DEUDOR: Bs     <?php echo $credito[0]['credito_saldo']; ?> <br>
