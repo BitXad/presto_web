@@ -339,20 +339,7 @@
 					
                   </div>
                  </div>
-<!--                 <div class="col-md-12">
-                 	<div class="col-md-4" style="padding-left: 0px;padding-right: 0px;">
-                  <div class="input-group no-print"> <span class="input-group-addon">Interes:</span>
-                    <input id="credito_interes" name="credito_interes" value="4" type="text" class="form-control" >
-                  </div></div>
-                  <div class="col-md-4" style="padding-left: 0px;padding-right: 0px;">
-                  	<div class="input-group no-print"> <span class="input-group-addon">Comision:</span>
-                    <input id="credito_comision" name="credito_comision" value="2" type="text" class="form-control" >
-                  </div></div>
-                  <div class="col-md-4" style="padding-left: 0px;padding-right: 0px;">
-                  <div class="input-group no-print"> <span class="input-group-addon">Custodio:</span>
-                    <input id="credito_custodia" name="credito_custodia"  value="2" type="text" class="form-control" >
-                  </div></div>
-                 </div>-->
+
                  <div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Modo de Cobro:</span>
                     <select name="modo" class="form-control" id="modo" onchange="ocultar()">
