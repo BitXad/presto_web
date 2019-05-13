@@ -194,7 +194,7 @@ class Credito extends CI_Controller{
         $cliente_id = $this->input->post('cliente_id');
          $params = array(
                 'estado_id' => 9,
-                //'grupo_id' => $this->input->post('grupo_id'),
+                'grupo_id' => $this->input->post('grupo_id'),
                 //'garantia_id' => $this->input->post('garantia_id'),
                 'usuario_id' => $usuario_id,
                 'tipocredito_id' => $this->input->post('tipo_credito'),
