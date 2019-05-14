@@ -354,6 +354,7 @@
                    <input type="date" name="credito_fechalimite" value="<?php echo date("Y-m-d",$mod_date); ?>" class=" form-control" id="credito_fechalimite" onchange="ocultar()"/>
                   </div>
                  </div>
+          
                  <!--<div class="col-md-12">
                   <div class="input-group no-print"> <span class="input-group-addon">Capitalista:</span>
                     <input id="Capitalista" type="text" class="form-control" >
