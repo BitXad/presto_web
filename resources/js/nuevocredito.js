@@ -168,7 +168,10 @@ function finalizarindividual()
     var cliente_nombre = document.getElementById('cliente_nombre').value;
     var cliente_apellido = document.getElementById('cliente_apellido').value;
     var cliente_telefono = document.getElementById('cliente_telefono').value;
-   
+    var cuota_parcial = document.getElementById('cuota_parcial').value;
+    var cuota_interes = document.getElementById('cuota_interes').value;
+    var intervalo = document.getElementById('intervalo').value;
+    var grupo_id = 0;
     var cliente_id = document.getElementById('cliente_id').value;
     if(cliente_id == 0 || credito_monto=='' || credito_monto==null){
  alert("Debe ingresar Cliente y monto de Credito");
@@ -182,7 +185,7 @@ function finalizarindividual()
            data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,
             credito_custodia:credito_custodia,credito_fechalimite:credito_fechalimite,credito_cuotas:credito_cuotas,
             cliente_id:cliente_id,tipo_credito:tipo_credito,tipo_interes:tipo_interes,tipo_garantia:tipo_garantia,usuario_id:usuario_id,cliente_nombre:cliente_nombre,
-            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono,modo:modo},
+            cliente_apellido:cliente_apellido,cliente_telefono:cliente_telefono,modo:modo,cuota_parcial:cuota_parcial,cuota_interes:cuota_interes,intervalo:intervalo,grupo_id:grupo_id},
            success:function(respuesta){
 
              location.href = base_url+'credito/individual';
@@ -198,24 +201,58 @@ function ocultar(){
                      var value = document.getElementById('modo').value;
                      var limite = document.getElementById('credito_fechalimite').value;
                      var today = new Date();
-                     //var ultimo = moment(limite).format("YYYY-MM-DD");
+                     var monto = Number(document.getElementById('credito_monto').value);
+                     var credito_interes = Number(document.getElementById('credito_interes').value);
+                     var credito_comision = Number(document.getElementById('credito_comision').value);
+                     var credito_custodia = Number(document.getElementById('credito_custodia').value);
+                     var suma = Number(credito_custodia + credito_comision + credito_interes);
                      //var hoy = moment(today).format("YYYY-MM-DD");
-
-                     var diff = moment(limite).diff(moment(today), 'days');
+                     
+                     html = "";
+                     html2 = "";
+                     var diff = Number(moment(limite).diff(moment(today), 'days'));
                      if (value==1) {
-                      html = "";
-                      html += "Fecha Limite Credito";
-                      html2 = "";
-                      html2 += "<div class='input-group no-print'> <span class='input-group-addon'>Numero Cuotas:</span><input type='text' name='credito_cuotas' class='form-control' value="+Number(diff+1)+" id='credito_cuotas' readonly /></div>";
+
+                      document.getElementById('diaria').style.display = 'block';
+                      
+                      html += "Fecha Limite Credito:";
+                     
+                      html2 += "<div class='input-group no-print'> <span class='input-group-addon'>Numero Cuotas:</span><input type='text' name='credito_cuotas' class='form-control' value='"+Number(diff)+"' id='credito_cuotas' readonly /></div>";
+                      
+                      $('#cuota_parcial').val(Number(monto/diff).toFixed(2));
+                      $('#cuota_interes').val(Number(monto/diff*suma/100).toFixed(2));
+                      $('#cuota_fija').val(Number((monto/diff)+(monto/diff*suma/100)).toFixed(2));
                       $('#fechinga').html(html);
                       $('#cuotas').html(html2);
-                      }else{
-                     html = "";
-                     html += "Fecha Primer Pago";
-                     html2 = "";
+                      }else if (value==2) {
+
+                      var intervalo = Number($('#intervalo').val()).toFixed(2);
+                      document.getElementById('diaria').style.display = 'block';
+                      document.getElementById('intervalos').style.display = 'block';
+                      
+                      
+                      html += "Fecha Limite Credito:";
+                     
+                      
+                      html2 += "<div class='input-group no-print'> <span class='input-group-addon'>Numero Cuotas:</span><input type='text' name='credito_cuotas' class='form-control' value='"+Number(diff/intervalo).toFixed(2)+"' id='credito_cuotas' readonly /></div>";
+                      $('#credito_cuotas').val(diff/intervalo);
+                      $('#cuota_parcial').val(Number(monto/diff*intervalo).toFixed(2));
+                      $('#cuota_interes').val(Number((monto/diff*intervalo*suma/100)).toFixed(2));
+                      $('#cuota_fija').val(Number((monto/diff*intervalo)+(monto/diff*intervalo*suma/100)).toFixed(2));
+                      
+                      $('#fechinga').html(html);
+                      $('#cuotas').html(html2);
+                      } else {
+                      document.getElementById('diaria').style.display = 'none';
+                      document.getElementById('intervalos').style.display = 'none'
+                     html += "Fecha Primer Pago:";
+                     
                      html2 += "<div class='input-group no-print'> <span class='input-group-addon'>Numero Cuotas:</span><select name='credito_cuotas' id='credito_cuotas'class='form-control'  ><option value='0'>Sin Limite de Tiempo</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option><option value='6'>6</option><option value='7'>7</option><option value='8'>8</option><option value='9'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option><option value='13'>13</option><option value='14'>14</option><option value='15'>15</option><option value='16'>16</option><option value='17'>17</option><option value='18'>18</option><option value='19'>19</option><option value='20'>20</option><option value='21'>21</option><option value='22'>22</option><option value='23'>23</option><option value='24'>24</option><option value='25'>25</option><option value='26'>26</option><option value='27'>27</option><option value='28'>28</option><option value='29'>29</option><option value='30'>30</option><option value='31'>31</option><option value='32'>32</option><option value='33'>33</option><option value='34'>34</option><option value='35'>35</option><option value='36'>36</option></select></div>";
                      $('#fechinga').html(html);
                     $('#cuotas').html(html2);
                    }
+
+
+                    
                 
       }      

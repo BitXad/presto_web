@@ -21,25 +21,7 @@
     <b>TIPO DE INTERES:</b> <?php echo $credito[0]['tipoint_nombre']; ?><br>
     <b>TIPO DE GARANTIA:</b> <?php echo $credito[0]['tipogarant_nombre']; ?>
 </div>
-<div class="col-md-4">
 
-                              <a href="#" data-toggle="modal" data-target="#ajustar" class="btn btn-success btn-foursquarexs" ><font size="5"><span class="fa fa-money"></span></font><br><small>Ajustar Saldos</small></a>
-                              <div class="modal fade" id="ajustar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <font size="2"><b> <span class="btn-success" >Ajustar Saldos</span></b> </font><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" >
-              </div>
-            </div>
-          </div>
-        </div>
-                           
-</div>
 </div>
 <div class="box">
             <div class="box-body table-responsive">
@@ -95,7 +77,7 @@
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
                         <td>
-                        <?php if ($c['estado_id']==9) {  ?>
+                        <?php if ($c['estado_id']==9){  ?>
                           <a href="#" onclick="cobrarcuota(<?php echo $c['cuota_id']; ?>)" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
 <!---------------------------------MODAL DE PAGAR------------------------->
 
@@ -149,7 +131,7 @@
 
             <button class="btn btn-md btn-success"  >
               
-                <span class="fa fa-money"></span>   Amortizar  
+                <span class="fa fa-money"></span>   Cobrar  
              
             </button> 
         </form>
@@ -165,7 +147,7 @@
         </div>
         </div>
         <!---------------------------------FIN MODAL DE PAGAR------------------------->
-         <?php }      ?>
+         <?php }  else { }    ?>
         <?php if ($c['estado_id']==10) {  ?>
           <a href="<?php echo site_url('cuota/reciboindividual/'.$c['credito_id'].'/'.$c['cuota_id']); ?>" target="_blank" class="btn btn-facebook btn-xs"><span class="fa fa-print"></span></a> 
         <?php }      ?>
