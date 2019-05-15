@@ -121,7 +121,23 @@ function calcularinteresmes(factor){
 
         }
 }
+function cuotadia(){
+    var intervalo = Number(document.getElementById('credito_cuotaintervalo').value);
+    var diario = Number(document.getElementById('credito_cuotadia').value);
+    var interes = Number(document.getElementById('credito_cuotainteres').value);
+    var ultimopago = document.getElementById('credito_ultimopago').value;
+    var monto = Number(diario+interes);
+    var today = new Date();
+    var ultimo = moment(ultimopago).format("YYYY-MM-DD");
+    var hoy = moment(today).format("YYYY-MM-DD");
+    var diff = moment(hoy).diff(moment(ultimo), 'days');
+    var valor = Math.ceil(diff/intervalo);
+    $("#cuota_monto").val(Number(valor*monto).toFixed(2));
+    $("#cuota_montocancelado").val(Number(valor*monto).toFixed(2));
+    $("#dia").val(Math.ceil(diff/intervalo));
 
+
+}
 function amortizar(){
 
   var radio1 = document.getElementById('inter1').checked;

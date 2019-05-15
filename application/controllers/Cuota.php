@@ -39,6 +39,13 @@ class Cuota extends CI_Controller{
         $data['_view'] = 'cuota/sintiempo';
         $this->load->view('layouts/main',$data);
     }
+     function diario($credito_id)
+    {
+        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+        $data['_view'] = 'cuota/diario';
+        $this->load->view('layouts/main',$data);
+    }
 
     function creditocuota($credito_id)
      {
@@ -174,7 +181,50 @@ class Cuota extends CI_Controller{
                   }    
                 redirect('cuota/sintiempo/'.$credito_id);  
 
-    } 
+    }
+
+    function diariamente()
+    {
+        $credito_id = $this->input->post('credito_id');
+        $usuario_id = 1;
+        $dia = $this->input->post('dia');
+        $fecha = $this->input->post('cuota_fechapago1');
+        $pagado = $this->input->post('cuota_montocancelado');
+        $interes = $this->input->post('credito_cuotainteres')*$dia;
+        
+        $params = array(
+                'credito_id' => $credito_id,
+                'usuario_id' => $usuario_id,
+                'estado_id' => 10,
+                'cuota_numero' => 1,
+                'cuota_capital' => $this->input->post('credito_cuotadia')*$dia,
+                'cuota_interes' => $this->input->post('credito_cuotainteres')*$dia,
+                'cuota_descuento' => 0,
+                'cuota_monto' => $this->input->post('cuota_monto'),
+                //'cuota_fechalimite' => $this->input->post('cuota_fechalimite'),
+                'cuota_montocancelado' => $this->input->post('cuota_montocancelado'),
+                'cuota_fechapago' => $this->input->post('cuota_fechapago1'),
+                'cuota_horapago' => $this->input->post('cuota_horapago1'),
+                //'cuota_saldocapital' => $this->input->post('cuota_saldocapital1'),
+                'cuota_numrecibo' => $this->input->post('cuota_numrecibo1'),
+                //'cuota_banco' => $this->input->post('cuota_banco'),
+                'cuota_glosa' => $this->input->post('cuota_glosa1'),
+            );
+            
+            $cuota_id = $this->Cuota_model->add_cuota($params);
+
+
+              $credito = "UPDATE credito SET credito_saldo=credito_saldo-".$pagado."+".$interes.", credito_ultimopago='".$fecha."' WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito);
+              $saldo = "SELECT credito_saldo as saldito FROM credito WHERE credito_id=".$credito_id." ";
+              $saldito = $this->db->query($saldo)->row_array();
+              if ($saldito['saldito']==0) {
+                  $credito_estado = "UPDATE credito SET estado_id=10 WHERE credito_id=".$credito_id." ";
+                $this->db->query($credito_estado);    
+                  }    
+                redirect('cuota/diario/'.$credito_id);  
+
+    }  
 
     function reciboindividual($credito_id,$cuota_id)
     {

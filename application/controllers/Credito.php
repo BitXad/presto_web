@@ -192,10 +192,14 @@ class Credito extends CI_Controller{
         $credito_fechainicio = date("Y-m-d");
         $credito_horainicio = date("H:i:s");
         $cliente_id = $this->input->post('cliente_id');
+        $intervalo = $this->input->post('intervalo');
          $params = array(
                 'estado_id' => 9,
-                //'grupo_id' => $this->input->post('grupo_id'),
-                //'garantia_id' => $this->input->post('garantia_id'),
+                
+                'credito_cuotadia' => $this->input->post('cuota_parcial'),
+                'credito_cuotainteres' => $this->input->post('cuota_interes'),
+                'credito_cuotaintervalo' => $this->input->post('intervalo'),
+                'grupo_id' => $this->input->post('grupo_id'),
                 'usuario_id' => $usuario_id,
                 'tipocredito_id' => $this->input->post('tipo_credito'),
                 'cliente_id' => $cliente_id,
@@ -247,22 +251,27 @@ class Credito extends CI_Controller{
 if ($tipo_interes==2) { //interes fijo//
                                                  
    
-           if ($modo==1) {
+           if ($modo>=1) {
+
+            /*$ptq="UPDATE credito set credito_formapago=1 WHERE credito_id=".$credito_id." ";
+            $this->db->query($ptq);*/
+            $cuota_capital = $this->input->post('cuota_parcial');
+            $cuota_interes = $this->input->post('cuota_interes');
            
                 for ($numero = 1; $numero <= $cuotas; $numero++) {
             
             $monto = $this->input->post('credito_monto');
             
-            $mod_date = strtotime($credito_fechainicio."+ ".$numero." day");
+            $mod_date = strtotime($credito_fechainicio." +".$numero*$intervalo." days");
              $params = array(
                 'credito_id' => $credito_id,
                 'usuario_id' => $usuario_id,
                 'estado_id' => 9,
                 'cuota_numero' => $numero,
-                'cuota_capital' => ($monto/$cuotas),
-                'cuota_interes' => $sumainteres/$cuotas,
+                'cuota_capital' => $cuota_capital,
+                'cuota_interes' => $cuota_interes,
                 'cuota_descuento' => 0,
-                'cuota_monto' => ($sumainteres / 100 * $monto / $cuotas) + ($monto/$cuotas),
+                'cuota_monto' => ($cuota_capital + $cuota_interes),
                 'cuota_fechalimite' => date("Y-m-d",$mod_date),
                 'cuota_montocancelado' => 0,
                 //'cuota_saldocapital' => $this->input->post('cuota_saldocapital'),//falta
@@ -303,15 +312,17 @@ if ($tipo_interes==2) { //interes fijo//
     }
 } else { //interes sobre saldo//
      
-        if ($modo==1) {
+        if ($modo>=1) {
        
                  $monto = $this->input->post('credito_monto');
         
         $cuota_total = $monto;
         $saldo_deudor = $cuota_total;
         $cuota_capital = $monto/$cuotas;
+        /*$ptq="UPDATE credito set credito_formapago=1 WHERE credito_id=".$credito_id." ";
+        $this->db->query($ptq);*/
        
-        for ($numero = 1; $numero <= $cuotas; $numero++) {
+        /*for ($numero = 1; $numero <= $cuotas; $numero++) {
            
             $mod_date = strtotime($fechalimite."+ ".($numero)." days");
             $variable = $saldo_deudor * ($sumainteres/100/$cuotas);        
@@ -333,13 +344,13 @@ if ($tipo_interes==2) { //interes fijo//
             $cuota_total = $saldo_deudor;
             $saldo_deudor = $cuota_total - $cuota_capital;
                    
-        }
+        }*/
 
         
 
-              //fin //
+              //fin ///  
                             
-    }else{  //numero de cuotas//
+   }else{  //numero de cuotas//
         $monto = $this->input->post('credito_monto');
         
         $cuota_total = $monto;

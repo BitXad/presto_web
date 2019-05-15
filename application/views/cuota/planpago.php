@@ -48,12 +48,12 @@
 
                     </center>
                     </div>
-                    <div class="columna_izquierda">
+                    <!--<div class="columna_izquierda">
                        <center>  <font size="3"><b><u><?php echo $empresa[0]['empresa_nombre']; ?></u></b></font><br>
                         <?php echo $empresa[0]['empresa_zona']; ?><br>
                         <?php echo $empresa[0]['empresa_direccion']; ?><br>
                         <?php echo $empresa[0]['empresa_telefono']; ?>
-                    </div> </center>
+                    </div> </center>-->
                     <div class="columna_central">
                         <center>      <h3 class="box-title"><u>PLAN DE PAGOS</u></h3><BR>
                                     CREDITO No.: <?php echo $credito[0]['credito_id']; ?> <br>
