@@ -284,6 +284,7 @@ function registrar_credito(){
         $("#cliente_apellido").val(integrante[i].cliente_apellido);
         $("#cliente_telefono").val(integrante[i].cliente_telefono);
         $("#credito_monto").val(integrante[i].integrante_montosolicitado);        
+        $("#credito_cuotas").val(integrante[i].grupo_cuotas);        
         
         finalizarindividual();
         

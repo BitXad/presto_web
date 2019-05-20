@@ -42,61 +42,75 @@
       	<div class="box box-info">
             <div class="box-body">
                 <div class="row clearfix">
-                    <div class="col-md-4">
-                        <label>NOMBRES: <span class="normal"><?php echo $cliente['cliente_nombre']; ?></span></label>
+                    <div style="display: flex">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>NOMBRES: <span class="normal"><?php echo $cliente['cliente_nombre']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>APELLIDOS: <span class="normal"><?php echo $cliente['cliente_apellido']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>APELLIDO DE CASADA(O): <span class="normal"><?php echo $cliente['cliente_apcasado']; ?></span></label>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label>APELLIDOS: <span class="normal"><?php echo $cliente['cliente_apellido']; ?></span></label>
+                    <div style="display: flex">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>CODIGO: <span class="normal"><?php echo $cliente['cliente_codigo']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>SEXO: <span class="normal"><?php echo $cliente['cliente_sexo']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>ESTADO CIVIL: <span class="normal"><?php echo $cliente['estadocivil_nombre']; ?></span></label>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label>APELLIDO DE CASADA(O): <span class="normal"><?php echo $cliente['cliente_apcasado']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>CODIGO: <span class="normal"><?php echo $cliente['cliente_codigo']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>SEXO: <span class="normal"><?php echo $cliente['cliente_sexo']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>ESTADO CIVIL: <span class="normal"><?php echo $cliente['estadocivil_nombre']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>DOC. IDENTIFICACION: <span class="normal"><?php echo $cliente['cliente_tipodoc']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>NRO. DCTO.: <span class="normal"><?php echo $cliente['cliente_ci']." ".$cliente['cliente_extencionci']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>VENCE: <span class="normal"><?php echo date("d/m/Y", strtotime($cliente['cliente_fechavenc'])); ?></span></label>
+                    <div style="display: flex">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>DOC. IDENTIFICACION: <span class="normal"><?php echo $cliente['cliente_tipodoc']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>NRO. DCTO.: <span class="normal"><?php echo $cliente['cliente_ci']." ".$cliente['cliente_extencionci']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>VENCE: <span class="normal"><?php echo date("d/m/Y", strtotime($cliente['cliente_fechavenc'])); ?></span></label>
+                        </div>
                     </div>
                     <?php
                     $guion = "";
                     if($cliente['cliente_telefono'] !="" && $cliente['cliente_celular'] !=""){
                         $guion=" - ";
                     } ?>
-                    <div class="col-md-4">
-                        <label>TELEF. o CEL.: <span class="normal"><?php echo $cliente['cliente_telefono'].$guion.$cliente['cliente_celular']; ?></span></label>
+                    <div style="display: flex">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>TELEF. o CEL.: <span class="normal"><?php echo $cliente['cliente_telefono'].$guion.$cliente['cliente_celular']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>NOMBRE PAREJA: <span class="normal"><?php echo $cliente['cliente_conyuge']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>DCTO. PAREJA: <span class="normal"><?php echo $cliente['conyuge_ci']; ?></span></label>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label>NOMBRE PAREJA: <span class="normal"><?php echo $cliente['cliente_conyuge']; ?></span></label>
+                    <div style="display: flex">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>TELEFONO PAREJA: <span class="normal"><?php echo $cliente['conyuge_telef']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>REFERENCIA #1: <span class="normal"><?php echo $cliente['cliente_referencia1']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>TELEFONO REF. 1: <span class="normal"><?php echo $cliente['cliente_reftelef1']; ?></span></label>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label>DCTO. PAREJA: <span class="normal"><?php echo $cliente['conyuge_ci']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>TELEFONO PAREJA: <span class="normal"><?php echo $cliente['conyuge_telef']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>REFERENCIA #1: <span class="normal"><?php echo $cliente['cliente_referencia1']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>TELEFONO REF. 1: <span class="normal"><?php echo $cliente['cliente_reftelef1']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>REFERENCIA #2: <span class="normal"><?php echo $cliente['cliente_referencia2']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>TELEFONO REF. 2: <span class="normal"><?php echo $cliente['cliente_reftelef2']; ?></span></label>
+                    <div style="display: flex">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>REFERENCIA #2: <span class="normal"><?php echo $cliente['cliente_referencia2']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>TELEFONO REF. 2: <span class="normal"><?php echo $cliente['cliente_reftelef2']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,20 +149,24 @@
       	<div class="box box-info">
             <div class="box-body">
                 <div class="row clearfix">
-                    <div class="col-md-12">
-                        <label>DIRECCION: <span class="normal"><?php echo $cliente['cliente_direccion']; ?></span></label>
+                    <div style="display: inline-block">
+                        <div class="col-md-12">
+                            <label>DIRECCION: <span class="normal"><?php echo $cliente['cliente_direccion']; ?></span></label>
+                        </div>
+                        <div class="col-md-12">
+                            <label>REFERENCIA: <span class="normal"><?php echo $cliente['cliente_referencia']; ?></span></label>
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        <label>REFERENCIA: <span class="normal"><?php echo $cliente['cliente_referencia']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>TIPO VIVIENDA: <span class="normal"><?php echo $cliente['cliente_tipovivienda']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>PERTENENCIA DOM.: <span class="normal"><?php echo $cliente['cliente_pertenenciadom']; ?></span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>ANTIGUEDAD DOM.: <span class="normal"><?php echo $cliente['cliente_pertenenciatiempo']; ?></span></label>
+                    <div style="display: flex">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>TIPO VIVIENDA: <span class="normal"><?php echo $cliente['cliente_tipovivienda']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>PERTENENCIA DOM.: <span class="normal"><?php echo $cliente['cliente_pertenenciadom']; ?></span></label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label>ANTIGUEDAD DOM.: <span class="normal"><?php echo $cliente['cliente_pertenenciatiempo']; ?></span></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,20 +250,26 @@
       	<div class="box box-info">
             <div class="box-body">
                 <div class="row clearfix">
-                    <div class="col-md-12">
-                        <label>GARANTIAS PRENDARIAS: <span class="normal">___________________________________________________________________________________________________________________________________</span></label>
+                    <div style="display: inline-block">
+                        <div class="col-md-12">
+                            <label>GARANTIAS PRENDARIAS: <span class="normal">___________________________________________________________________________________________________________________________________</span></label>
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        <label>NUMERO DE HIJOS: <span class="normal"><?php echo $cliente['cliente_numhijos']; ?></span></label>
+                    <div style="display: inline-block">
+                        <div class="col-md-12">
+                            <label>NUMERO DE HIJOS: <span class="normal"><?php echo $cliente['cliente_numhijos']; ?></span></label>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label>DEUDAS OTRAS INST.: <span class="normal">____________________________</span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>DETALLES CRED.: <span class="normal">____________________________</span></label>
-                    </div>
-                    <div class="col-md-4">
-                        <label>ESTADO: <span class="normal">____________________________</span></label>
+                    <div style="display: flex">
+                        <div class="col-md-4">
+                            <label>DEUDAS OTRAS INST.: <span class="normal">____________________________</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <label>DETALLES CRED.: <span class="normal">____________________________</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <label>ESTADO: <span class="normal">____________________________</span></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -264,20 +288,20 @@
 </div>
 <br>
 <br>
-<div class="row tamletra">
-    <div class="col-md-4 text-center">
+<div style="display: flex" class="row tamletra col-md-12">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
     <label>-----------------------<br>FIRMA CLIENTE</label>
     </div>
-    <div class="col-md-4 text-center">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
     <label>-----------------------<br>FIRMA GARANTE</label>
     </div>
-    <div class="col-md-4 text-center">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
     <label>--------------------------<br>FIRMA INSTITUCION</label>
     </div>
 </div>
 <div class="row tamletra">
     <div class="col-md-12 text-right">
-    <label>FECHA:____________________________________________</label>
+        <br><label>FECHA:____________________________________________</label>
     </div>
 </div>
 </div>
