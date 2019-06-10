@@ -5,73 +5,91 @@
  */
  
 class Grupo extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Grupo_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of grupo
      */
     function index()
     {
-        date_default_timezone_set("America/La_Paz");
-        $data['grupo'] = $this->Grupo_model->get_all_grupos();
-        
-        $data['_view'] = 'grupo/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(13)){
+            date_default_timezone_set("America/La_Paz");
+            $data['grupo'] = $this->Grupo_model->get_all_grupos();
+
+            $data['_view'] = 'grupo/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new grupo
      */
     function add()
-    {   
-        $usuario_id = 1;
-        $estado_id = 5;
-        
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'asesor_id' => $this->input->post('asesor_id'),
-				'usuario_id' => $usuario_id,
-				'estado_id' => $estado_id,
-				'grupo_fecha' => $this->input->post('grupo_fecha'),
-				'grupo_hora' => $this->input->post('grupo_hora'),
-				'grupo_nombre' => $this->input->post('grupo_nombre'),
-				'grupo_codigo' => $this->input->post('grupo_codigo'),
-				'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
-				'grupo_monto' => $this->input->post('grupo_monto'),
-				'grupo_integrantes' => $this->input->post('grupo_integrantes'),
-                                'grupo_departamento' => $this->input->post('grupo_departamento'),
-				'grupo_municipio' => $this->input->post('grupo_municipio'),
-				'grupo_provincia' => $this->input->post('grupo_provincia'),
-				'grupo_zona' => $this->input->post('grupo_zona'),
-				'grupo_fechahora' => $this->input->post('grupo_fechahora'),
-				'grupo_multafalta' => $this->input->post('grupo_multafalta'),
-				'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
-				'grupo_ahorro' => $this->input->post('grupo_ahorro'),
-				'grupo_cuotas' => $this->input->post('grupo_cuotas'),
-            );
-            
-            $grupo_id = $this->Grupo_model->add_grupo($params);
-            //redirect('grupo/index');
-            redirect('grupo/integrantes/'.$grupo_id);
-        }
-        else
-        {
-			$this->load->model('Asesor_model');
-			$data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+    {
+        if($this->acceso(13)){
+            $usuario_id = 1;
+            $estado_id = 5;
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                    'asesor_id' => $this->input->post('asesor_id'),
+                    'usuario_id' => $usuario_id,
+                    'estado_id' => $estado_id,
+                    'grupo_fecha' => $this->input->post('grupo_fecha'),
+                    'grupo_hora' => $this->input->post('grupo_hora'),
+                    'grupo_nombre' => $this->input->post('grupo_nombre'),
+                    'grupo_codigo' => $this->input->post('grupo_codigo'),
+                    'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
+                    'grupo_monto' => $this->input->post('grupo_monto'),
+                    'grupo_integrantes' => $this->input->post('grupo_integrantes'),
+                    'grupo_departamento' => $this->input->post('grupo_departamento'),
+                    'grupo_municipio' => $this->input->post('grupo_municipio'),
+                    'grupo_provincia' => $this->input->post('grupo_provincia'),
+                    'grupo_zona' => $this->input->post('grupo_zona'),
+                    'grupo_fechahora' => $this->input->post('grupo_fechahora'),
+                    'grupo_multafalta' => $this->input->post('grupo_multafalta'),
+                    'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
+                    'grupo_ahorro' => $this->input->post('grupo_ahorro'),
+                    'grupo_cuotas' => $this->input->post('grupo_cuotas'),
+                );
 
-			$this->load->model('Usuario_model');
-			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+                $grupo_id = $this->Grupo_model->add_grupo($params);
+                //redirect('grupo/index');
+                redirect('grupo/integrantes/'.$grupo_id);
+            }
+            else
+            {
+                $this->load->model('Asesor_model');
+                $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
 
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
-            
-            $data['_view'] = 'grupo/add';
-            $this->load->view('layouts/main',$data);
+                $this->load->model('Usuario_model');
+                $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+                $data['_view'] = 'grupo/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -79,106 +97,110 @@ class Grupo extends CI_Controller{
      * Editing a grupo
      */
     function edit($grupo_id)
-    {   
-        // check if the grupo exists before trying to edit it
-        $data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
-        
-        if(isset($data['grupo']['grupo_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-                            'asesor_id' => $this->input->post('asesor_id'),
-                            'usuario_id' => $this->input->post('usuario_id'),
-                            'estado_id' => $this->input->post('estado_id'),
-                            'grupo_fecha' => $this->input->post('grupo_fecha'),
-                            'grupo_hora' => $this->input->post('grupo_hora'),
-                            'grupo_nombre' => $this->input->post('grupo_nombre'),
-                            'grupo_codigo' => $this->input->post('grupo_codigo'),
-                            'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
-                            'grupo_monto' => $this->input->post('grupo_monto'),
-                            'grupo_integrantes' => $this->input->post('grupo_integrantes'),
-                            'grupo_departamento' => $this->input->post('grupo_departamento'),
-                            'grupo_municipio' => $this->input->post('grupo_municipio'),
-                            'grupo_provincia' => $this->input->post('grupo_provincia'),
-                            'grupo_zona' => $this->input->post('grupo_zona'),
-                            'grupo_fechahora' => $this->input->post('grupo_fechahora'),
-                            'grupo_multafalta' => $this->input->post('grupo_multafalta'),
-                            'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
-                            'grupo_ahorro' => $this->input->post('grupo_ahorro'),
-                            'grupo_cuotas' => $this->input->post('grupo_cuotas'),
-                    
-                );
+    {
+        if($this->acceso(13)){
+            // check if the grupo exists before trying to edit it
+            $data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
 
-                $this->Grupo_model->update_grupo($grupo_id,$params);            
-                redirect('grupo/index');
+            if(isset($data['grupo']['grupo_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'asesor_id' => $this->input->post('asesor_id'),
+                        'usuario_id' => $this->input->post('usuario_id'),
+                        'estado_id' => $this->input->post('estado_id'),
+                        'grupo_fecha' => $this->input->post('grupo_fecha'),
+                        'grupo_hora' => $this->input->post('grupo_hora'),
+                        'grupo_nombre' => $this->input->post('grupo_nombre'),
+                        'grupo_codigo' => $this->input->post('grupo_codigo'),
+                        'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
+                        'grupo_monto' => $this->input->post('grupo_monto'),
+                        'grupo_integrantes' => $this->input->post('grupo_integrantes'),
+                        'grupo_departamento' => $this->input->post('grupo_departamento'),
+                        'grupo_municipio' => $this->input->post('grupo_municipio'),
+                        'grupo_provincia' => $this->input->post('grupo_provincia'),
+                        'grupo_zona' => $this->input->post('grupo_zona'),
+                        'grupo_fechahora' => $this->input->post('grupo_fechahora'),
+                        'grupo_multafalta' => $this->input->post('grupo_multafalta'),
+                        'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
+                        'grupo_ahorro' => $this->input->post('grupo_ahorro'),
+                        'grupo_cuotas' => $this->input->post('grupo_cuotas'),
+
+                    );
+
+                    $this->Grupo_model->update_grupo($grupo_id,$params);            
+                    redirect('grupo/index');
+                }
+                else
+                {
+                    $this->load->model('Asesor_model');
+                    $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+
+                    $this->load->model('Usuario_model');
+                    $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
+                    $this->load->model('Estado_model');
+                    $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+                    $data['_view'] = 'grupo/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-				$this->load->model('Asesor_model');
-				$data['all_asesor'] = $this->Asesor_model->get_all_asesor();
-
-				$this->load->model('Usuario_model');
-				$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
-
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
-
-                $data['_view'] = 'grupo/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The grupo you are trying to edit does not exist.');
         }
-        else
-            show_error('The grupo you are trying to edit does not exist.');
     } 
     /*
      * Editing a grupo
      */
     function integrantes($grupo_id)
-    {   
-        // check if the grupo exists before trying to edit it
-        $data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
-        
-        if(isset($data['grupo']['grupo_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'asesor_id' => $this->input->post('asesor_id'),
-					'usuario_id' => $this->input->post('usuario_id'),
-					'estado_id' => $this->input->post('estado_id'),
-					'grupo_fecha' => $this->input->post('grupo_fecha'),
-					'grupo_hora' => $this->input->post('grupo_hora'),
-					'grupo_nombre' => $this->input->post('grupo_nombre'),
-					'grupo_codigo' => $this->input->post('grupo_codigo'),
-					'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
-					'grupo_monto' => $this->input->post('grupo_monto'),
-					'grupo_integrantes' => $this->input->post('grupo_integrantes'),
-                );
+    {
+        if($this->acceso(13)){
+            // check if the grupo exists before trying to edit it
+            $data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
 
-                $this->Grupo_model->update_grupo($grupo_id,$params);            
-                redirect('grupo/index');
+            if(isset($data['grupo']['grupo_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'asesor_id' => $this->input->post('asesor_id'),
+                        'usuario_id' => $this->input->post('usuario_id'),
+                        'estado_id' => $this->input->post('estado_id'),
+                        'grupo_fecha' => $this->input->post('grupo_fecha'),
+                        'grupo_hora' => $this->input->post('grupo_hora'),
+                        'grupo_nombre' => $this->input->post('grupo_nombre'),
+                        'grupo_codigo' => $this->input->post('grupo_codigo'),
+                        'grupo_iniciosolicitud' => $this->input->post('grupo_iniciosolicitud'),
+                        'grupo_monto' => $this->input->post('grupo_monto'),
+                        'grupo_integrantes' => $this->input->post('grupo_integrantes'),
+                    );
+
+                    $this->Grupo_model->update_grupo($grupo_id,$params);            
+                    redirect('grupo/index');
+                }
+                else
+                {
+                    $this->load->model('Grupo_model');
+                    $data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
+
+                    $this->load->model('Cliente_model');
+                    $data['all_cliente'] = $this->Cliente_model->get_all_cliente();
+
+                    $this->load->model('Cliente_model');
+                    $data['integrantes'] = $this->Cliente_model->get_all_integrantes($grupo_id);
+    //
+    //				$this->load->model('Estado_model');
+    //				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
+                    $data['_view'] = 'grupo/integrantes';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-				$this->load->model('Grupo_model');
-				$data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
-
-				$this->load->model('Cliente_model');
-				$data['all_cliente'] = $this->Cliente_model->get_all_cliente();
-                                
-				$this->load->model('Cliente_model');
-				$data['integrantes'] = $this->Cliente_model->get_all_integrantes($grupo_id);
-//
-//				$this->load->model('Estado_model');
-//				$data['all_estado'] = $this->Estado_model->get_all_estado();
-
-                $data['_view'] = 'grupo/integrantes';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The grupo you are trying to edit does not exist.');
         }
-        else
-            show_error('The grupo you are trying to edit does not exist.');
     } 
 
     /*
@@ -186,16 +208,17 @@ class Grupo extends CI_Controller{
      */
     function remove($grupo_id)
     {
-        $grupo = $this->Grupo_model->get_grupo($grupo_id);
-
-        // check if the grupo exists before trying to delete it
-        if(isset($grupo['grupo_id']))
-        {
-            $this->Grupo_model->delete_grupo($grupo_id);
-            redirect('grupo/index');
+        if($this->acceso(13)){
+            $grupo = $this->Grupo_model->get_grupo($grupo_id);
+            // check if the grupo exists before trying to delete it
+            if(isset($grupo['grupo_id']))
+            {
+                $this->Grupo_model->delete_grupo($grupo_id);
+                redirect('grupo/index');
+            }
+            else
+                show_error('The grupo you are trying to delete does not exist.');
         }
-        else
-            show_error('The grupo you are trying to delete does not exist.');
     }
 
     /*
@@ -203,16 +226,16 @@ class Grupo extends CI_Controller{
      */
     function agregar_integrante()
     {
+        if($this->acceso(13)){
+            $grupo_id = $this->input->post('grupo_id');
+            $cliente_id = $this->input->post('cliente_id');
+            $integrante_cargo = $this->input->post('integrante_cargo');
+            $integrante_montosolicitado = $this->input->post('integrante_monto');
 
-        $grupo_id = $this->input->post('grupo_id');
-        $cliente_id = $this->input->post('cliente_id');
-        $integrante_cargo = $this->input->post('integrante_cargo');
-        $integrante_montosolicitado = $this->input->post('integrante_monto');
-        
-        // check if the grupo exists before trying to delete it
-        $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo,$integrante_montosolicitado);
-        redirect('grupo/integrantes/'.$grupo_id);
-       
+            // check if the grupo exists before trying to delete it
+            $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo,$integrante_montosolicitado);
+            redirect('grupo/integrantes/'.$grupo_id);
+        }
     }
     
     /*

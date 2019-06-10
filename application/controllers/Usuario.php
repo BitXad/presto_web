@@ -11,7 +11,6 @@ class Usuario extends CI_Controller{
         parent::__construct();
         $this->load->model('Usuario_model');
         $this->load->library('form_validation');
-        $this->session_data = $this->session->userdata('logged_in');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
         }else {

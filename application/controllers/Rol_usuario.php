@@ -33,7 +33,7 @@ class Rol_usuario extends CI_Controller{
      */
     function index()
     {
-        if($this->acceso(22)){
+        if($this->acceso(20)){
             $this->load->model('Rol_model');
             $rol['all_rol'] = $this->Rol_model->get_all_rol();    
             $this->load->library('form_validation');
@@ -79,7 +79,7 @@ class Rol_usuario extends CI_Controller{
      */
     function add()
     {
-        if($this->acceso(22)){
+        if($this->acceso(20)){
             $this->load->model('Rol_model');
             $rol['all_rol'] = $this->Rol_model->get_all_rol();    
             $this->load->library('form_validation');
@@ -141,7 +141,7 @@ class Rol_usuario extends CI_Controller{
      */
     function edit($id_rol_usuario)
     {
-        if($this->acceso(22)){
+        if($this->acceso(20)){
             // check if the rol_usuario exists before trying to edit it
             $data['rol_usuario'] = $this->Rol_usuario_model->get_rol_usuario($id_rol_usuario);
 

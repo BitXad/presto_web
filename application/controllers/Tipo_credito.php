@@ -5,41 +5,58 @@
  */
  
 class Tipo_credito extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Tipo_credito_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of tipo_credito
      */
     function index()
     {
-        $data['tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
-        
-        $data['_view'] = 'tipo_credito/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(18)){
+            $data['tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+            $data['_view'] = 'tipo_credito/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new tipo_credito
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'tipocredito_nombre' => $this->input->post('tipocredito_nombre'),
-            );
-            
-            $tipo_credito_id = $this->Tipo_credito_model->add_tipo_credito($params);
-            redirect('tipo_credito/index');
-        }
-        else
-        {            
-            $data['_view'] = 'tipo_credito/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(18)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                    'tipocredito_nombre' => $this->input->post('tipocredito_nombre'),
+                );
+                $tipo_credito_id = $this->Tipo_credito_model->add_tipo_credito($params);
+                redirect('tipo_credito/index');
+            }
+            else
+            {            
+                $data['_view'] = 'tipo_credito/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -47,29 +64,30 @@ class Tipo_credito extends CI_Controller{
      * Editing a tipo_credito
      */
     function edit($tipocredito_id)
-    {   
-        // check if the tipo_credito exists before trying to edit it
-        $data['tipo_credito'] = $this->Tipo_credito_model->get_tipo_credito($tipocredito_id);
-        
-        if(isset($data['tipo_credito']['tipocredito_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'tipocredito_nombre' => $this->input->post('tipocredito_nombre'),
-                );
+    {
+        if($this->acceso(18)){
+            // check if the tipo_credito exists before trying to edit it
+            $data['tipo_credito'] = $this->Tipo_credito_model->get_tipo_credito($tipocredito_id);
+            if(isset($data['tipo_credito']['tipocredito_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'tipocredito_nombre' => $this->input->post('tipocredito_nombre'),
+                    );
 
-                $this->Tipo_credito_model->update_tipo_credito($tipocredito_id,$params);            
-                redirect('tipo_credito/index');
+                    $this->Tipo_credito_model->update_tipo_credito($tipocredito_id,$params);            
+                    redirect('tipo_credito/index');
+                }
+                else
+                {
+                    $data['_view'] = 'tipo_credito/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $data['_view'] = 'tipo_credito/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The tipo_credito you are trying to edit does not exist.');
         }
-        else
-            show_error('The tipo_credito you are trying to edit does not exist.');
     } 
 
     /*
@@ -77,16 +95,17 @@ class Tipo_credito extends CI_Controller{
      */
     function remove($tipocredito_id)
     {
-        $tipo_credito = $this->Tipo_credito_model->get_tipo_credito($tipocredito_id);
-
-        // check if the tipo_credito exists before trying to delete it
-        if(isset($tipo_credito['tipocredito_id']))
-        {
-            $this->Tipo_credito_model->delete_tipo_credito($tipocredito_id);
-            redirect('tipo_credito/index');
+        if($this->acceso(18)){
+            $tipo_credito = $this->Tipo_credito_model->get_tipo_credito($tipocredito_id);
+            // check if the tipo_credito exists before trying to delete it
+            if(isset($tipo_credito['tipocredito_id']))
+            {
+                $this->Tipo_credito_model->delete_tipo_credito($tipocredito_id);
+                redirect('tipo_credito/index');
+            }
+            else
+                show_error('The tipo_credito you are trying to delete does not exist.');
         }
-        else
-            show_error('The tipo_credito you are trying to delete does not exist.');
     }
     
 }

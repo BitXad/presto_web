@@ -3,6 +3,7 @@
     <head>
         <?php
             $session_data = $this->session->userdata('logged_in');
+            $rolusuario = $session_data['rol'];
         ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -95,26 +96,44 @@
                         <li class="header">MENU</li>
                         <li>
                             <a href="<?php echo site_url('dashboard');?>">
-                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                <i class="fa fa-dashboard"></i> <span>Inicio</span>
                             </a>
                         </li>
-						<li>
+                        <li>
                             <a href="#">
                                 <i class="fa fa-registered"></i> <span>Registros</span>
                             </a>
                             <ul class="treeview-menu">
-                            <li>
-                            <a href="<?php echo site_url('asesor/index');?>"><i class="fa fa-user-secret"></i> <span>Asesor</span></a>
-                            </li>
-                            <li>
-                               <a href="<?php echo site_url('cliente/index');?>"><i class="fa fa-users"></i> Cliente</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('garante/index');?>"><i class="fa fa-handshake-o"></i> Garante</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('garantia/index');?>"><i class="fa fa-archive"></i> Garantia</a>
-                            </li>
+                                <?php
+                                if($rolusuario[1-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('asesor/index');?>"><i class="fa fa-user-secret"></i> <span>Asesor</span></a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[4-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                   <a href="<?php echo site_url('cliente/index');?>"><i class="fa fa-users"></i> Cliente</a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[11-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('garante/index');?>"><i class="fa fa-handshake-o"></i> Garante</a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[12-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('garantia/index');?>"><i class="fa fa-archive"></i> Garantia</a>
+                                </li>
+                                <?php
+                                }
+                                ?>
                             </ul>
                         </li>
                         <li>
@@ -122,89 +141,158 @@
                                 <i class="fa fa-credit-card"></i> <span>Credito</span>
                             </a>
                             <ul class="treeview-menu">
-                            <li>
-                                <a href="<?php echo site_url('credito/individual');?>"><i class="fa fa-user"></i> Individual</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('credito/grupal');?>"><i class="fa fa-users"></i> Grupal</a>
-                            </li>
+                                <?php
+                                if($rolusuario[6-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('credito/individual');?>"><i class="fa fa-user"></i> Individual</a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[5-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('credito/grupal');?>"><i class="fa fa-users"></i> Grupal</a>
+                                </li>
+                                <?php
+                                }
+                                ?>
                             </ul>
                         </li>
-						<li>
-						<a href="#">
-                        <i class="fa fa-list"></i> <span>Parametros</span>
-                        </a>
-                        <ul class="treeview-menu">
                         <li>
+                            <a href="#">
+                                <i class="fa fa-list"></i> <span>Parametros</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <?php
+                                if($rolusuario[3-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
                                     <a href="<?php echo site_url('categoria/index');?>"><i class="fa fa-braille"></i> Categoria</a>
-                        </li>
-						<li>
-                            <a href="<?php echo site_url('estado/index');?>">
-                                <i class="fa fa-desktop"></i> <span>Estado</span>
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="<?php echo site_url('estado_civil/index');?>">
-                                <i class="fa fa-gavel"></i> <span>Estado Civil</span>
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="<?php echo site_url('extencion/index');?>"><i class="fa fa-chrome"></i> Extencion</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo site_url('tipo_credito/index');?>"><i class="fa fa-exchange"></i> Tipo Credito</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo site_url('tipo_integrante/index');?>"><i class="fa fa-user-circle"></i> Tipo Integrante</a>
-                        </li>
-                        
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[8-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                <a href="<?php echo site_url('estado/index');?>">
+                                    <i class="fa fa-desktop"></i> <span>Estado</span>
+                                </a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[7-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('estado_civil/index');?>">
+                                        <i class="fa fa-gavel"></i> <span>Estado Civil</span>
+                                    </a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[9-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('extencion/index');?>"><i class="fa fa-chrome"></i> Extencion</a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[18-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('tipo_credito/index');?>"><i class="fa fa-exchange"></i> Tipo Credito</a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[19-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
+                                    <a href="<?php echo site_url('tipo_integrante/index');?>"><i class="fa fa-user-circle"></i> Tipo Integrante</a>
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[15-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('multa/index');?>"><i class="fa fa-bitcoin"></i> Multa</a>
                                 </li>
-                       
-                        </ul>
-                                                    
+                                <?php
+                                }
+                                ?>
+                            </ul>
                         </li>
-						<li>
+                        <li>
                             <a href="#">
                                 <i class="fa fa-group"></i> <span>Grupo</span>
                             </a>
                             <ul class="treeview-menu">
-								
-								<li>
+                                <?php
+                                if($rolusuario[13-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li>
                                     <a href="<?php echo site_url('grupo/index');?>"><i class="fa fa-group"></i> Grupos</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[14-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('integrante/index');?>"><i class="fa fa-address-book-o"></i> Integrante</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[16-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('reunion/index');?>"><i class="fa fa-american-sign-language-interpreting"></i> Reunion</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[2-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('asistencia/index');?>"><i class="fa fa-check-square-o"></i> Asistencia</a>
-                                </li> 
-
-							</ul>
+                                </li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
                         </li>
-						<li>
+                        <li>
                             <a href="#">
                                 <i class="fa fa-lock"></i> <span>Seguridad</span>
                             </a>
                             <ul class="treeview-menu">
+                                <?php
+                                if($rolusuario[10-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('factura/index');?>"><i class="fa fa-file-text-o"></i> Factura</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[17-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li class="active">
                                     <a href="<?php echo site_url('rol');?>"><i class="fa fa-users"></i> Roles</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[20-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('tipo_usuario');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[21-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-user"></i> Usuario</a>
                                 </li>
+                                <?php
+                                }
+                                ?>
                             </ul>
                         </li>
                     </ul>
