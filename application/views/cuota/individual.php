@@ -236,7 +236,8 @@
                       <td align="center" colspan="2"><b><?php echo number_format(abs($saldos), 2, ".", ","); ?></b> Exc.</td>
                         <?php } ?>
                       
-                      <td colspan="3"></td>
+                      <td colspan="2"></td>
+                      <td><?php echo $cancelados+$saldos ?></td>
                     </tr>
 </table>
 </div>
