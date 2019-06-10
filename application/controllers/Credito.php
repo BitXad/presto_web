@@ -5,71 +5,89 @@
  */
  
 class Credito extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Credito_model');
         $this->load->model('Cuota_model');
         $this->load->model('Cliente_model');
-         $this->load->helper('numeros');
-    } 
-
+        $this->load->helper('numeros');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of credito
      */
     function index()
-    {   
-        $usuario_id = 1;
-        $data['usuario_id'] = $usuario_id;
-        $data['credito'] = $this->Credito_model->get_all_credito();
-        
-        $data['_view'] = 'credito/index';
-        $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(5)){
+            $usuario_id = $this->session_data['usuario_id'];
+            $data['usuario_id'] = $usuario_id;
+            $data['credito'] = $this->Credito_model->get_all_credito();
+
+            $data['_view'] = 'credito/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     function individual()
-    {   
-        $usuario_id = 1;
-        $data['usuario_id'] = $usuario_id;
-        $data['credito'] = $this->Credito_model->get_todo_credito();
-        $this->load->model('Tipo_credito_model');
-        $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
-        $this->load->model('Tipo_interes_model');
-        $data['all_tipo_interes'] = $this->Tipo_interes_model->get_all_tipo_interes();
-        $this->load->model('Tipo_garantia_model');
-        $data['all_tipo_garantia'] = $this->Tipo_garantia_model->get_all_tipo_garantia();
-        $data['_view'] = 'credito/individual';
-        $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(6)){
+            $usuario_id = $this->session_data['usuario_id'];
+            $data['usuario_id'] = $usuario_id;
+            $data['credito'] = $this->Credito_model->get_todo_credito();
+            $this->load->model('Tipo_credito_model');
+            $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+            $this->load->model('Tipo_interes_model');
+            $data['all_tipo_interes'] = $this->Tipo_interes_model->get_all_tipo_interes();
+            $this->load->model('Tipo_garantia_model');
+            $data['all_tipo_garantia'] = $this->Tipo_garantia_model->get_all_tipo_garantia();
+            $data['_view'] = 'credito/individual';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     function grupal()
-    {   
-        $usuario_id = 1;
-        $data['usuario_id'] = $usuario_id;
-        
-        $this->load->model('Grupo_model');
-        $data['grupo'] = $this->Grupo_model->get_grupo_para_desembolso();
-        
-        $data['credito'] = $this->Credito_model->get_todo_credito();
-        $this->load->model('Tipo_credito_model');
-        $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
-        $this->load->model('Tipo_interes_model');
-        $data['all_tipo_interes'] = $this->Tipo_interes_model->get_all_tipo_interes();
-        $this->load->model('Tipo_garantia_model');
-        $data['all_tipo_garantia'] = $this->Tipo_garantia_model->get_all_tipo_garantia();
-        $data['_view'] = 'credito/grupal';
-        $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(5)){
+            $usuario_id = $this->session_data['usuario_id'];
+            $data['usuario_id'] = $usuario_id;
+
+            $this->load->model('Grupo_model');
+            $data['grupo'] = $this->Grupo_model->get_grupo_para_desembolso();
+
+            $data['credito'] = $this->Credito_model->get_todo_credito();
+            $this->load->model('Tipo_credito_model');
+            $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+            $this->load->model('Tipo_interes_model');
+            $data['all_tipo_interes'] = $this->Tipo_interes_model->get_all_tipo_interes();
+            $this->load->model('Tipo_garantia_model');
+            $data['all_tipo_garantia'] = $this->Tipo_garantia_model->get_all_tipo_garantia();
+            $data['_view'] = 'credito/grupal';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     function creditos()
-    {   
-        
-     if ($this->input->is_ajax_request())
+    {
+        if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');
-           
             $datos = $this->Credito_model->get_buscar_credito($parametro);
-            
             echo json_encode($datos);
         }
         else
@@ -82,113 +100,100 @@ class Credito extends CI_Controller{
      * Adding a new credito
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'estado_id' => $this->input->post('estado_id'),
-				'grupo_id' => $this->input->post('grupo_id'),
-				'garantia_id' => $this->input->post('garantia_id'),
-				'usuario_id' => $this->input->post('usuario_id'),
-				'tipocredito_id' => $this->input->post('tipocredito_id'),
-				'cliente_id' => $this->input->post('cliente_id'),
-				'credito_fechainicio' => $this->input->post('credito_fechainicio'),
-				'credito_horainicio' => $this->input->post('credito_horainicio'),
-				'credito_monto' => $this->input->post('credito_monto'),
-				'credito_interes' => $this->input->post('credito_interes'),
-				'credito_cuotas' => $this->input->post('credito_cuotas'),
-				'credito_fechalimite' => $this->input->post('credito_fechalimite'),
-            );
-            
-            $credito_id = $this->Credito_model->add_credito($params);
-            redirect('credito/index');
-        }
-        else
-        {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+    {
+        if($this->acceso(5)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {
+                $params = array(
+                    'estado_id' => $this->input->post('estado_id'),
+                    'grupo_id' => $this->input->post('grupo_id'),
+                    'garantia_id' => $this->input->post('garantia_id'),
+                    'usuario_id' => $this->input->post('usuario_id'),
+                    'tipocredito_id' => $this->input->post('tipocredito_id'),
+                    'cliente_id' => $this->input->post('cliente_id'),
+                    'credito_fechainicio' => $this->input->post('credito_fechainicio'),
+                    'credito_horainicio' => $this->input->post('credito_horainicio'),
+                    'credito_monto' => $this->input->post('credito_monto'),
+                    'credito_interes' => $this->input->post('credito_interes'),
+                    'credito_cuotas' => $this->input->post('credito_cuotas'),
+                    'credito_fechalimite' => $this->input->post('credito_fechalimite'),
+                );
 
-			$this->load->model('Grupo_model');
-			$data['all_grupo'] = $this->Grupo_model->get_all_grupo();
+                $credito_id = $this->Credito_model->add_credito($params);
+                redirect('credito/index');
+            }
+            else
+            {
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_all_estado();
 
-			$this->load->model('Garantia_model');
-			$data['all_garantia'] = $this->Garantia_model->get_all_garantia();
+                $this->load->model('Grupo_model');
+                $data['all_grupo'] = $this->Grupo_model->get_all_grupo();
 
-			$this->load->model('Usuario_model');
-			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+                $this->load->model('Garantia_model');
+                $data['all_garantia'] = $this->Garantia_model->get_all_garantia();
 
-			$this->load->model('Tipo_credito_model');
-			$data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+                $this->load->model('Usuario_model');
+                $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
 
-			$this->load->model('Cliente_model');
-			$data['all_cliente'] = $this->Cliente_model->get_all_cliente();
-            
-            $data['_view'] = 'credito/add';
-            $this->load->view('layouts/main',$data);
+                $this->load->model('Tipo_credito_model');
+                $data['all_tipo_credito'] = $this->Tipo_credito_model->get_all_tipo_credito();
+
+                $this->load->model('Cliente_model');
+                $data['all_cliente'] = $this->Cliente_model->get_all_cliente();
+
+                $data['_view'] = 'credito/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
     function buscarcliente()
     {
-        
-                if ($this->input->is_ajax_request()) {       
-                    
-                    $cliente_ci = $this->input->post('cliente_ci');                    
-                    $datos = $this->Credito_model->buscar_cliente($cliente_ci);
-                    echo json_encode($datos);                        
-
-                }
-                else
-                {                 
-                            show_404();
-                }  
-        
-               
+        if ($this->input->is_ajax_request()) {
+            $cliente_ci = $this->input->post('cliente_ci');                    
+            $datos = $this->Credito_model->buscar_cliente($cliente_ci);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }      
     }
 
     function garantia_aux()
     {
-        
-                if ($this->input->is_ajax_request()) {       
-                    
-                    $cantidad = $this->input->post('cantidad');                    
-                    $descripcion = $this->input->post('descripcion');                    
-                    $precio = $this->input->post('precio');                    
-                    $usuario_id = $this->input->post('usuario_id');                    
-                    $this->Credito_model->crear_garantiaaux($cantidad,$descripcion,$precio,$usuario_id);
-                    $datos = $this->Credito_model->mostrar_garantias($usuario_id);
-                    echo json_encode($datos);                        
+        if ($this->input->is_ajax_request()) {
 
-                }
-                else
-                {                 
-                            show_404();
-                }  
-        
-               
+            $cantidad = $this->input->post('cantidad');                    
+            $descripcion = $this->input->post('descripcion');                    
+            $precio = $this->input->post('precio');                    
+            $usuario_id = $this->input->post('usuario_id');                    
+            $this->Credito_model->crear_garantiaaux($cantidad,$descripcion,$precio,$usuario_id);
+            $datos = $this->Credito_model->mostrar_garantias($usuario_id);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
     }
     function garantiacredito()
     {
-    
-
-         if ($this->input->is_ajax_request()) {  
-        $usuario_id = $this->input->post('usuario_id');
-        $datos = $this->Credito_model->mostrar_garantias($usuario_id);
-     if(isset($datos)){
-                        echo json_encode($datos);
-                    }else echo json_encode(null);
-    }
-        else
-        {                 
-                    show_404();
-        }          
-     
-    
+        if ($this->input->is_ajax_request()) {
+            $usuario_id = $this->input->post('usuario_id');
+            $datos = $this->Credito_model->mostrar_garantias($usuario_id);
+            if(isset($datos)){
+                echo json_encode($datos);
+            }else echo json_encode(null);
+        }else{                 
+            show_404();
+        }
     } 
 
     function finalizar()
     {
-        $usuario_id = 1;
+        $usuario_id = $this->session_data['usuario_id'];
         $credito_fechainicio = date("Y-m-d");
         $credito_horainicio = date("H:i:s");
         $cliente_id = $this->input->post('cliente_id');
@@ -413,7 +418,7 @@ if ($tipo_interes==2) { //interes fijo//
      * Editing a credito
      */
     function completo($credito_id)
-    {   
+    {
         $data['credito_id'] = $credito_id;
         $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
         $this->load->model('Garantia_model');
