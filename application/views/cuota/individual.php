@@ -77,7 +77,79 @@
                         <td><?php echo $c['cuota_glosa']; ?></td>
                         <td><?php echo $c['estado_descripcion']; ?></td>
                         <td>
-                        <?php if ($c['estado_id']==9){  if ($bandera==0) { ?>
+                        <?php if (($c['estado_id']==9)&&($c['cuota_monto']>$credito[0]['credito_saldo'])){  ?>
+                          <a href="#" onclick="cobrarcuota(<?php echo $c['cuota_id']; ?>)" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
+<!---------------------------------MODAL DE PAGAR------------------------->
+
+  <div class="modal fade" id="pagar<?php echo $c['cuota_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+              <font size="2"><b> <span class="btn-success" >Pagar Cuota</span></b> </font><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+        <form action="<?php echo base_url('cuota/pagar_saldo/'.$c['cuota_id']); ?>"  method="POST" class="form" > 
+              <div class="col-md-12">
+                <div class="col-md-6">
+                  <label for="cliente_nombre" class="control-label">PAGO</label>
+                <div class="form-group">
+                  <input type="hidden" name="credito" value="<?php echo $c['credito_id']; ?>" class="form-control"  />
+                  <input type="hidden" name="cuota_monto" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_monto<?php echo $c['cuota_id']; ?>" />
+                  <input type="hidden" name="cuota_interes" value="<?php echo $c['cuota_interes']; ?>" class="form-control" id="cuota_interes<?php echo $c['cuota_id']; ?>" />
+                    <input type="number" name="cuota_montocancelado" value="<?php echo $credito[0]['credito_saldo']+$c['cuota_interes']; ?>" class="form-control" id="cuota_montocancelado<?php echo $c['cuota_id']; ?>" step="any" min="0" max="<?php echo $credito[0]['credito_saldo']+$c['cuota_interes']; ?>"/>
+          
+              <input type="hidden" name="cuota_capital" value="<?php echo $c['cuota_capital']; ?>" id="cuota_capital" />
+            
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cliente_nombre" class="control-label">SALDO</label>
+                  <div class="form-group">
+                     <input type="number" name="cuota_saldocapital" value="0" class="form-control" id="cuota_saldocapital<?php echo $c['cuota_id']; ?>" step="any" />
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cuota_numrecibo" class="control-label">Numero Recibo</label>
+                  <div class="form-group">
+                    <input type="text" name="cuota_numrecibo" value="" class="form-control" id="cuota_numrecibo" />
+                    <input type="hidden" name="cuota_fechapago" value="<?php echo date('Y-m-d') ?>" class="form-control" id="cuota_fechapago" />
+                    <input type="hidden" name="cuota_horapago" value="<?php echo date('H:i:s') ?>" class="form-control" id="cuota_horapago" />
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="cuota_glosa" class="control-label">Glosa</label>
+                  <div class="form-group">
+                    <input type="text" name="cuota_glosa" value="" class="form-control" id="cuota_glosa" />
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer" align="right">
+
+            <button class="btn btn-md btn-success"  >
+              
+                <span class="fa fa-money"></span>   Cobrar  
+             
+            </button> 
+        </form>
+            <button class="btn btn-md btn-danger" data-dismiss="modal">
+            
+                <span class="fa fa-close"></span>   Cancelar  
+               
+            </button>
+                         
+        </div>
+          
+          </div>
+        </div>
+        </div>
+        <!---------------------------------FIN MODAL DE PAGAR------------------------->
+      <?php } ?>
+                        <?php if (($c['estado_id']==9)&&($c['cuota_monto']<=$credito[0]['credito_saldo'])){  if ($bandera==0) { ?>
                           <a href="#" onclick="cobrarcuota(<?php echo $c['cuota_id']; ?>)" data-toggle="modal" data-target="#pagar<?php echo $c['cuota_id']; ?>" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a> 
 <!---------------------------------MODAL DE PAGAR------------------------->
 
@@ -98,7 +170,7 @@
                 <div class="form-group">
                   <input type="hidden" name="credito" value="<?php echo $c['credito_id']; ?>" class="form-control"  />
                   <input type="hidden" name="cuota_monto<?php echo $c['cuota_id']; ?>" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_monto<?php echo $c['cuota_id']; ?>" />
-                    <input type="number" name="cuota_montocancelado" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_montocancelado<?php echo $c['cuota_id']; ?>" step="any"/>
+                    <input type="number" name="cuota_montocancelado" value="<?php echo $c['cuota_monto']; ?>" class="form-control" id="cuota_montocancelado<?php echo $c['cuota_id']; ?>" step="any" min="0" max="<?php echo $credito[0]['credito_saldo']+$c['cuota_interes']; ?>"/>
           
               <input type="hidden" name="cuota_capital" value="<?php echo $c['cuota_capital']; ?>" id="cuota_capital" />
             

@@ -210,7 +210,7 @@ function ocultar(){
                      
                      html = "";
                      html2 = "";
-                     var diff = Number(moment(limite).diff(moment(today), 'days'));
+                     var diff = Number(moment(limite).diff(moment(today), 'days'))+1;
                      if (value==1) {
 
                       document.getElementById('diaria').style.display = 'block';
@@ -234,7 +234,7 @@ function ocultar(){
                       html += "Fecha Limite Credito:";
                      
                       
-                      html2 += "<div class='input-group no-print'> <span class='input-group-addon'>Numero Cuotas:</span><input type='text' name='credito_cuotas' class='form-control' value='"+Number(diff/intervalo).toFixed(2)+"' id='credito_cuotas' readonly /></div>";
+                      html2 += "<div class='input-group no-print'> <span class='input-group-addon'>Numero Cuotas:</span><input type='text' name='credito_cuotas' class='form-control' value='"+Number(diff/intervalo).toFixed(2)+"' id='credito_cuotas' onchange='nuevafecha()' /></div>";
                       $('#credito_cuotas').val(diff/intervalo);
                       $('#cuota_parcial').val(Number(monto/diff*intervalo).toFixed(2));
                       $('#cuota_interes').val(Number((monto/diff*intervalo*suma/100)).toFixed(2));
@@ -256,3 +256,15 @@ function ocultar(){
                     
                 
       }      
+function nuevafecha(){
+  var today = new Date();
+  var devolucion = new Date();
+  var nocuotas = Number(document.getElementById('credito_cuotas').value);
+  var intervalo = Number(document.getElementById('intervalo').value);
+  var total = Number(nocuotas*intervalo);
+  var nuevafecha = moment(devolucion.setDate(today.getDate() + total+1)).format('YYYY-MM-DD');
+
+  $('#credito_fechalimite').val(nuevafecha);
+  ocultar();
+
+}     
