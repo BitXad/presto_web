@@ -5,14 +5,29 @@
  */
  
 class Cuota extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Cuota_model');
         $this->load->model('Credito_model');
         $this->load->helper('numeros');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of cuota
      */
@@ -26,39 +41,42 @@ class Cuota extends CI_Controller{
 
     function individual($credito_id)
     {
-        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
-        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
-        $data['_view'] = 'cuota/individual';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(6)){
+            $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+            $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+            $data['_view'] = 'cuota/individual';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
-     function sintiempo($credito_id)
+    function sintiempo($credito_id)
     {
-        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
-        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
-        $data['_view'] = 'cuota/sintiempo';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(6)){
+            $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+            $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+            $data['_view'] = 'cuota/sintiempo';
+            $this->load->view('layouts/main',$data);
+        }
     }
      function diario($credito_id)
     {
-        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
-        $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
-        $data['_view'] = 'cuota/diario';
-        $this->load->view('layouts/main',$data);
+         if($this->acceso(6)){
+            $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+            $data['cuota'] = $this->Cuota_model->get_all_cuotas($credito_id);
+            $data['_view'] = 'cuota/diario';
+            $this->load->view('layouts/main',$data);
+         }
     }
 
     function creditocuota($credito_id)
      {
-    
-         if ($this->input->is_ajax_request()) {  
-        $datos = $this->Cuota_model->get_all_cuotas($credito_id);
-     if(isset($datos)){
-                        echo json_encode($datos);
-                    }else echo json_encode(null);
-    }
-        else
-        {                 
-                    show_404();
+        if ($this->input->is_ajax_request()) {  
+            $datos = $this->Cuota_model->get_all_cuotas($credito_id);
+             if(isset($datos)){
+                echo json_encode($datos);
+            }else echo json_encode(null);
+        }else{                 
+            show_404();
         }          
      
     
@@ -271,11 +289,13 @@ class Cuota extends CI_Controller{
 
     function reciboindividual($credito_id,$cuota_id)
     {
-        $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
-        $data['cuota'] = $this->Cuota_model->get_cuota($cuota_id);
-       
-        $data['_view'] = 'cuota/reciboindividual';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(6)){
+            $data['credito'] = $this->Credito_model->get_este_credito($credito_id);
+            $data['cuota'] = $this->Cuota_model->get_cuota($cuota_id);
+
+            $data['_view'] = 'cuota/reciboindividual';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     
@@ -283,7 +303,7 @@ class Cuota extends CI_Controller{
      * Adding a new cuota
      */
     function add()
-    {   
+    {
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(

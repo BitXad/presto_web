@@ -5,41 +5,60 @@
  */
  
 class Tipo_integrante extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Tipo_integrante_model');
-    } 
+        $this->session_data = $this->session->userdata('logged_in');
+        if($this->session->userdata('logged_in')){
+            $this->session_data = $this->session->userdata('logged_in');
+        }else{
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
 
     /*
      * Listing of tipo_integrante
      */
     function index()
     {
-        $data['tipo_integrante'] = $this->Tipo_integrante_model->get_all_tipo_integrante();
-        
-        $data['_view'] = 'tipo_integrante/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(19)){
+            $data['tipo_integrante'] = $this->Tipo_integrante_model->get_all_tipo_integrante();
+            $data['_view'] = 'tipo_integrante/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new tipo_integrante
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'tipointeg_nombre' => $this->input->post('tipointeg_nombre'),
-            );
-            
-            $tipo_integrante_id = $this->Tipo_integrante_model->add_tipo_integrante($params);
-            redirect('tipo_integrante/index');
-        }
-        else
-        {            
-            $data['_view'] = 'tipo_integrante/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(19)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {
+                $params = array(
+                    'tipointeg_nombre' => $this->input->post('tipointeg_nombre'),
+                );
+                $tipo_integrante_id = $this->Tipo_integrante_model->add_tipo_integrante($params);
+                redirect('tipo_integrante/index');
+            }
+            else
+            {
+                $data['_view'] = 'tipo_integrante/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -47,29 +66,31 @@ class Tipo_integrante extends CI_Controller{
      * Editing a tipo_integrante
      */
     function edit($tipointeg_id)
-    {   
-        // check if the tipo_integrante exists before trying to edit it
-        $data['tipo_integrante'] = $this->Tipo_integrante_model->get_tipo_integrante($tipointeg_id);
-        
-        if(isset($data['tipo_integrante']['tipointeg_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'tipointeg_nombre' => $this->input->post('tipointeg_nombre'),
-                );
+    {
+        if($this->acceso(19)){
+            // check if the tipo_integrante exists before trying to edit it
+            $data['tipo_integrante'] = $this->Tipo_integrante_model->get_tipo_integrante($tipointeg_id);
 
-                $this->Tipo_integrante_model->update_tipo_integrante($tipointeg_id,$params);            
-                redirect('tipo_integrante/index');
+            if(isset($data['tipo_integrante']['tipointeg_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                                            'tipointeg_nombre' => $this->input->post('tipointeg_nombre'),
+                    );
+
+                    $this->Tipo_integrante_model->update_tipo_integrante($tipointeg_id,$params);            
+                    redirect('tipo_integrante/index');
+                }
+                else
+                {
+                    $data['_view'] = 'tipo_integrante/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $data['_view'] = 'tipo_integrante/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The tipo_integrante you are trying to edit does not exist.');
         }
-        else
-            show_error('The tipo_integrante you are trying to edit does not exist.');
     } 
 
     /*
@@ -77,16 +98,17 @@ class Tipo_integrante extends CI_Controller{
      */
     function remove($tipointeg_id)
     {
-        $tipo_integrante = $this->Tipo_integrante_model->get_tipo_integrante($tipointeg_id);
-
-        // check if the tipo_integrante exists before trying to delete it
-        if(isset($tipo_integrante['tipointeg_id']))
-        {
-            $this->Tipo_integrante_model->delete_tipo_integrante($tipointeg_id);
-            redirect('tipo_integrante/index');
+        if($this->acceso(19)){
+            $tipo_integrante = $this->Tipo_integrante_model->get_tipo_integrante($tipointeg_id);
+            // check if the tipo_integrante exists before trying to delete it
+            if(isset($tipo_integrante['tipointeg_id']))
+            {
+                $this->Tipo_integrante_model->delete_tipo_integrante($tipointeg_id);
+                redirect('tipo_integrante/index');
+            }
+            else
+                show_error('The tipo_integrante you are trying to delete does not exist.');
         }
-        else
-            show_error('The tipo_integrante you are trying to delete does not exist.');
     }
     
 }

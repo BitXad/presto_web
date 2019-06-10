@@ -5,40 +5,59 @@
  */
  
 class Extencion extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Extencion_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of extencion
      */
     function index()
     {
-        $data['extencion'] = $this->Extencion_model->get_all_extencion();
-        
-        $data['_view'] = 'extencion/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(9)){
+            $data['extencion'] = $this->Extencion_model->get_all_extencion();
+
+            $data['_view'] = 'extencion/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new extencion
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-            );
-            
-            $extencion_id = $this->Extencion_model->add_extencion($params);
-            redirect('extencion/index');
-        }
-        else
-        {            
-            $data['_view'] = 'extencion/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(9)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                );
+
+                $extencion_id = $this->Extencion_model->add_extencion($params);
+                redirect('extencion/index');
+            }
+            else
+            {            
+                $data['_view'] = 'extencion/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -46,28 +65,30 @@ class Extencion extends CI_Controller{
      * Editing a extencion
      */
     function edit($cliente_extencionci)
-    {   
-        // check if the extencion exists before trying to edit it
-        $data['extencion'] = $this->Extencion_model->get_extencion($cliente_extencionci);
-        
-        if(isset($data['extencion']['cliente_extencionci']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-                );
+    {
+        if($this->acceso(9)){
+            // check if the extencion exists before trying to edit it
+            $data['extencion'] = $this->Extencion_model->get_extencion($cliente_extencionci);
 
-                $this->Extencion_model->update_extencion($cliente_extencionci,$params);            
-                redirect('extencion/index');
+            if(isset($data['extencion']['cliente_extencionci']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                    );
+
+                    $this->Extencion_model->update_extencion($cliente_extencionci,$params);            
+                    redirect('extencion/index');
+                }
+                else
+                {
+                    $data['_view'] = 'extencion/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $data['_view'] = 'extencion/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The extencion you are trying to edit does not exist.');
         }
-        else
-            show_error('The extencion you are trying to edit does not exist.');
     } 
 
     /*
@@ -75,16 +96,17 @@ class Extencion extends CI_Controller{
      */
     function remove($cliente_extencionci)
     {
-        $extencion = $this->Extencion_model->get_extencion($cliente_extencionci);
-
-        // check if the extencion exists before trying to delete it
-        if(isset($extencion['cliente_extencionci']))
-        {
-            $this->Extencion_model->delete_extencion($cliente_extencionci);
-            redirect('extencion/index');
+        if($this->acceso(9)){
+            $extencion = $this->Extencion_model->get_extencion($cliente_extencionci);
+            // check if the extencion exists before trying to delete it
+            if(isset($extencion['cliente_extencionci']))
+            {
+                $this->Extencion_model->delete_extencion($cliente_extencionci);
+                redirect('extencion/index');
+            }
+            else
+                show_error('The extencion you are trying to delete does not exist.');
         }
-        else
-            show_error('The extencion you are trying to delete does not exist.');
     }
     
 }

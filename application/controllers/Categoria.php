@@ -5,41 +5,60 @@
  */
  
 class Categoria extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Categoria_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of categoria
      */
     function index()
     {
-        $data['categoria'] = $this->Categoria_model->get_all_categoria();
-        
-        $data['_view'] = 'categoria/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(3)){
+            $data['categoria'] = $this->Categoria_model->get_all_categoria();
+
+            $data['_view'] = 'categoria/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new categoria
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'categoria_nombre' => $this->input->post('categoria_nombre'),
-            );
-            
-            $categoria_id = $this->Categoria_model->add_categoria($params);
-            redirect('categoria/index');
-        }
-        else
-        {            
-            $data['_view'] = 'categoria/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(3)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                    'categoria_nombre' => $this->input->post('categoria_nombre'),
+                );
+
+                $categoria_id = $this->Categoria_model->add_categoria($params);
+                redirect('categoria/index');
+            }
+            else
+            {            
+                $data['_view'] = 'categoria/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -47,28 +66,30 @@ class Categoria extends CI_Controller{
      * Editing a categoria
      */
     function edit($categoria_id)
-    {   
-        // check if the categoria exists before trying to edit it
-        $data['categoria'] = $this->Categoria_model->get_categoria($categoria_id);
-        
-        if(isset($data['categoria']['categoria_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'categoria_nombre' => $this->input->post('categoria_nombre'),
-                );
+    {
+        if($this->acceso(3)){
+            // check if the categoria exists before trying to edit it
+            $data['categoria'] = $this->Categoria_model->get_categoria($categoria_id);
 
-                $this->Categoria_model->update_categoria($categoria_id,$params);            
-                redirect('categoria/index');
+            if(isset($data['categoria']['categoria_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'categoria_nombre' => $this->input->post('categoria_nombre'),
+                    );
+
+                    $this->Categoria_model->update_categoria($categoria_id,$params);            
+                    redirect('categoria/index');
+                }
+                else
+                {
+                    $data['_view'] = 'categoria/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $data['_view'] = 'categoria/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The categoria you are trying to edit does not exist.');
         }
-        else
-            show_error('The categoria you are trying to edit does not exist.');
     }
 }

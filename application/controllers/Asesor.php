@@ -5,207 +5,116 @@
  */
  
 class Asesor extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Asesor_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of asesor
      */
     function index()
     {
-        $data['asesor'] = $this->Asesor_model->get_all_asesor();
-        
-        $data['_view'] = 'asesor/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(1)){
+            $data['asesor'] = $this->Asesor_model->get_all_asesor();
+
+            $data['_view'] = 'asesor/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new asesor
      */
     function add()
-    {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('asesor_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        $this->form_validation->set_rules('asesor_apellido','Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-
-        if($this->form_validation->run())     
-        {
-            $nombre = $this->input->post('asesor_nombre');
-            $apellido = $this->input->post('asesor_apellido');
-            $resultado = $this->Asesor_model->es_asesor_registrado($nombre, $apellido);
-            if($resultado > 0){
-                $data['resultado'] = 1;
-                $data['_view'] = 'asesor/add';
-                $this->load->view('layouts/main',$data);
-            }else{
-                /* *********************INICIO imagen***************************** */
-                $foto="";
-                if (!empty($_FILES['asesor_foto']['name'])){
-                        $this->load->library('image_lib');
-                        $config['upload_path'] = './resources/images/asesores/';
-                        $img_full_path = $config['upload_path'];
-
-                        $config['allowed_types'] = 'gif|jpeg|jpg|png';
-                        $config['max_size'] = 0;
-                        $config['max_width'] = 8900;
-                        $config['max_height'] = 8900;
-                        
-                        $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
-                        $config['file_name'] = $new_name; //.$extencion;
-                        $config['file_ext_tolower'] = TRUE;
-
-                        $this->load->library('upload', $config);
-                        $this->upload->do_upload('asesor_foto');
-
-                        $img_data = $this->upload->data();
-                        $extension = $img_data['file_ext'];
-                        /* ********************INICIO para resize***************************** */
-                        if ($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
-                            $conf['image_library'] = 'gd2';
-                            $conf['source_image'] = $img_data['full_path'];
-                            $conf['new_image'] = './resources/images/asesores/';
-                            $conf['maintain_ratio'] = TRUE;
-                            $conf['create_thumb'] = FALSE;
-                            $conf['width'] = 800;
-                            $conf['height'] = 600;
-                            $this->image_lib->clear();
-                            $this->image_lib->initialize($conf);
-                            if(!$this->image_lib->resize()){
-                                echo $this->image_lib->display_errors('','');
-                            }
-                        }
-                        /* ********************F I N  para resize***************************** */
-                        $confi['image_library'] = 'gd2';
-                        $confi['source_image'] = './resources/images/asesores/'.$new_name.$extension;
-                        $confi['new_image'] = './resources/images/asesores/'."thumb_".$new_name.$extension;
-                        $confi['maintain_ratio'] = TRUE;
-                        $confi['create_thumb'] = FALSE;
-                        $confi['width'] = 50;
-                        $confi['height'] = 50;
-
-                        $this->image_lib->clear();
-                        $this->image_lib->initialize($confi);
-                        $this->image_lib->resize();
-
-                        $foto = $new_name.$extension;
-                    }
-            /* *********************FIN imagen***************************** */
-            
-            $estado_id = 1;
-            $params = array(
-				'estado_id' => $estado_id,
-				'asesor_nombre' => $this->input->post('asesor_nombre'),
-				'asesor_apellido' => $this->input->post('asesor_apellido'),
-				'asesor_ci' => $this->input->post('asesor_ci'),
-				'asesor_telefono' => $this->input->post('asesor_telefono'),
-				'asesor_celular' => $this->input->post('asesor_celular'),
-				'asesor_latitud' => $this->input->post('asesor_latitud'),
-				'asesor_longitud' => $this->input->post('asesor_longitud'),
-				'asesor_foto' => $foto,
-				'asesor_fechanac' => $this->input->post('asesor_fechanac'),
-				'asesor_profesion' => $this->input->post('asesor_profesion'),
-				'asesor_especialidad' => $this->input->post('asesor_especialidad'),
-            );
-            
-            $asesor_id = $this->Asesor_model->add_asesor($params);
-            redirect('asesor/index');
-            }
-        }
-        else
-        {
-            $data['resultado'] = 0;
-            $data['_view'] = 'asesor/add';
-            $this->load->view('layouts/main',$data);
-        }
-    }  
-
-    /*
-     * Editing a asesor
-     */
-    function edit($asesor_id)
-    {   
-        // check if the asesor exists before trying to edit it
-        $data['asesor'] = $this->Asesor_model->get_asesor($asesor_id);
-        
-        if(isset($data['asesor']['asesor_id']))
-        {
+    {
+        if($this->acceso(1)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('asesor_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
             $this->form_validation->set_rules('asesor_apellido','Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
 
             if($this->form_validation->run())     
             {
-                /* *********************INICIO imagen***************************** */
-                $foto="";
-                $foto1= $this->input->post('asesor_foto1');
-                if (!empty($_FILES['asesor_foto']['name']))
-                {
-                    $config['upload_path'] = './resources/images/asesores/';
-                    $config['allowed_types'] = 'gif|jpeg|jpg|png';
-                    $config['max_size'] = 0;
-                    $config['max_width'] = 8900;
-                    $config['max_height'] = 8900;
-
-                    $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
-                    $config['file_name'] = $new_name; //.$extencion;
-                    $config['file_ext_tolower'] = TRUE;
-                    
-                    $this->load->library('image_lib');
-                    $this->image_lib->initialize($config);
-                    
-                    $this->load->library('upload', $config);
-                    $this->upload->do_upload('asesor_foto');
-
-                    $img_data = $this->upload->data();
-                    $extension = $img_data['file_ext'];
-                    /* ********************INICIO para resize***************************** */
-                    if($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
-                        $conf['image_library'] = 'gd2';
-                        $conf['source_image'] = $img_data['full_path'];
-                        $conf['new_image'] = './resources/images/asesores/';
-                        $conf['maintain_ratio'] = TRUE;
-                        $conf['create_thumb'] = FALSE;
-                        $conf['width'] = 800;
-                        $conf['height'] = 600;
-                        
-                        $this->image_lib->initialize($conf);
-                        if(!$this->image_lib->resize()){
-                            echo $this->image_lib->display_errors('','');
-                        }
-                        $this->image_lib->clear();
-                    }
-                    /* ********************F I N  para resize***************************** */
-                    //$directorio = base_url().'resources/imagenes/';
-                    $directorio = $_SERVER['DOCUMENT_ROOT'].'/presto_web/resources/images/asesores/';
-                    if(isset($foto1) && !empty($foto1)){
-                      if(file_exists($directorio.$foto1)){
-                          unlink($directorio.$foto1);
-                          $mimagenthumb = "thumb_".$foto1;
-                          unlink($directorio.$mimagenthumb);
-                      }
-                  }
-                    $confi['image_library'] = 'gd2';
-                    $confi['source_image'] = './resources/images/asesores/'.$new_name.$extension;
-                    $confi['new_image'] = './resources/images/asesores/'."thumb_".$new_name.$extension;
-                    $confi['maintain_ratio'] = TRUE;
-                    $confi['create_thumb'] = FALSE;
-                    $confi['width'] = 50;
-                    $confi['height'] = 50;
-
-                    $this->image_lib->clear();
-                    $this->image_lib->initialize($confi);
-                    $this->image_lib->resize();
-
-                    $foto = $new_name.$extension;
+                $nombre = $this->input->post('asesor_nombre');
+                $apellido = $this->input->post('asesor_apellido');
+                $resultado = $this->Asesor_model->es_asesor_registrado($nombre, $apellido);
+                if($resultado > 0){
+                    $data['resultado'] = 1;
+                    $data['_view'] = 'asesor/add';
+                    $this->load->view('layouts/main',$data);
                 }else{
-                    $foto = $foto1;
-                }
-            /* *********************FIN imagen***************************** */
+                    /* *********************INICIO imagen***************************** */
+                    $foto="";
+                    if (!empty($_FILES['asesor_foto']['name'])){
+                            $this->load->library('image_lib');
+                            $config['upload_path'] = './resources/images/asesores/';
+                            $img_full_path = $config['upload_path'];
+
+                            $config['allowed_types'] = 'gif|jpeg|jpg|png';
+                            $config['max_size'] = 0;
+                            $config['max_width'] = 8900;
+                            $config['max_height'] = 8900;
+
+                            $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
+                            $config['file_name'] = $new_name; //.$extencion;
+                            $config['file_ext_tolower'] = TRUE;
+
+                            $this->load->library('upload', $config);
+                            $this->upload->do_upload('asesor_foto');
+
+                            $img_data = $this->upload->data();
+                            $extension = $img_data['file_ext'];
+                            /* ********************INICIO para resize***************************** */
+                            if ($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
+                                $conf['image_library'] = 'gd2';
+                                $conf['source_image'] = $img_data['full_path'];
+                                $conf['new_image'] = './resources/images/asesores/';
+                                $conf['maintain_ratio'] = TRUE;
+                                $conf['create_thumb'] = FALSE;
+                                $conf['width'] = 800;
+                                $conf['height'] = 600;
+                                $this->image_lib->clear();
+                                $this->image_lib->initialize($conf);
+                                if(!$this->image_lib->resize()){
+                                    echo $this->image_lib->display_errors('','');
+                                }
+                            }
+                            /* ********************F I N  para resize***************************** */
+                            $confi['image_library'] = 'gd2';
+                            $confi['source_image'] = './resources/images/asesores/'.$new_name.$extension;
+                            $confi['new_image'] = './resources/images/asesores/'."thumb_".$new_name.$extension;
+                            $confi['maintain_ratio'] = TRUE;
+                            $confi['create_thumb'] = FALSE;
+                            $confi['width'] = 50;
+                            $confi['height'] = 50;
+
+                            $this->image_lib->clear();
+                            $this->image_lib->initialize($confi);
+                            $this->image_lib->resize();
+
+                            $foto = $new_name.$extension;
+                        }
+                /* *********************FIN imagen***************************** */
+
+                $estado_id = 1;
                 $params = array(
-                    'estado_id' => $this->input->post('estado_id'),
+                    'estado_id' => $estado_id,
                     'asesor_nombre' => $this->input->post('asesor_nombre'),
                     'asesor_apellido' => $this->input->post('asesor_apellido'),
                     'asesor_ci' => $this->input->post('asesor_ci'),
@@ -219,19 +128,131 @@ class Asesor extends CI_Controller{
                     'asesor_especialidad' => $this->input->post('asesor_especialidad'),
                 );
 
-                $this->Asesor_model->update_asesor($asesor_id,$params);            
+                $asesor_id = $this->Asesor_model->add_asesor($params);
                 redirect('asesor/index');
+                }
             }
             else
             {
-                $this->load->model('Estado_model');
-                $data['all_estado'] = $this->Estado_model->get_all_estado();
-
-                $data['_view'] = 'asesor/edit';
+                $data['resultado'] = 0;
+                $data['_view'] = 'asesor/add';
                 $this->load->view('layouts/main',$data);
             }
         }
-        else
-            show_error('The asesor you are trying to edit does not exist.');
+    }  
+
+    /*
+     * Editing a asesor
+     */
+    function edit($asesor_id)
+    {
+        if($this->acceso(1)){
+            // check if the asesor exists before trying to edit it
+            $data['asesor'] = $this->Asesor_model->get_asesor($asesor_id);
+
+            if(isset($data['asesor']['asesor_id']))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('asesor_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('asesor_apellido','Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+
+                if($this->form_validation->run())     
+                {
+                    /* *********************INICIO imagen***************************** */
+                    $foto="";
+                    $foto1= $this->input->post('asesor_foto1');
+                    if (!empty($_FILES['asesor_foto']['name']))
+                    {
+                        $config['upload_path'] = './resources/images/asesores/';
+                        $config['allowed_types'] = 'gif|jpeg|jpg|png';
+                        $config['max_size'] = 0;
+                        $config['max_width'] = 8900;
+                        $config['max_height'] = 8900;
+
+                        $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
+                        $config['file_name'] = $new_name; //.$extencion;
+                        $config['file_ext_tolower'] = TRUE;
+
+                        $this->load->library('image_lib');
+                        $this->image_lib->initialize($config);
+
+                        $this->load->library('upload', $config);
+                        $this->upload->do_upload('asesor_foto');
+
+                        $img_data = $this->upload->data();
+                        $extension = $img_data['file_ext'];
+                        /* ********************INICIO para resize***************************** */
+                        if($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
+                            $conf['image_library'] = 'gd2';
+                            $conf['source_image'] = $img_data['full_path'];
+                            $conf['new_image'] = './resources/images/asesores/';
+                            $conf['maintain_ratio'] = TRUE;
+                            $conf['create_thumb'] = FALSE;
+                            $conf['width'] = 800;
+                            $conf['height'] = 600;
+
+                            $this->image_lib->initialize($conf);
+                            if(!$this->image_lib->resize()){
+                                echo $this->image_lib->display_errors('','');
+                            }
+                            $this->image_lib->clear();
+                        }
+                        /* ********************F I N  para resize***************************** */
+                        //$directorio = base_url().'resources/imagenes/';
+                        $directorio = $_SERVER['DOCUMENT_ROOT'].'/presto_web/resources/images/asesores/';
+                        if(isset($foto1) && !empty($foto1)){
+                          if(file_exists($directorio.$foto1)){
+                              unlink($directorio.$foto1);
+                              $mimagenthumb = "thumb_".$foto1;
+                              unlink($directorio.$mimagenthumb);
+                          }
+                      }
+                        $confi['image_library'] = 'gd2';
+                        $confi['source_image'] = './resources/images/asesores/'.$new_name.$extension;
+                        $confi['new_image'] = './resources/images/asesores/'."thumb_".$new_name.$extension;
+                        $confi['maintain_ratio'] = TRUE;
+                        $confi['create_thumb'] = FALSE;
+                        $confi['width'] = 50;
+                        $confi['height'] = 50;
+
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($confi);
+                        $this->image_lib->resize();
+
+                        $foto = $new_name.$extension;
+                    }else{
+                        $foto = $foto1;
+                    }
+                /* *********************FIN imagen***************************** */
+                    $params = array(
+                        'estado_id' => $this->input->post('estado_id'),
+                        'asesor_nombre' => $this->input->post('asesor_nombre'),
+                        'asesor_apellido' => $this->input->post('asesor_apellido'),
+                        'asesor_ci' => $this->input->post('asesor_ci'),
+                        'asesor_telefono' => $this->input->post('asesor_telefono'),
+                        'asesor_celular' => $this->input->post('asesor_celular'),
+                        'asesor_latitud' => $this->input->post('asesor_latitud'),
+                        'asesor_longitud' => $this->input->post('asesor_longitud'),
+                        'asesor_foto' => $foto,
+                        'asesor_fechanac' => $this->input->post('asesor_fechanac'),
+                        'asesor_profesion' => $this->input->post('asesor_profesion'),
+                        'asesor_especialidad' => $this->input->post('asesor_especialidad'),
+                    );
+
+                    $this->Asesor_model->update_asesor($asesor_id,$params);            
+                    redirect('asesor/index');
+                }
+                else
+                {
+                    $this->load->model('Estado_model');
+                    $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+                    $data['_view'] = 'asesor/edit';
+                    $this->load->view('layouts/main',$data);
+                }
+            }
+            else
+                show_error('The asesor you are trying to edit does not exist.');
+        }
     }
 }

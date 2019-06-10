@@ -5,48 +5,67 @@
  */
  
 class Asistencia extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Asistencia_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of asistencia
      */
     function index()
     {
-        $data['asistencia'] = $this->Asistencia_model->get_all_asistencia();
-        
-        $data['_view'] = 'asistencia/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(2)){
+            $data['asistencia'] = $this->Asistencia_model->get_all_asistencia();
+
+            $data['_view'] = 'asistencia/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new asistencia
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'reunion_id' => $this->input->post('reunion_id'),
-				'aistencia_fecha' => $this->input->post('aistencia_fecha'),
-				'aistencia_hora' => $this->input->post('aistencia_hora'),
-				'aistencia_registro' => $this->input->post('aistencia_registro'),
-				'asistencia_observacion' => $this->input->post('asistencia_observacion'),
-            );
-            
-            $asistencia_id = $this->Asistencia_model->add_asistencia($params);
-            redirect('asistencia/index');
-        }
-        else
-        {
-			$this->load->model('Reunion_model');
-			$data['all_reunion'] = $this->Reunion_model->get_all_reunion();
-            
-            $data['_view'] = 'asistencia/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(2)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                    'reunion_id' => $this->input->post('reunion_id'),
+                    'aistencia_fecha' => $this->input->post('aistencia_fecha'),
+                    'aistencia_hora' => $this->input->post('aistencia_hora'),
+                    'aistencia_registro' => $this->input->post('aistencia_registro'),
+                    'asistencia_observacion' => $this->input->post('asistencia_observacion'),
+                );
+
+                $asistencia_id = $this->Asistencia_model->add_asistencia($params);
+                redirect('asistencia/index');
+            }
+            else
+            {
+                $this->load->model('Reunion_model');
+                $data['all_reunion'] = $this->Reunion_model->get_all_reunion();
+
+                $data['_view'] = 'asistencia/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -54,36 +73,37 @@ class Asistencia extends CI_Controller{
      * Editing a asistencia
      */
     function edit($aistencia_id)
-    {   
-        // check if the asistencia exists before trying to edit it
-        $data['asistencia'] = $this->Asistencia_model->get_asistencia($aistencia_id);
-        
-        if(isset($data['asistencia']['aistencia_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'reunion_id' => $this->input->post('reunion_id'),
-					'aistencia_fecha' => $this->input->post('aistencia_fecha'),
-					'aistencia_hora' => $this->input->post('aistencia_hora'),
-					'aistencia_registro' => $this->input->post('aistencia_registro'),
-					'asistencia_observacion' => $this->input->post('asistencia_observacion'),
-                );
+    {
+        if($this->acceso(2)){
+            // check if the asistencia exists before trying to edit it
+            $data['asistencia'] = $this->Asistencia_model->get_asistencia($aistencia_id);
+            if(isset($data['asistencia']['aistencia_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'reunion_id' => $this->input->post('reunion_id'),
+                        'aistencia_fecha' => $this->input->post('aistencia_fecha'),
+                        'aistencia_hora' => $this->input->post('aistencia_hora'),
+                        'aistencia_registro' => $this->input->post('aistencia_registro'),
+                        'asistencia_observacion' => $this->input->post('asistencia_observacion'),
+                    );
 
-                $this->Asistencia_model->update_asistencia($aistencia_id,$params);            
-                redirect('asistencia/index');
+                    $this->Asistencia_model->update_asistencia($aistencia_id,$params);            
+                    redirect('asistencia/index');
+                }
+                else
+                {
+                    $this->load->model('Reunion_model');
+                    $data['all_reunion'] = $this->Reunion_model->get_all_reunion();
+
+                    $data['_view'] = 'asistencia/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-				$this->load->model('Reunion_model');
-				$data['all_reunion'] = $this->Reunion_model->get_all_reunion();
-
-                $data['_view'] = 'asistencia/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The asistencia you are trying to edit does not exist.');
         }
-        else
-            show_error('The asistencia you are trying to edit does not exist.');
     } 
 
     /*
@@ -91,16 +111,17 @@ class Asistencia extends CI_Controller{
      */
     function remove($aistencia_id)
     {
-        $asistencia = $this->Asistencia_model->get_asistencia($aistencia_id);
-
-        // check if the asistencia exists before trying to delete it
-        if(isset($asistencia['aistencia_id']))
-        {
-            $this->Asistencia_model->delete_asistencia($aistencia_id);
-            redirect('asistencia/index');
+        if($this->acceso(2)){
+            $asistencia = $this->Asistencia_model->get_asistencia($aistencia_id);
+            // check if the asistencia exists before trying to delete it
+            if(isset($asistencia['aistencia_id']))
+            {
+                $this->Asistencia_model->delete_asistencia($aistencia_id);
+                redirect('asistencia/index');
+            }
+            else
+                show_error('The asistencia you are trying to delete does not exist.');
         }
-        else
-            show_error('The asistencia you are trying to delete does not exist.');
     }
     
 }
