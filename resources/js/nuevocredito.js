@@ -210,7 +210,7 @@ function ocultar(){
                      
                      html = "";
                      html2 = "";
-                     var diff = Number(moment(limite).diff(moment(today), 'days'))+1;
+                     var diff = Number(moment(limite).diff(moment(today), 'days')+1);
                      if (value==1) {
 
                       document.getElementById('diaria').style.display = 'block';
@@ -262,7 +262,7 @@ function nuevafecha(){
   var nocuotas = Number(document.getElementById('credito_cuotas').value);
   var intervalo = Number(document.getElementById('intervalo').value);
   var total = Number(nocuotas*intervalo);
-  var nuevafecha = moment(devolucion.setDate(today.getDate() + total+1)).format('YYYY-MM-DD');
+  var nuevafecha = moment(devolucion.setDate(today.getDate() + total)).format('YYYY-MM-DD');
 
   $('#credito_fechalimite').val(nuevafecha);
   ocultar();
