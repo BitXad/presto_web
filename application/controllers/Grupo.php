@@ -182,7 +182,7 @@ class Grupo extends CI_Controller{
                 }
                 else
                 {
-                    $this->load->model('Grupo_model');
+                    //$this->load->model('Grupo_model');
                     $data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
 
                     $this->load->model('Cliente_model');
@@ -222,11 +222,69 @@ class Grupo extends CI_Controller{
     }
 
     /*
-     * Deleting grupo
+     * Agregando integrantes al grupo JSON
      */
     function agregar_integrante()
     {
-        if($this->acceso(13)){
+        //if($this->acceso(13)){
+            if ($this->input->is_ajax_request()) {
+                //$this->load->model('Cliente_model');
+                
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('cliente_id','Cliente','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('integrante_monto','Monto','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())
+                {
+                    $cliente_id = $this->input->post('cliente_id');
+                    $integrante_cargo = $this->input->post('integrante_cargo');
+                    $integrante_monto = $this->input->post('integrante_monto');
+                    $grupo_id    = $this->input->post('grupo_id');
+                    $grupo_monto = $this->input->post('grupo_monto');
+                    
+                    $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
+                    //$this->load->model('Cliente_model');
+                    $this->load->model('Integrante_model');
+                    $num_integrantes = $this->Integrante_model->get_numintegrantes_grupo($grupo_id);
+                    
+                    $existe_integrante = $this->Integrante_model->get_existeintegrante($grupo_id, $cliente_id);
+                    if($existe_integrante == 0){
+                        $num_integrantes = $this->Integrante_model->get_numintegrantes_grupo($grupo_id);
+                        if($num_integrantes < $this_grupo['grupo_integrantes']){
+                            $suma_monto = $this->Integrante_model->get_montototal_grupo($grupo_id);
+                            $totalmonto = $suma_monto+$integrante_monto;
+                            if(($suma_monto+$integrante_monto) <= $grupo_monto){
+                                $integrante_fechareg =  date('Y-m-d');
+                                $integrante_horareg =  date('H-i-s');
+                                $params = array(
+                                        'cliente_id' => $cliente_id,
+                                        'grupo_id'   => $grupo_id,
+                                        'integrante_fechareg' => $integrante_fechareg,
+                                        'integrante_horareg'  => $integrante_horareg,
+                                        'integrante_cargo'    => $integrante_cargo,
+                                        'integrante_montosolicitado' => $integrante_monto,
+                                        );
+                                $integrante_id = $this->Integrante_model->add_integrante($params);
+                                
+                                //$datos = $this->Cliente_model->get_all_integrantes($grupo_id);
+                                echo json_encode("ok");
+                            }else{
+                                echo json_encode("monto_excedido");
+                            }
+                        }else{
+                            echo json_encode("grupo_lleno");
+                        }
+                    }else{
+                        echo json_encode("existe_integrante");
+                    }
+                }else{
+                    echo json_encode(null);
+                }
+            }
+            else
+            {                 
+                show_404();
+            }
+        /*
             $grupo_id = $this->input->post('grupo_id');
             $cliente_id = $this->input->post('cliente_id');
             $integrante_cargo = $this->input->post('integrante_cargo');
@@ -234,8 +292,8 @@ class Grupo extends CI_Controller{
 
             // check if the grupo exists before trying to delete it
             $this->Grupo_model->agregar_integrante_grupo($grupo_id,$cliente_id,$integrante_cargo,$integrante_montosolicitado);
-            redirect('grupo/integrantes/'.$grupo_id);
-        }
+            redirect('grupo/integrantes/'.$grupo_id);*/
+        //}
     }
     
     /*
@@ -249,5 +307,42 @@ class Grupo extends CI_Controller{
     
     }
     
+    /* * añadir nuevo cliente */
+    function aniadir_newcliente()
+    {
+        //if($this->acceso(103)) {
+            if ($this->input->is_ajax_request()) {
+                $this->load->model('Cliente_model');
+                $cliente_nombre = $this->input->post('cliente_nombre');
+                $cliente_apellido = $this->input->post('cliente_apellido');
+                $resultado = $this->Cliente_model->es_cliente_registrado($cliente_nombre, $cliente_apellido);
+                
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('cliente_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('cliente_apellido','Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())     
+                {
+                    if($resultado == 0){
+                        $params = array(
+                        'cliente_nombre' => $cliente_nombre,
+                        'cliente_apellido' => $cliente_apellido,
+
+                        );
+                        $cliente_id = $this->Cliente_model->add_cliente($params);
+                        $datos = $this->Cliente_model->get_cliente($cliente_id);
+                        echo json_encode($datos);
+                    }else{
+                        echo json_encode("existe");
+                    }
+                }else{
+                    echo json_encode(null);
+                }
+            }
+            else
+            {                 
+                show_404();
+            }
+        //}
+    }
     
 }

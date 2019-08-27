@@ -18,13 +18,14 @@ class Grupo_model extends CI_Model
     {
         $grupo = $this->db->query("
             SELECT
-                *
+                g.*, a.asesor_nombre, a.asesor_apellido
 
             FROM
-                `grupo`
+                grupo g
+			LEFT JOIN asesor a on g.asesor_id = a.asesor_id
 
             WHERE
-                `grupo_id` = ?
+                g.grupo_id = ?
         ",array($grupo_id))->row_array();
 
         return $grupo;
