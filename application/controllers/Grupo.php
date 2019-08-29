@@ -49,7 +49,9 @@ class Grupo extends CI_Controller{
             $usuario_id = 1;
             $estado_id = 5;
             if(isset($_POST) && count($_POST) > 0)     
-            {   
+            {
+                date_default_timezone_set('America/La_Paz');
+                $grupo_fechahora = date("Y-m-d H:i:s");
                 $params = array(
                     'asesor_id' => $this->input->post('asesor_id'),
                     'usuario_id' => $usuario_id,
@@ -65,11 +67,14 @@ class Grupo extends CI_Controller{
                     'grupo_municipio' => $this->input->post('grupo_municipio'),
                     'grupo_provincia' => $this->input->post('grupo_provincia'),
                     'grupo_zona' => $this->input->post('grupo_zona'),
-                    'grupo_fechahora' => $this->input->post('grupo_fechahora'),
+                    'grupo_fechahora' => $grupo_fechahora,
                     'grupo_multafalta' => $this->input->post('grupo_multafalta'),
                     'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
                     'grupo_ahorro' => $this->input->post('grupo_ahorro'),
                     'grupo_cuotas' => $this->input->post('grupo_cuotas'),
+                    'grupo_diareunion' => $this->input->post('grupo_diareunion'),
+                    'grupo_horareunion' => $this->input->post('grupo_horareunion'),
+                    'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
                 );
 
                 $grupo_id = $this->Grupo_model->add_grupo($params);
@@ -105,7 +110,7 @@ class Grupo extends CI_Controller{
             if(isset($data['grupo']['grupo_id']))
             {
                 if(isset($_POST) && count($_POST) > 0)     
-                {   
+                {
                     $params = array(
                         'asesor_id' => $this->input->post('asesor_id'),
                         'usuario_id' => $this->input->post('usuario_id'),
@@ -121,12 +126,15 @@ class Grupo extends CI_Controller{
                         'grupo_municipio' => $this->input->post('grupo_municipio'),
                         'grupo_provincia' => $this->input->post('grupo_provincia'),
                         'grupo_zona' => $this->input->post('grupo_zona'),
-                        'grupo_fechahora' => $this->input->post('grupo_fechahora'),
+                        //'grupo_fechahora' => $this->input->post('grupo_fechahora'),
                         'grupo_multafalta' => $this->input->post('grupo_multafalta'),
                         'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
                         'grupo_ahorro' => $this->input->post('grupo_ahorro'),
                         'grupo_cuotas' => $this->input->post('grupo_cuotas'),
-
+                        'grupo_diareunion' => $this->input->post('grupo_diareunion'),
+                        'grupo_horareunion' => $this->input->post('grupo_horareunion'),
+                        'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
+                         
                     );
 
                     $this->Grupo_model->update_grupo($grupo_id,$params);            
@@ -345,4 +353,61 @@ class Grupo extends CI_Controller{
         //}
     }
     
+    /*
+     * Adding a new grupo
+     */
+    function add_new($grupo_id)
+    {
+        //if($this->acceso(13)){
+            $usuario_id = 1;
+            $estado_id = 5;
+            $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
+            
+            date_default_timezone_set('America/La_Paz');
+            $grupo_fechahora = date("Y-m-d H:i:s");
+            $params = array(
+                'asesor_id' => $this_grupo['asesor_id'],
+                'usuario_id' => $usuario_id,
+                'estado_id' => $estado_id,
+                'grupo_fecha' => $this_grupo['grupo_fecha'],
+                'grupo_hora' => $this_grupo['grupo_hora'],
+                'grupo_nombre' => $this_grupo['grupo_nombre'],
+                'grupo_codigo' => $this_grupo['grupo_codigo'],
+                'grupo_iniciosolicitud' => $this_grupo['grupo_iniciosolicitud'],
+                'grupo_monto' => $this_grupo['grupo_monto'],
+                'grupo_integrantes' => $this_grupo['grupo_integrantes'],
+                'grupo_departamento' => $this_grupo['grupo_departamento'],
+                'grupo_municipio' => $this_grupo['grupo_municipio'],
+                'grupo_provincia' => $this_grupo['grupo_provincia'],
+                'grupo_zona' => $this_grupo['grupo_zona'],
+                'grupo_fechahora' => $grupo_fechahora,
+                'grupo_multafalta' => $this_grupo['grupo_multafalta'],
+                'grupo_multaretraso' => $this_grupo['grupo_multaretraso'],
+                'grupo_ahorro' => $this_grupo['grupo_ahorro'],
+                'grupo_cuotas' => $this_grupo['grupo_cuotas'],
+                'grupo_diareunion' => $this_grupo['grupo_diareunion'],
+                'grupo_horareunion' => $this_grupo['grupo_horareunion'],
+                'grupo_tiemporeunion' => $this_grupo['grupo_tiemporeunion'],
+            );
+
+            $grupo_idnew = $this->Grupo_model->add_grupo($params);
+            $integrantes = $this->Grupo_model->get_integrantes_grupo($grupo_id);
+            foreach ($integrantes as $integrante) {
+                $param = array(
+                    'cliente_id' => $integrante['cliente_id'],
+                    'tipointeg_id' => $integrante['tipointeg_id'],
+                    'garantia_id' => $integrante['garantia_id'],
+                    'grupo_id' => $grupo_idnew,
+                    'integrante_fechareg' => $integrante['integrante_fechareg'],
+                    'integrante_horareg' => $integrante['integrante_horareg'],
+                    'integrante_cargo' => $integrante['integrante_cargo'],
+                    'integrante_montosolicitado' => $integrante['integrante_montosolicitado'],
+                );
+                $this->load->model('Integrante_model');
+                $integrante_id = $this->Integrante_model->add_integrante($param);
+            }
+            //redirect('grupo/index');
+            redirect('grupo/integrantes/'.$grupo_idnew);
+        //}
+    }
 }

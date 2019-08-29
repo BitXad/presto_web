@@ -1,4 +1,16 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
+<script type="text/javascript">
+    function imprimirdeclaracion(){
+        /*
+        var f = new Date();
+        var estafecha = f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear()+" "+
+                        f.getHours()+":"+f.getMinutes()+":"+f.getSeconds();
+        $('#fechaimpresion').html(estafecha);
+        */
+        window.print();
+    }
+
+</script>
 <style type="text/css">
     @media print {
     body {
@@ -26,6 +38,8 @@
 <div class="row">
     <div class="col-md-12 text-center">
         DECLARACION JURADA DE CLIENTE
+        <a id="imprimirestedetalle" class="btn btn-success no-print" onclick="imprimirdeclaracion()" ><span class="fa fa-print"></span>&nbsp;Imprimir</a>
+        <a class="btn btn-danger no-print" onclick="window.close();" ><span class="fa fa-close"></span>&nbsp;Cerrar</a>
         <br>
         <br>
         <hr>

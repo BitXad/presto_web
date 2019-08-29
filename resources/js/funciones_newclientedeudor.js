@@ -41,6 +41,7 @@ function mostrar_integrantes(grupo_id){
                         //html += "<td>"+registros[i]["estado_descripcion"]+"</td>";
                         html += "<td class='no-print'>";
                         html += "<a href='"+base_url+"cliente/editar2/"+registros[i]["cliente_id"]+"/"+grupo_id+"' class='btn btn-info btn-xs' title='Modificar datos'><span class='fa fa-pencil'></span></a>";
+                        html += "<a href='"+base_url+"cliente/declaracionj/"+registros[i]["cliente_id"]+"' class='btn btn-primary btn-xs' target='_blank' title='Declaración jurada'><span class='fa fa-list-ul'></span></a>";
                         html += "<a href='"+base_url+"integrante/remove/"+registros[i]["integrante_id"]+"/"+grupo_id+"' class='btn btn-danger btn-xs' title='Eliminar a Cliente de grupo'><span class='fa fa-trash'></span></a>";
                         html += "</td>";
                         
