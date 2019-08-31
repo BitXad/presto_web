@@ -68,10 +68,11 @@ class Grupo extends CI_Controller{
                     'grupo_provincia' => $this->input->post('grupo_provincia'),
                     'grupo_zona' => $this->input->post('grupo_zona'),
                     'grupo_fechahora' => $grupo_fechahora,
-                    'grupo_multafalta' => $this->input->post('grupo_multafalta'),
                     'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
-                    'grupo_ahorro' => $this->input->post('grupo_ahorro'),
-                    'grupo_cuotas' => $this->input->post('grupo_cuotas'),
+                    'grupo_multaenvio' => $this->input->post('grupo_multaenvio'),
+                    'grupo_numlicencia' => $this->input->post('grupo_numlicencia'),
+                    'grupo_multafalta' => $this->input->post('grupo_multafalta'),
+                    'grupo_multamora' => $this->input->post('grupo_multamora'),
                     'grupo_diareunion' => $this->input->post('grupo_diareunion'),
                     'grupo_horareunion' => $this->input->post('grupo_horareunion'),
                     'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
@@ -127,14 +128,14 @@ class Grupo extends CI_Controller{
                         'grupo_provincia' => $this->input->post('grupo_provincia'),
                         'grupo_zona' => $this->input->post('grupo_zona'),
                         //'grupo_fechahora' => $this->input->post('grupo_fechahora'),
-                        'grupo_multafalta' => $this->input->post('grupo_multafalta'),
                         'grupo_multaretraso' => $this->input->post('grupo_multaretraso'),
-                        'grupo_ahorro' => $this->input->post('grupo_ahorro'),
-                        'grupo_cuotas' => $this->input->post('grupo_cuotas'),
+                        'grupo_multaenvio' => $this->input->post('grupo_multaenvio'),
+                        'grupo_numlicencia' => $this->input->post('grupo_numlicencia'),
+                        'grupo_multafalta' => $this->input->post('grupo_multafalta'),
+                        'grupo_multamora' => $this->input->post('grupo_multamora'),
                         'grupo_diareunion' => $this->input->post('grupo_diareunion'),
                         'grupo_horareunion' => $this->input->post('grupo_horareunion'),
                         'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
-                         
                     );
 
                     $this->Grupo_model->update_grupo($grupo_id,$params);            
@@ -328,6 +329,7 @@ class Grupo extends CI_Controller{
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('cliente_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
                 $this->form_validation->set_rules('cliente_apellido','Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('integrante_monto1','Monto','trim|required', array('required' => 'Este Campo no debe ser vacio'));
                 if($this->form_validation->run())     
                 {
                     if($resultado == 0){
@@ -365,6 +367,9 @@ class Grupo extends CI_Controller{
             
             date_default_timezone_set('America/La_Paz');
             $grupo_fechahora = date("Y-m-d H:i:s");
+            $cod1 = substr($this_grupo['grupo_codigo'], 0, 3);
+            $cod2 = date("ymdi");
+            
             $params = array(
                 'asesor_id' => $this_grupo['asesor_id'],
                 'usuario_id' => $usuario_id,
@@ -372,7 +377,7 @@ class Grupo extends CI_Controller{
                 'grupo_fecha' => $this_grupo['grupo_fecha'],
                 'grupo_hora' => $this_grupo['grupo_hora'],
                 'grupo_nombre' => $this_grupo['grupo_nombre'],
-                'grupo_codigo' => $this_grupo['grupo_codigo'],
+                'grupo_codigo' => $cod1.$cod2,
                 'grupo_iniciosolicitud' => $this_grupo['grupo_iniciosolicitud'],
                 'grupo_monto' => $this_grupo['grupo_monto'],
                 'grupo_integrantes' => $this_grupo['grupo_integrantes'],
@@ -381,10 +386,11 @@ class Grupo extends CI_Controller{
                 'grupo_provincia' => $this_grupo['grupo_provincia'],
                 'grupo_zona' => $this_grupo['grupo_zona'],
                 'grupo_fechahora' => $grupo_fechahora,
-                'grupo_multafalta' => $this_grupo['grupo_multafalta'],
                 'grupo_multaretraso' => $this_grupo['grupo_multaretraso'],
-                'grupo_ahorro' => $this_grupo['grupo_ahorro'],
-                'grupo_cuotas' => $this_grupo['grupo_cuotas'],
+                'grupo_multaenvio' => $this_grupo['grupo_multaenvio'],
+                'grupo_numlicencia' => $this_grupo['grupo_numlicencia'],
+                'grupo_multafalta' => $this_grupo['grupo_multafalta'],
+                'grupo_multamora' => $this_grupo['grupo_multamora'],
                 'grupo_diareunion' => $this_grupo['grupo_diareunion'],
                 'grupo_horareunion' => $this_grupo['grupo_horareunion'],
                 'grupo_tiemporeunion' => $this_grupo['grupo_tiemporeunion'],

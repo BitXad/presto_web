@@ -36,7 +36,7 @@
                     {
                             $selected = ($cliente['cliente_id'] == $grupo['cliente_id']) ? ' selected="selected"' : "";
 
-                            echo '<option value="'.$cliente['cliente_id'].'" '.$selected.'>'.$cliente['cliente_apellido'].", ".$cliente['cliente_nombre'].'</option>';
+                            echo '<option value="'.$cliente['cliente_id'].'" '.$selected.'>'.$cliente['cliente_apellido'].", ".$cliente['cliente_nombre'].' C.I.:'.$cliente['cliente_ci'].'</option>';
                     } 
                     ?>
                 </select>
@@ -56,15 +56,15 @@
 
         </div>
         <div class="col-md-2">
-                <label for="integrante_monto" class="control-label">Monto Bs</label>
-                <div class="form-group">
-                        <input type="text" name="integrante_monto" value="<?php echo $this->input->post('integrante_montosolicitado'); ?>" class="form-control" id="integrante_monto" required/>
-                </div>
+            <label for="integrante_monto" class="control-label">Monto Bs</label>
+            <div class="form-group">
+                <input type="number" step="any" min="0" name="integrante_monto" value="<?php echo $this->input->post('integrante_montosolicitado'); ?>" class="form-control" id="integrante_monto" required/>
+            </div>
         </div>
         <div class="col-md-6">
                 <!--<label for="cliente_id" class="control-label"> </label>-->
                 <div class="form-group">
-                    <button class="btn btn-facebook btn-block" onclick="registrarnuevointegrante(<?php echo $grupo['grupo_id']; ?>, <?php echo $grupo['grupo_monto']; ?>)">
+                    <button class="btn btn-facebook btn-block" onclick="registrarnuevointegrante(<?php echo $grupo['grupo_id']; ?>, <?php echo $grupo['grupo_monto']; ?>, 0)">
             		<i class="fa fa-floppy-o"></i> Agregar
                     </button>        
 
@@ -162,16 +162,33 @@
             <div class="modal-body">
                <!------------------------------------------------------------------->
                <span class="text-danger" id="aviso_clientenew"></span>
-               <div class="col-md-12">
-                    <label for="cliente_nombre" class="control-label">Nombres</label>
+               <div class="col-md-6">
+                    <label for="cliente_nombre" class="control-label">Nombre(s)</label>
                     <div class="form-group">
                         <input type="text" name="cliente_nombre"  class="form-control" id="cliente_nombre" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                     </div>
                 </div>
-               <div class="col-md-12">
-                    <label for="cliente_apellido" class="control-label">Apellidos</label>
+               <div class="col-md-6">
+                    <label for="cliente_apellido" class="control-label">Apellido(s)</label>
                     <div class="form-group">
                         <input type="text" name="cliente_apellido"  class="form-control" id="cliente_apellido" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                    </div>
+                </div>
+               <div class="col-md-6">
+                    <label for="integrante_cargo1" class="control-label">Cargo:</label>
+                    <div class="form-group">
+                        <select name="integrante_cargo1" id="integrante_cargo1"  class="form-control" required>
+                            <option value="INTEGRANTE">INTEGRANTE</option>
+                            <option value="PRESIDENTE(A)">PRESIDENTE(A)</option>
+                            <option value="SECRETARIA(O)">SECRETARIA(O)</option>                                
+                        </select>
+                    </div>
+
+                </div>
+               <div class="col-md-5">
+                    <label for="integrante_monto1" class="control-label">Monto Bs</label>
+                    <div class="form-group">
+                        <input type="number" step="any" min="0" name="integrante_monto1" value="<?php echo $this->input->post('integrante_montosolicitado1'); ?>" class="form-control" id="integrante_monto1" required/>
                     </div>
                 </div>
                <!------------------------------------------------------------------->

@@ -69,12 +69,15 @@ function registrarnuevoclientedeudor(){
     var controlador = "";
     var base_url  = document.getElementById('base_url').value;
     var cliente_nombre   = document.getElementById('cliente_nombre').value;
+    var grupo_id         = document.getElementById('grupo_id').value;
     var cliente_apellido = document.getElementById('cliente_apellido').value;
+    var integrante_monto1 = document.getElementById('integrante_monto1').value;
     controlador = base_url+'grupo/aniadir_newcliente';
     //$('#modalnewclientedeudor').modal('hide');
     $.ajax({url: controlador,
            type:"POST",
-           data:{cliente_nombre:cliente_nombre, cliente_apellido:cliente_apellido},
+           data:{cliente_nombre:cliente_nombre, cliente_apellido:cliente_apellido,
+                 integrante_monto1:integrante_monto1},
            success:function(respuesta){
                
                var registros =  JSON.parse(respuesta);
@@ -86,15 +89,16 @@ function registrarnuevoclientedeudor(){
                     }else{
                         html = "";
                         html += "<option value='"+registros["cliente_id"]+"' selected >";
-                        html += registros["cliente_apellido"]+", "+registros["cliente_nombre"];
+                        html += registros["cliente_apellido"]+", "+registros["cliente_nombre"]+" C.I.:"+registros["cliente_ci"];
                         html += "</option>";
                         $("#cliente_id").append(html);
                         $("#cliente_nombre").val("");
                         $("#cliente_apellido").val("");
                         $("#aviso_clientenew").text("");
+                        registrarnuevointegrante(grupo_id, integrante_monto1, 1);
                     }
                 }else{
-                    $("#aviso_clientenew").text("Nombre(s) y Apellido(s) no deben estar en blanco");
+                    $("#aviso_clientenew").text("Nombre(s), Apellido(s) y Monto no deben estar en blanco");
                 }
         },
         error:function(respuesta){
@@ -106,12 +110,21 @@ function registrarnuevoclientedeudor(){
 
 }
 /* hace el registro a un grupo de un integrante, previa verificacion.. */
-function registrarnuevointegrante(grupo_id, grupo_monto){
+function registrarnuevointegrante(grupo_id, grupo_monto, origen){
     var controlador = "";
     var base_url  = document.getElementById('base_url').value;
     var cliente_id       = document.getElementById('cliente_id').value;
-    var integrante_cargo = document.getElementById('integrante_cargo').value;
-    var integrante_monto = document.getElementById('integrante_monto').value;
+    var integrante_cargo = "";
+    var integrante_monto = "";
+    if(origen == 0){
+        integrante_cargo = document.getElementById('integrante_cargo').value;
+        integrante_monto = document.getElementById('integrante_monto').value;
+    }else if(origen == 1){
+        integrante_cargo = document.getElementById('integrante_cargo1').value;
+        integrante_monto = document.getElementById('integrante_monto1').value;
+    }
+    /*var integrante_cargo = document.getElementById('integrante_cargo').value;
+    var integrante_monto = document.getElementById('integrante_monto').value;*/
     controlador = base_url+'grupo/agregar_integrante';
     $.ajax({url: controlador,
            type:"POST",
@@ -132,6 +145,8 @@ function registrarnuevointegrante(grupo_id, grupo_monto){
                         $('#cliente_id').find('option:first').attr('selected', 'selected').parent('select');
                         $('#integrante_cargo').find('option:first').attr('selected', 'selected').parent('select');
                         $("#integrante_monto").val("");
+                        $('#integrante_cargo1').find('option:first').attr('selected', 'selected').parent('select');
+                        $("#integrante_monto1").val("");
                         mostrar_integrantes(grupo_id);
                     }
             }else{

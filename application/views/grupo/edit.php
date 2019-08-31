@@ -1,8 +1,35 @@
+<script type="text/javascript">
+    function cambiarcodgrupo(){
+        var nombre = $("#grupo_nombre").val();
+        var cad1 = nombre.substring(0,2);
+        var cad2 = nombre.substring(nombre.length-1,nombre.length);
+        
+        var estetime = new Date();
+        var anio = estetime.getFullYear();
+        anio = anio -2000;
+        var mes = parseInt(estetime.getMonth())+1;
+        if(mes>0&&mes<10){
+            mes = "0"+mes;
+        }
+        var dia = parseInt(estetime.getDate());
+        if(dia>0&&dia<10){
+            dia = "0"+dia;
+        }
+        var min = estetime.getMinutes();
+        if(min>0&&min<10){
+            min = "0"+min;
+        }
+        $('#grupo_codigo').val(cad1+cad2+anio+mes+dia+min);
+    }
+</script>
 <div class="row">
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
               	<h3 class="box-title">Modificar: Grupo</h3>
+                <button type="button" class="btn btn-success btn-sm" onclick="cambiarcodgrupo();" title="genera codigo">
+                    <i class="fa fa-edit"></i> Generar Código
+		</button>
             </div>
             <?php echo form_open('grupo/edit/'.$grupo['grupo_id']); ?>
             <div class="box-body">
@@ -44,7 +71,48 @@
                     <div class="col-md-4">
                         <label for="grupo_departamento" class="control-label">Departamento</label>
                         <div class="form-group">
-                            <input type="text" name="grupo_departamento" value="<?php echo ($this->input->post('grupo_departamento') ? $this->input->post('grupo_departamento') : $grupo['grupo_departamento']); ?>" class="form-control" id="grupo_departamento" />
+                            <?php
+                            $ben = "";
+                            $chu = "";
+                            $coc = "";
+                            $lap = "";
+                            $oru = "";
+                            $pan = "";
+                            $pot = "";
+                            $san = "";
+                            $tar = "";
+                            if($grupo['grupo_departamento'] == "BENI"){
+                                $ben = "selected";
+                            }elseif($grupo['grupo_departamento'] == "CHUQUISACA"){
+                                $chu = "selected";
+                            }elseif($grupo['grupo_departamento'] == "COCHABAMBA"){
+                                $coc = "selected";
+                            }elseif($grupo['grupo_departamento'] == "LA PAZ"){
+                                $lap = "selected";
+                            }elseif($grupo['grupo_departamento'] == "ORURO"){
+                                $oru = "selected";
+                            }elseif($grupo['grupo_departamento'] == "PANDO"){
+                                $pan = "selected";
+                            }elseif($grupo['grupo_departamento'] == "POTOSI"){
+                                $pot = "selected";
+                            }elseif($grupo['grupo_departamento'] == "SANTA CRUZ"){
+                                $san = "selected";
+                            }elseif($grupo['grupo_departamento'] == "TARIJA"){
+                                $tar = "selected";
+                            }else
+                            ?>
+                            <!--<input type="text" name="grupo_departamento" value="<?php //echo ($this->input->post('grupo_departamento') ? $this->input->post('grupo_departamento') : $grupo['grupo_departamento']); ?>" class="form-control" id="grupo_departamento" />-->
+                            <select name="grupo_departamento" id="grupo_departamento" class="form-control">
+                                <option <?php echo $ben;?> value="BENI">BENI</option>
+                                <option <?php echo $chu;?> value="CHUQUISACA">CHUQUISACA</option>
+                                <option <?php echo $coc;?> value="COCHABAMBA">COCHABAMBA</option>
+                                <option <?php echo $lap;?> value="LA PAZ">LA PAZ</option>
+                                <option <?php echo $oru;?> value="ORURO">ORURO</option>
+                                <option <?php echo $pan;?> value="PANDO">PANDO</option>
+                                <option <?php echo $pot;?> value="POTOSI">POTOSI</option>                                                        
+                                <option <?php echo $san;?> value="SANTA CRUZ">SANTA CRUZ</option>                                                        
+                                <option <?php echo $tar;?> value="TARIJA">TARIJA</option>                                                        
+                            </select>
                         </div>
                     </div>
 
@@ -55,20 +123,20 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="grupo_provincia" class="control-label">Provincia</label>
                         <div class="form-group">
                             <input type="text" name="grupo_provincia" value="<?php echo ($this->input->post('grupo_provincia') ? $this->input->post('grupo_provincia') : $grupo['grupo_provincia']); ?>" class="form-control" id="grupo_provincia" />
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="grupo_zona" class="control-label">Zona</label>
                         <div class="form-group">
                             <input type="text" name="grupo_zona" value="<?php echo ($this->input->post('grupo_zona') ? $this->input->post('grupo_zona') : $grupo['grupo_zona']); ?>" class="form-control" id="grupo_zona" />
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="grupo_fecha" class="control-label">Fecha Creación</label>
                         <div class="form-group">
                             <input type="date" name="grupo_fecha" value="<?php echo $grupo['grupo_fecha']; ?>" class="form-control" id="grupo_fecha"/>
@@ -171,76 +239,74 @@
                     <div class="col-md-3">
                         <label for="grupo_monto" class="control-label">Monto Solicitado Bs</label>
                         <div class="form-group">
-                            <input type="text" name="grupo_monto" value="<?php echo ($this->input->post('grupo_monto') ? $this->input->post('grupo_monto') : $grupo['grupo_monto']); ?>" class="form-control" id="grupo_monto" required/>
+                            <input type="number" step="any" min="0" name="grupo_monto" value="<?php echo ($this->input->post('grupo_monto') ? $this->input->post('grupo_monto') : $grupo['grupo_monto']); ?>" class="form-control" id="grupo_monto" required/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="grupo_multaretraso" class="control-label">Multa/Retraso(por minuto) Bs</label>
+                        <div class="form-group">
+                            <input type="number" step="any" min="0" name="grupo_multaretraso" value="<?php echo ($this->input->post('grupo_multaretraso') ? $this->input->post('grupo_multaretraso') : $grupo['grupo_multaretraso']); ?>" class="form-control" id="grupo_multaretraso" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="grupo_multaenvio" class="control-label">Multa/Envio Bs</label>
+                        <div class="form-group">
+                            <input type="number" step="any" min="0" name="grupo_multaenvio" value="<?php echo ($this->input->post('grupo_multaenvio') ? $this->input->post('grupo_multaenvio') : $grupo['grupo_multaenvio']); ?>" class="form-control" id="grupo_multaenvio" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="grupo_numlicencia" class="control-label">Num. Licencias</label>
+                        <div class="form-group">
+                            <input type="number" name="grupo_numlicencia" value="<?php echo ($this->input->post('grupo_numlicencia') ? $this->input->post('grupo_numlicencia') : $grupo['grupo_numlicencia']); ?>" class="form-control" id="grupo_numlicencia" />
                         </div>
                     </div>
                     <div class="col-md-3">
                         <label for="grupo_multafalta" class="control-label">Multa/Falta Bs</label>
                         <div class="form-group">
-                            <input type="text" name="grupo_multafalta" value="<?php echo ($this->input->post('grupo_multafalta') ? $this->input->post('grupo_multafalta') : $grupo['grupo_multafalta']); ?>" class="form-control" id="grupo_multafalta" />
+                            <input type="number" step="any" min="0" name="grupo_multafalta" value="<?php echo ($this->input->post('grupo_multafalta') ? $this->input->post('grupo_multafalta') : $grupo['grupo_multafalta']); ?>" class="form-control" id="grupo_multafalta" />
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="grupo_multaretraso" class="control-label">Multa/Retraso Bs</label>
+                        <label for="grupo_multamora" class="control-label">Multa/Mora Bs</label>
                         <div class="form-group">
-                            <input type="text" name="grupo_multaretraso" value="<?php echo ($this->input->post('grupo_multaretraso') ? $this->input->post('grupo_multaretraso') : $grupo['grupo_multaretraso']); ?>" class="form-control" id="grupo_multaretraso" />
+                            <input type="number" step="any" min="0" name="grupo_multamora" value="<?php echo ($this->input->post('grupo_multamora') ? $this->input->post('grupo_multamora') : $grupo['grupo_multamora']); ?>" class="form-control" id="grupo_multamora" />
                         </div>
                     </div>
+                    
                     <div class="col-md-3">
-                        <label for="grupo_cuotas" class="control-label">Multa/Cuota Bs</label>
-                        <div class="form-group">
-                            <input type="text" name="grupo_cuotas" value="<?php echo ($this->input->post('grupo_cuotas') ? $this->input->post('grupo_cuotas') : $grupo['grupo_cuotas']); ?>" class="form-control" id="grupo_cuotas" />
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="grupo_ahorro" class="control-label">Multa/Mora Bs</label>
-                        <div class="form-group">
-                            <input type="text" name="grupo_ahorro" value="<?php echo ($this->input->post('grupo_ahorro') ? $this->input->post('grupo_ahorro') : $grupo['grupo_ahorro']); ?>" class="form-control" id="grupo_ahorro" />
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-					<div class="col-md-3">
-						<label for="usuario_id" class="control-label">Usuario</label>
-						<div class="form-group">
-							<select name="usuario_id" class="form-control" required>
-								<option value="">- USUARIO -</option>
-								<?php 
-								foreach($all_usuario as $usuario)
-								{
-									$selected = ($usuario['usuario_id'] == $grupo['usuario_id']) ? ' selected="selected"' : "";
+                            <label for="usuario_id" class="control-label">Usuario</label>
+                            <div class="form-group">
+                                    <select name="usuario_id" class="form-control" required>
+                                            <option value="">- USUARIO -</option>
+                                            <?php 
+                                            foreach($all_usuario as $usuario)
+                                            {
+                                                    $selected = ($usuario['usuario_id'] == $grupo['usuario_id']) ? ' selected="selected"' : "";
 
-									echo '<option value="'.$usuario['usuario_id'].'" '.$selected.'>'.$usuario['usuario_nombre'].'</option>';
-								} 
-								?>
-							</select>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<label for="estado_id" class="control-label">Estado</label>
-						<div class="form-group">
-							<select name="estado_id" class="form-control">
-								<option value="">- ESTADO -</option>
-								<?php 
-								foreach($all_estado as $estado)
-								{
-									$selected = ($estado['estado_id'] == $grupo['estado_id']) ? ' selected="selected"' : "";
+                                                    echo '<option value="'.$usuario['usuario_id'].'" '.$selected.'>'.$usuario['usuario_nombre'].'</option>';
+                                            } 
+                                            ?>
+                                    </select>
+                            </div>
+                    </div>
+                    <div class="col-md-3">
+                            <label for="estado_id" class="control-label">Estado</label>
+                            <div class="form-group">
+                                    <select name="estado_id" class="form-control">
+                                            <option value="">- ESTADO -</option>
+                                            <?php 
+                                            foreach($all_estado as $estado)
+                                            {
+                                                    $selected = ($estado['estado_id'] == $grupo['estado_id']) ? ' selected="selected"' : "";
 
-									echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
-								} 
-								?>
-							</select>
-						</div>
-					</div>
+                                                    echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
+                                            } 
+                                            ?>
+                                    </select>
+                            </div>
+                    </div>
 					
-				</div>
+                </div>
 			</div>
 			<div class="box-footer">
             	<button type="submit" class="btn btn-success">
