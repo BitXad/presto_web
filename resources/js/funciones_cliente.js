@@ -373,6 +373,7 @@ function tablaresultadoscliente(limite)
                         html += "</div>";
                         html += "</div>";
                         html += "<!------------------------ FIN modal para MOSTRAR imagen REAL2 ------------------->";
+                        html += "<a href='"+base_url+"galeria_cliente/index/"+registros[i]["cliente_id"]+"' class='btn btn-success btn-xs' title='Galeria'><span class='fa fa-camera'></span></a>";
                         html += "</td>";
                         
                         
