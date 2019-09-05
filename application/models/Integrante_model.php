@@ -76,4 +76,57 @@ class Integrante_model extends CI_Model
     {
         return $this->db->delete('integrante',array('integrante_id'=>$integrante_id));
     }
+    
+    /* Get # de Integrantes de un grupo */
+    function get_numintegrantes_grupo($grupo_id)
+    {
+        $integrante = $this->db->query("
+            SELECT
+                count(i.integrante_id) as resultado
+
+            FROM
+                integrante i
+
+            WHERE
+                i.grupo_id = ?
+        ",array($grupo_id))->row_array();
+
+        return $integrante['resultado'];
+    }
+    
+    /* existe integrante en este grupo? */
+    function get_existeintegrante($grupo_id, $cliente_id)
+    {
+        $existe = $this->db->query("
+            SELECT
+                count(i.integrante_id) as resultado
+
+            FROM
+                integrante i
+
+            WHERE
+                i.grupo_id = $grupo_id
+                and cliente_id = $cliente_id
+        ")->row_array();
+
+        return $existe['resultado'];
+    }
+    
+    /* catidad de dinero solicitado por integrantes de un grupo */
+    function get_montototal_grupo($grupo_id)
+    {
+        $total = $this->db->query("
+            SELECT
+                sum(i.integrante_montosolicitado) as resultado
+
+            FROM
+                integrante i
+
+            WHERE
+                i.grupo_id = $grupo_id
+        ")->row_array();
+
+        return $total['resultado'];
+    }
+    
 }

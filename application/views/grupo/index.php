@@ -30,40 +30,41 @@
             <div class="box-body  table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
-                            <th>#</th>
-                            <th>Grupo</th>
-                            <th>Codigo</th>
-                            <th>Integ.</th>
-                            <th>Asesor</th>
-                            <th>Usuario</th>
-                            <th>Estado Id</th>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>solicitud</th>
-                            <th>Monto</th>
-                            <th>Actions</th>
+                        <th>#</th>
+                        <th>Grupo</th>
+                        <th>Codigo</th>
+                        <th>Integ.</th>
+                        <th>Asesor</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>solicitud</th>
+                        <th>Monto</th>
+                        <th></th>
                     </tr>
                     <?php $i = 1; 
-                        foreach($grupo as $g){ ?>
+                    foreach($grupo as $g){ ?>
                     <tr>
-                            <td><?php echo $i++; ?></td>
-                            <td>
-                                <font size="3"><b><?php echo $g['grupo_nombre']; ?></b></font><sub>[<?php echo $g['grupo_id']; ?>]</sub>
-                            
-                            </td>
-                            <td><?php echo $g['grupo_codigo']; ?></td>
-                            <td><?php echo $g['grupo_integrantes']; ?></td>
-                            <td><?php echo $g['asesor_nombre']." ".$g['asesor_apellido']; ?></td>
-                            <td><?php echo $g['usuario_nombre']; ?></td>
-                            <td><?php echo $g['estado_descripcion']; ?></td>
-                            <td><?php echo $g['grupo_fecha']; ?></td>
-                            <td><?php echo $g['grupo_hora']; ?></td>
-                            <td><?php echo $g['grupo_iniciosolicitud']; ?></td>
-                            <td><font size="3"><b><?php echo number_format($g['grupo_monto'],2,".",","); ?></b></font size="3"></td>
-                            <td>
-                                <a href="<?php echo site_url('grupo/edit/'.$g['grupo_id']); ?>" class="btn btn-info btn-xs" title="Modifcar caracteristicas del grupo"><span class="fa fa-pencil"></span> Modif.</a> 
+                        <td><?php echo $i++; ?></td>
+                        <td>
+                            <font size="3"><b><?php echo $g['grupo_nombre']; ?></b></font><sub>[<?php echo $g['grupo_id']; ?>]</sub>
+
+                        </td>
+                        <td><?php echo $g['grupo_codigo']; ?></td>
+                        <td><?php echo $g['grupo_integrantes']; ?></td>
+                        <td><?php echo $g['asesor_nombre']." ".$g['asesor_apellido']; ?></td>
+                        <td><?php echo $g['usuario_nombre']; ?></td>
+                        <td><?php echo $g['estado_descripcion']; ?></td>
+                        <td><?php echo $g['grupo_fecha']; ?></td>
+                        <td><?php echo $g['grupo_hora']; ?></td>
+                        <td><?php echo $g['grupo_iniciosolicitud']; ?></td>
+                        <td><font size="3"><b><?php echo number_format($g['grupo_monto'],2,".",","); ?></b></font size="3"></td>
+                        <td>
+                            <a href="<?php echo site_url('grupo/edit/'.$g['grupo_id']); ?>" class="btn btn-info btn-xs" title="Modifcar caracteristicas del grupo"><span class="fa fa-pencil"></span> Modif.</a> 
                             <a href="<?php echo site_url('grupo/integrantes/'.$g['grupo_id']); ?>" class="btn btn-facebook btn-xs" title="Modificar integrantes/montos solicitados"><span class="fa fa-users"></span> Modif.</a> 
-                            <a href="<?php echo site_url('grupo/remove/'.$g['grupo_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Borrar</a>
+                            <a href="<?php echo site_url('grupo/add_new/'.$g['grupo_id']); ?>" class="btn btn-soundcloud btn-xs" title="Registrar Nuevo Grupo con esta Información"><span class="fa fa-plus-circle"></span> Nuevo</a> 
+                            <!--<a href="<?php //echo site_url('grupo/remove/'.$g['grupo_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Borrar</a>-->
                         </td>
                     </tr>
                     <?php } ?>

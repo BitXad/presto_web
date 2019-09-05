@@ -1,6 +1,6 @@
-
-
-
+<script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js');?>"></script>
+<script src="<?php echo base_url('resources/js/funciones_newclientedeudor.js'); ?>" type="text/javascript"></script>
+<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <div class="container">
     <center>
         <h3>
@@ -9,39 +9,40 @@
     </center>
         
 </div>
-<div class="container">
+<div class="container table-responsive">
 
 
     <div class="panel panel-primary col-md-4">
-    <!--<h5><b>Hospedaje Cod: </b><?php echo "000".$hospedaje_id; ?></h5>-->
+    <!--<h5><b>Hospedaje Cod: </b><?php //echo "000".$hospedaje_id; ?></h5>-->
     <h5><b>Grupo: </b><?php echo $grupo['grupo_nombre']; ?></h5>
-    <h5><b>Fecha/Solicitud: </b><?php echo $grupo['grupo_iniciosolicitud']; ?></h5>
-    <h5><b>Asesor: </b><?php echo $grupo['grupo_fecha']; ?></h5>
+    <h5><b>Fecha/Solicitud: </b><?php echo date("d/m/Y", strtotime($grupo['grupo_iniciosolicitud'])); ?></h5>
+    <h5><b>Asesor: </b><?php echo $grupo['asesor_nombre']." ".$grupo['asesor_apellido']; ?></h5>
     <h5><b>Monto Solicitado Bs.: </b><?php echo number_format($grupo['grupo_monto'],2,".",","); ?></h5>
     </div>
 
 
 
     <div class="panel panel-primary col-md-8 no-print">
-    <?php echo form_open('grupo/agregar_integrante'); ?>
+    <?php //echo form_open('grupo/agregar_integrante'); ?>
         <input type="hidden" name="grupo_id"  id="grupo_id" value="<?php echo $grupo['grupo_id']; ?>" >
         
         <div class="col-md-5">
-                <label for="cliente_id" class="control-label">Cliente/Deudor:</label>
-                <div class="form-group">
-                            <select name="cliente_id" id="cliente_id"  class="form-control" required>
-                                <option value="">- CLIENTE/DEUDOR -</option>
-                                <?php 
-                                foreach($all_cliente as $cliente)
-                                {
-                                        $selected = ($cliente['cliente_id'] == $grupo['cliente_id']) ? ' selected="selected"' : "";
+            <label for="cliente_id" class="control-label">Cliente/Deudor:</label>
+            <div class="form-group" style="display: flex">
+                <select name="cliente_id" id="cliente_id"  class="form-control" required>
+                    <option value="">- CLIENTE/DEUDOR -</option>
+                    <?php 
+                    foreach($all_cliente as $cliente)
+                    {
+                            $selected = ($cliente['cliente_id'] == $grupo['cliente_id']) ? ' selected="selected"' : "";
 
-                                        echo '<option value="'.$cliente['cliente_id'].'" '.$selected.'>'.$cliente['cliente_apellido'].", ".$cliente['cliente_nombre'].'</option>';
-                                } 
-                                ?>
-                        </select>
-                </div>
-
+                            echo '<option value="'.$cliente['cliente_id'].'" '.$selected.'>'.$cliente['cliente_apellido'].", ".$cliente['cliente_nombre'].' C.I.:'.$cliente['cliente_ci'].'</option>';
+                    } 
+                    ?>
+                </select>
+                <a data-toggle="modal" data-target="#modalnewclientedeudor" class="btn btn-warning" title="Registrar Nuevo Cliente/Deudor">
+                    <i class="fa fa-plus-circle"></i></a>
+            </div>
         </div>
         <div class="col-md-5">
                 <label for="integrante_cargo" class="control-label">Cargo:</label>
@@ -55,15 +56,15 @@
 
         </div>
         <div class="col-md-2">
-                <label for="integrante_monto" class="control-label">Monto Bs</label>
-                <div class="form-group">
-                        <input type="text" name="integrante_monto" value="<?php echo $this->input->post('integrante_montosolicitado'); ?>" class="form-control" id="integrante_monto" required/>
-                </div>
+            <label for="integrante_monto" class="control-label">Monto Bs</label>
+            <div class="form-group">
+                <input type="number" step="any" min="0" name="integrante_monto" value="<?php echo $this->input->post('integrante_montosolicitado'); ?>" class="form-control" id="integrante_monto" required/>
+            </div>
         </div>
         <div class="col-md-6">
                 <!--<label for="cliente_id" class="control-label"> </label>-->
                 <div class="form-group">
-                    <button type="submit" class="btn btn-facebook btn-block">
+                    <button class="btn btn-facebook btn-block" onclick="registrarnuevointegrante(<?php echo $grupo['grupo_id']; ?>, <?php echo $grupo['grupo_monto']; ?>, 0)">
             		<i class="fa fa-floppy-o"></i> Agregar
                     </button>        
 
@@ -80,7 +81,7 @@
                 </div>
 
         </div>
-        <?php echo form_close(); ?>
+        <?php //echo form_close(); ?>
     </div>
 
 
@@ -101,10 +102,10 @@
                         <th>Monto Bs</th>
                         <th>Categoria</th>
                         <th>Cargo</th>
-                        <th class="no-print">Estado</th>                
+                        <th class="no-print"></th>                
                     </tr>
                     <tbody class="buscar" id="tablaresultados">
-                        <?php $j = 0;
+                        <?php /*$j = 0;
                               $total = 0;
                             foreach($integrantes as $i) {
                                 $total += $i['integrante_montosolicitado'];
@@ -129,14 +130,14 @@
                             </td>
                            
                         </tr>
-                        <?php } ?>
+                        <?php } */?>
                         
                     </tbody>
                     <tr>
                         <th> </th>
                         <th> </th>
                         <th>Total Bs</th>
-                        <th align="right"><?php echo number_format($total,2,".",","); ?></th>
+                        <th align="right"><span id="restotal"></span><?php //echo number_format($total,2,".",","); ?></th>
                         <th> </th>
                         <th> </th>
                         <th> </th>                
@@ -149,3 +150,54 @@
         </div>
     </div>
 </div>
+
+<!------------------------ INICIO modal para Registrar nuevo Cliente/Deudor ------------------->
+<div class="modal fade" id="modalnewclientedeudor" tabindex="-1" role="dialog" aria-labelledby="labelmodalnewclientedeudor">
+    <div class="modal-dialog" role="document">
+        <br><br>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+            </div>
+            <div class="modal-body">
+               <!------------------------------------------------------------------->
+               <span class="text-danger" id="aviso_clientenew"></span>
+               <div class="col-md-6">
+                    <label for="cliente_nombre" class="control-label">Nombre(s)</label>
+                    <div class="form-group">
+                        <input type="text" name="cliente_nombre"  class="form-control" id="cliente_nombre" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                    </div>
+                </div>
+               <div class="col-md-6">
+                    <label for="cliente_apellido" class="control-label">Apellido(s)</label>
+                    <div class="form-group">
+                        <input type="text" name="cliente_apellido"  class="form-control" id="cliente_apellido" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                    </div>
+                </div>
+               <div class="col-md-6">
+                    <label for="integrante_cargo1" class="control-label">Cargo:</label>
+                    <div class="form-group">
+                        <select name="integrante_cargo1" id="integrante_cargo1"  class="form-control" required>
+                            <option value="INTEGRANTE">INTEGRANTE</option>
+                            <option value="PRESIDENTE(A)">PRESIDENTE(A)</option>
+                            <option value="SECRETARIA(O)">SECRETARIA(O)</option>                                
+                        </select>
+                    </div>
+
+                </div>
+               <div class="col-md-5">
+                    <label for="integrante_monto1" class="control-label">Monto Bs</label>
+                    <div class="form-group">
+                        <input type="number" step="any" min="0" name="integrante_monto1" value="<?php echo $this->input->post('integrante_montosolicitado1'); ?>" class="form-control" id="integrante_monto1" required/>
+                    </div>
+                </div>
+               <!------------------------------------------------------------------->
+            </div>
+            <div class="modal-footer aligncenter">
+                <a onclick="registrarnuevoclientedeudor()" class="btn btn-success"><span class="fa fa-check"></span> Registrar </a>
+                <a href="#" class="btn btn-danger" data-dismiss="modal"><span class="fa fa-times"></span> No </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!------------------------ FIN modal para Registrar nuevo Cliente/Deudor ------------------->

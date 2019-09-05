@@ -71,7 +71,7 @@ function mostrar(a) {
 			<i class="fa fa-edit"></i>Codigo Cliente
 		</button>
             </div>
-            <?php echo form_open_multipart('cliente/edit/'.$cliente['cliente_id']); ?>
+            <?php echo form_open_multipart('cliente/editar2/'.$cliente['cliente_id'].'/'.$grupo_id); ?>
           	<div class="box-body">
                     <div class="row clearfix">
                         <div class="col-md-4">
@@ -84,7 +84,7 @@ function mostrar(a) {
                         <div class="col-md-4">
                             <label for="cliente_apellido" class="control-label"><span class="text-danger">*</span>Apellido</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_apellido" value="<?php echo ($this->input->post('cliente_apellido') ? $this->input->post('cliente_apellido') : $cliente['cliente_apellido']); ?>" class="form-control" id="cliente_apellido" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                                <input type="text" name="cliente_apellido" value="<?php echo ($this->input->post('cliente_apellido') ? $this->input->post('cliente_apellido') : $cliente['cliente_apellido']); ?>" class="form-control" id="cliente_apellido" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -135,7 +135,7 @@ function mostrar(a) {
                         <div class="col-md-2">
                             <label for="cliente_ci" class="control-label"><span class="text-danger">*</span>Nro. Dcto.</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_ci" value="<?php echo ($this->input->post('cliente_ci') ? $this->input->post('cliente_ci') : $cliente['cliente_ci']); ?>" class="form-control" id="cliente_ci" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" readonly />
+                                <input type="text" name="cliente_ci" value="<?php echo ($this->input->post('cliente_ci') ? $this->input->post('cliente_ci') : $cliente['cliente_ci']); ?>" class="form-control" id="cliente_ci" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -168,13 +168,13 @@ function mostrar(a) {
                         <div class="col-md-3">
                             <label for="cliente_telefono" class="control-label">Teléfono</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_telefono" value="<?php echo ($this->input->post('cliente_telefono') ? $this->input->post('cliente_telefono') : $cliente['cliente_telefono']); ?>" class="form-control" id="cliente_telefono" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                                <input type="text" name="cliente_telefono" value="<?php echo ($this->input->post('cliente_telefono') ? $this->input->post('cliente_telefono') : $cliente['cliente_telefono']); ?>" class="form-control" id="cliente_telefono" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label for="cliente_celular" class="control-label"><span class="text-danger">*</span>Celular</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_celular" value="<?php echo ($this->input->post('cliente_celular') ? $this->input->post('cliente_celular') : $cliente['cliente_celular']); ?>" class="form-control" id="cliente_celular" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
+                                <input type="text" name="cliente_celular" value="<?php echo ($this->input->post('cliente_celular') ? $this->input->post('cliente_celular') : $cliente['cliente_celular']); ?>" class="form-control" id="cliente_celular" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -198,13 +198,13 @@ function mostrar(a) {
                         <div class="col-md-3">
                             <label for="cliente_referencia1" class="control-label"><span class="text-danger">*</span>Referencia #1</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_referencia1" value="<?php echo $cliente['cliente_referencia1']; ?>" class="form-control" id="cliente_referencia1" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
+                                <input type="text" name="cliente_referencia1" value="<?php echo $cliente['cliente_referencia1']; ?>" class="form-control" id="cliente_referencia1" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <label for="cliente_reftelef1" class="control-label"><span class="text-danger">*</span>Teléfono Ref. #1</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_reftelef1" value="<?php echo $cliente['cliente_reftelef1']; ?>" class="form-control" id="cliente_reftelef1" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
+                                <input type="text" name="cliente_reftelef1" value="<?php echo $cliente['cliente_reftelef1']; ?>" class="form-control" id="cliente_reftelef1" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -245,7 +245,7 @@ function mostrar(a) {
                         <div class="col-md-3">
                             <label for="cliente_pertenenciatiempo" class="control-label"><span class="text-danger">*</span>Antiguedad Domiciliaria</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_pertenenciatiempo" value="<?php echo $cliente['cliente_pertenenciatiempo']; ?>" class="form-control" id="cliente_pertenenciatiempo" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
+                                <input type="text" name="cliente_pertenenciatiempo" value="<?php echo $cliente['cliente_pertenenciatiempo']; ?>" class="form-control" id="cliente_pertenenciatiempo" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -257,7 +257,7 @@ function mostrar(a) {
                         <div class="col-md-6">
                             <label for="cliente_direccion" class="control-label"><span class="text-danger">*</span>Dirección</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_direccion" value="<?php echo ($this->input->post('cliente_direccion') ? $this->input->post('cliente_direccion') : $cliente['cliente_direccion']); ?>" class="form-control" id="cliente_direccion" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
+                                <input type="text" name="cliente_direccion" value="<?php echo ($this->input->post('cliente_direccion') ? $this->input->post('cliente_direccion') : $cliente['cliente_direccion']); ?>" class="form-control" id="cliente_direccion" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -370,7 +370,7 @@ function mostrar(a) {
                         <div class="col-md-6">
                             <label for="cliente_referencia" class="control-label"><span class="text-danger">*</span>Referencia</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_referencia" value="<?php echo ($this->input->post('cliente_referencia') ? $this->input->post('cliente_referencia') : $cliente['cliente_referencia']); ?>" class="form-control" id="cliente_referencia" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
+                                <input type="text" name="cliente_referencia" value="<?php echo ($this->input->post('cliente_referencia') ? $this->input->post('cliente_referencia') : $cliente['cliente_referencia']); ?>" class="form-control" id="cliente_referencia" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -448,7 +448,7 @@ function mostrar(a) {
             	<button type="submit" class="btn btn-success">
                     <i class="fa fa-check"></i> Guardar
             	</button>
-                    <a href="<?php echo site_url('cliente'); ?>" class="btn btn-danger">
+                    <a href="<?php echo site_url('grupo/integrantes/'.$grupo_id); ?>" class="btn btn-danger">
                         <i class="fa fa-times"></i> Cancelar</a>
           	</div>
             <?php echo form_close(); ?>
