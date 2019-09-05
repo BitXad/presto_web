@@ -11,7 +11,8 @@ function validar(e,opcion) {
  
     if (tecla==13){ 
     if (opcion==1){   //si la pulsacion proviene del nit          
-            buscarcliente();            
+            buscarcliente();
+            buscardepartamento();            
         }
     } 
  
