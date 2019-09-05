@@ -76,6 +76,9 @@
                         <div class="col-md-5">
                             <label for="asesor_id" class="control-label">Asesor(*)</label>
                             <div class="form-group">
+                                <?php
+                               // if($tipousuario_id == 1 or $tipousuario_id == 2){
+                                ?>
                                 <select name="asesor_id" class="form-control" required>
                                     <option value="">- ASESOR -</option>    
                                     <?php 
@@ -87,6 +90,25 @@
                                     } 
                                     ?>
                                 </select>
+                                <?php
+                               /* }else{
+                                ?>
+                                <select name="asesor_id" class="form-control" required>
+                                    <?php 
+                                    foreach($all_asesor as $asesor)
+                                    {
+                                        if(true){
+                                            
+                                        }
+                                        $selected = ($asesor['asesor_id'] == $this->input->post('asesor_id')) ? ' selected="selected"' : "";
+
+                                        echo '<option value="'.$asesor['asesor_id'].'" '.$selected.'>'.$asesor['asesor_nombre'].' '.$asesor['asesor_apellido'].'</option>';
+                                    } 
+                                    ?>
+                                </select>
+                                <?php
+                                }*/
+                                ?>
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -199,7 +221,7 @@
                         </div>
 
                         <div class="col-md-3">
-                                <label for="grupo_iniciosolicitud" class="control-label">Fecha Solicitud</label>
+                                <label for="grupo_iniciosolicitud" class="control-label">Fecha Entrega de Solicitud</label>
                                 <div class="form-group">
                                         <input type="date" name="grupo_iniciosolicitud" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="grupo_iniciosolicitud" />
                                 </div>
@@ -211,9 +233,10 @@
                                 </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="grupo_multaretraso" class="control-label">Multa/Retraso(por minuto) Bs</label>
-                            <div class="form-group">
-                                <input type="number" step="any" min="0" name="grupo_multaretraso" value="<?php echo $this->input->post('grupo_multaretraso'); ?>" class="form-control" id="grupo_multaretraso" />
+                            <label for="grupo_multaretraso" class="control-label">Multa/Retraso(Bs)</label>
+                            <div class="form-group" style=" display: flex" >
+                                <input style="width: 30%; display: flex; " type="number" step="any" min="0" name="grupo_multaretraso" value="<?php echo $this->input->post('grupo_multaretraso'); ?>" class="form-control" id="grupo_multaretraso" />
+                                <input style="width: 70%; display: inherit" type="text" name="grupo_multaretrasodetalle" value="<?php echo $this->input->post('grupo_multaretrasodetalle'); ?>" class="form-control" id="grupo_multaretrasodetalle" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">

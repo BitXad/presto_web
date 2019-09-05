@@ -144,7 +144,7 @@
             <div class="box-body">
                 <div class="row clearfix">
                     <div class="col-md-12">
-                        <label>ACTIVIDAD ECONOMICA: <span class="normal"><?php echo "ENCONSTRUCCION.."; ?></span></label>
+                        <label>ACTIVIDAD ECONOMICA: <span class="normal"><?php echo $cliente['cliente_actividadeconomica']; ?></span></label>
                     </div>
                 </div>
             </div>

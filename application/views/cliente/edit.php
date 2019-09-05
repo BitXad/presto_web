@@ -135,7 +135,7 @@ function mostrar(a) {
                         <div class="col-md-2">
                             <label for="cliente_ci" class="control-label"><span class="text-danger">*</span>Nro. Dcto.</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_ci" value="<?php echo ($this->input->post('cliente_ci') ? $this->input->post('cliente_ci') : $cliente['cliente_ci']); ?>" class="form-control" id="cliente_ci" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" readonly />
+                                <input type="text" name="cliente_ci" value="<?php echo ($this->input->post('cliente_ci') ? $this->input->post('cliente_ci') : $cliente['cliente_ci']); ?>" class="form-control" id="cliente_ci" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -175,6 +175,12 @@ function mostrar(a) {
                             <label for="cliente_celular" class="control-label"><span class="text-danger">*</span>Celular</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_celular" value="<?php echo ($this->input->post('cliente_celular') ? $this->input->post('cliente_celular') : $cliente['cliente_celular']); ?>" class="form-control" id="cliente_celular" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_actividadeconomica" class="control-label"><span class="text-danger">*</span>Actividad Económica</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_actividadeconomica" value="<?php echo ($this->input->post('cliente_actividadeconomica') ? $this->input->post('cliente_actividadeconomica') : $cliente['cliente_actividadeconomica']); ?>" class="form-control" id="cliente_actividadeconomica" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required />
                             </div>
                         </div>
                         <div class="col-md-3">
