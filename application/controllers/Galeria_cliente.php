@@ -86,7 +86,7 @@ class Galeria_cliente extends CI_Controller{
                             /* ********************F I N  para resize***************************** */
                             $confi['image_library'] = 'gd2';
                             $confi['source_image'] = './resources/images/clientes/'.$new_name.$extension;
-                            $confi['new_image'] = './resources/images/clientes/'."thumb_".$new_name.$extension;
+                            $confi['new_image'] = './resources/images/clientes/'.$new_name."_thumb".$extension;
                             $confi['maintain_ratio'] = TRUE;
                             $confi['create_thumb'] = FALSE;
                             $confi['width'] = 50;
@@ -150,6 +150,11 @@ class Galeria_cliente extends CI_Controller{
     {
         if($this->acceso(4)){
             $galeria_cliente = $this->Galeria_cliente_model->get_galeria_cliente($galeria_id);
+            $directorio = $_SERVER['DOCUMENT_ROOT'].'/presto_web/resources/images/clientes/';
+            $foto1 = $galeria_cliente["galeria_imagen"];          
+                              unlink($directorio.$foto1);
+                              $mimagenthumb = str_replace(".", "_thumb.", $foto1);
+                              unlink($directorio.$mimagenthumb);
             // check if the galeria_cliente exists before trying to delete it
             if(isset($galeria_cliente['galeria_id']))
             {
