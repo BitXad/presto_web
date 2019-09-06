@@ -46,7 +46,7 @@ class Grupo extends CI_Controller{
     function add()
     {
         if($this->acceso(13)){
-            $usuario_id = 1;
+            $usuario_id  = $this->session_data['usuario_id'];
             $estado_id = 5;
             if(isset($_POST) && count($_POST) > 0)     
             {
@@ -76,6 +76,7 @@ class Grupo extends CI_Controller{
                     'grupo_diareunion' => $this->input->post('grupo_diareunion'),
                     'grupo_horareunion' => $this->input->post('grupo_horareunion'),
                     'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
+                    'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
                 );
 
                 $grupo_id = $this->Grupo_model->add_grupo($params);
@@ -84,6 +85,7 @@ class Grupo extends CI_Controller{
             }
             else
             {
+                //$data['tipousuario_id']  = $this->session_data['tipousuario_id'];
                 $this->load->model('Asesor_model');
                 $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
 
@@ -136,6 +138,7 @@ class Grupo extends CI_Controller{
                         'grupo_diareunion' => $this->input->post('grupo_diareunion'),
                         'grupo_horareunion' => $this->input->post('grupo_horareunion'),
                         'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
+                        'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
                     );
 
                     $this->Grupo_model->update_grupo($grupo_id,$params);            
@@ -394,6 +397,7 @@ class Grupo extends CI_Controller{
                 'grupo_diareunion' => $this_grupo['grupo_diareunion'],
                 'grupo_horareunion' => $this_grupo['grupo_horareunion'],
                 'grupo_tiemporeunion' => $this_grupo['grupo_tiemporeunion'],
+                'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
             );
 
             $grupo_idnew = $this->Grupo_model->add_grupo($params);

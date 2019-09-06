@@ -131,7 +131,7 @@
                         <th>Datos Adicionales</th>
                         <th>Dirección</th>
                         <th class="no-print">Map</th>
-                        <th>Categoria</th>
+                        <th class="no-print">Categoria</th>
                         <th>Asesor</th>
                         <th>Estado</th>
                         <th class="no-print"></th>

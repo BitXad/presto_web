@@ -231,7 +231,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="grupo_iniciosolicitud" class="control-label">Fecha Solicitud</label>
+                        <label for="grupo_iniciosolicitud" class="control-label">Fecha Entrega de Solicitud</label>
                         <div class="form-group">
                             <input type="date" name="grupo_iniciosolicitud" value="<?php echo $grupo['grupo_iniciosolicitud']; ?>" class="form-control" id="grupo_iniciosolicitud" />
                         </div>
@@ -243,9 +243,10 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="grupo_multaretraso" class="control-label">Multa/Retraso(por minuto) Bs</label>
-                        <div class="form-group">
-                            <input type="number" step="any" min="0" name="grupo_multaretraso" value="<?php echo ($this->input->post('grupo_multaretraso') ? $this->input->post('grupo_multaretraso') : $grupo['grupo_multaretraso']); ?>" class="form-control" id="grupo_multaretraso" />
+                        <label for="grupo_multaretraso" class="control-label">Multa/Retraso(Bs)</label>
+                        <div class="form-group" style=" display: flex" >
+                            <input style="width: 30%; display: flex; " type="number" step="any" min="0" name="grupo_multaretraso" value="<?php echo ($this->input->post('grupo_multaretraso') ? $this->input->post('grupo_multaretraso') : $grupo['grupo_multaretraso']); ?>" class="form-control" id="grupo_multaretraso" />
+                            <input style="width: 70%; display: inherit; " type="text" name="grupo_multaretrasodetalle" value="<?php echo ($this->input->post('grupo_multaretrasodetalle') ? $this->input->post('grupo_multaretrasodetalle') : $grupo['grupo_multaretrasodetalle']); ?>" class="form-control" id="grupo_multaretrasodetalle" />
                         </div>
                     </div>
                     <div class="col-md-3">

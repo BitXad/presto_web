@@ -186,19 +186,24 @@ function tablaresultadoscliente(limite)
                         //html += "<img src='"+base_url+"/resources/images/"+mimagen+"' />";
                         var estadocivil="";
                         if(registros[i]["estadocivil_id"] != null && registros[i]["estadocivil_id"] != 0 && registros[i]["estadocivil_id"] != ""){
-                            estadocivil = "<b>Est. Civil: </b>"+registros[i]["estadocivil_nombre"];
+                            estadocivil = "<br><b>Est. Civil: </b>"+registros[i]["estadocivil_nombre"];
                         }
                         var apcasado = "";
-                       if(registros[i]["cliente_apcasado"] != null && registros[i]["cliente_apcasado"] != ""){
-                           apcasado = " de "+registros[i]["cliente_apcasado"];
-                       }
+                        if(registros[i]["cliente_apcasado"] != null && registros[i]["cliente_apcasado"] != ""){
+                            apcasado = " de "+registros[i]["cliente_apcasado"];
+                        }
+                        var activeconomica = "";
+                        if(registros[i]["cliente_actividadeconomica"] != null && registros[i]["cliente_actividadeconomica"] != ""){
+                            activeconomica = "<br><b>Activ. Económica: </b>"+registros[i]["cliente_actividadeconomica"];
+                        }
                         html += mimagen;
                         html += "</div>";
                         html += "<div style='padding-left: 4px'>";
                         html += "<b id='masg'>"+registros[i]["cliente_nombre"]+" "+registros[i]["cliente_apellido"]+apcasado+"</b><br>";
                         html += "<b>Codigo: </b>"+codigo+" "+fnac+sexo+"<br>";
                         html += "<b>"+registros[i]['cliente_tipodoc']+": </b>"+registros[i]["cliente_ci"]+" "+registros[i]["cliente_extencionci"]+" "+vencimiento;
-                        html += "<br>"+estadocivil;
+                        html += activeconomica;
+                        html += estadocivil;
                         html+= "<br>";
                         html += "<b>Tel.: </b>"+telef+linea+celular;
                         html += "<br><b>Tipo Vivienda: </b>"+registros[i]['cliente_tipovivienda'];
@@ -271,7 +276,7 @@ function tablaresultadoscliente(limite)
                         if(registros[i]["cliente_referencia"] != null || registros[i]["cliente_referencia"] != 0 || registros[i]["cliente_referencia"] != ""){
                             referencia = registros[i]["cliente_referencia"];
                         }
-                        html += "<td>"+corr+"<br>";
+                        html += "<td class='no-print'>"+corr+"<br>";
                         //html += estipo_cliente+"<br>";
                         html += "<b>Cat.: </b>"+escategoria_cliente+"<br>";
                         html += "<b>Ref.: </b>"+referencia+"<br>";

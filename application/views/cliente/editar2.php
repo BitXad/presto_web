@@ -178,6 +178,12 @@ function mostrar(a) {
                             </div>
                         </div>
                         <div class="col-md-3">
+                            <label for="cliente_actividadeconomica" class="control-label"><span class="text-danger">*</span>Actividad Económica</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_actividadeconomica" value="<?php echo ($this->input->post('cliente_actividadeconomica') ? $this->input->post('cliente_actividadeconomica') : $cliente['cliente_actividadeconomica']); ?>" class="form-control" id="cliente_actividadeconomica" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <label for="cliente_conyuge" class="control-label"><span id="conyujepareja" class="text-danger"></span>Pareja</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_conyuge" value="<?php echo $cliente['cliente_conyuge']; ?>" class="form-control" id="cliente_conyuge" onKeyUp='this.value = this.value.toUpperCase();' />
