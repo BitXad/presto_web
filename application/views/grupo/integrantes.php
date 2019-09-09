@@ -1,5 +1,6 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js');?>"></script>
 <script src="<?php echo base_url('resources/js/funciones_newclientedeudor.js'); ?>" type="text/javascript"></script>
+<link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <div class="container">
     <center>

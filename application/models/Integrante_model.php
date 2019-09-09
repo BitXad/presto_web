@@ -129,4 +129,21 @@ class Integrante_model extends CI_Model
         return $total['resultado'];
     }
     
+    /* Get integrante by integrante_id */
+    function get_integrante_cliente($cliente_id)
+    {
+        $integrante = $this->db->query("
+            SELECT
+                i.integrante_id
+
+            FROM
+                integrante i
+
+            WHERE
+                `cliente_id` = ?
+        ",array($cliente_id))->row_array();
+
+        return $integrante['integrante_id'];
+    }
+    
 }

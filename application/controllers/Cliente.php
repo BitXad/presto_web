@@ -378,10 +378,13 @@ class Cliente extends CI_Controller{
             $data['cliente'] = $this->Cliente_model->get_inf_cliente($cliente_id);
             if(isset($data['cliente']['cliente_id']))
             {
+                $this->load->model('Integrante_model');
+                $integrante_id = $this->Integrante_model->get_integrante_cliente($cliente_id);
+                if($integrante_id >0){
+                    $this->load->model('Garantia_model');
+                    $data['garantias'] = $this->Garantia_model->get_allgarantiaintegrante($integrante_id);
+                }
                 /*
-                $this->load->model('Estado_civil_model');
-                $data['all_estado_civil'] = $this->Estado_civil_model->get_all_estado_civil(
-                        );
                 $this->load->model('Estado_model');
                 $data['all_estado'] = $this->Estado_model->get_all_estado();
 

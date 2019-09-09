@@ -41,8 +41,88 @@ function mostrar_integrantes(grupo_id){
                         //html += "<td>"+registros[i]["estado_descripcion"]+"</td>";
                         html += "<td class='no-print'>";
                         html += "<a href='"+base_url+"cliente/editar2/"+registros[i]["cliente_id"]+"/"+grupo_id+"' class='btn btn-info btn-xs' title='Modificar datos'><span class='fa fa-pencil'></span></a>";
+                        html += "<a onclick='tablagarantia("+registros[i]["integrante_id"]+")' data-toggle='modal' data-target='#modalgarantia"+registros[i]["cliente_id"]+"' class='btn btn-soundcloud btn-xs' title='Ver/Registrar Garantia'><i class='fa fa-briefcase'></i></a>";
                         html += "<a href='"+base_url+"cliente/declaracionj/"+registros[i]["cliente_id"]+"' class='btn btn-primary btn-xs' target='_blank' title='Declaración jurada'><span class='fa fa-list-ul'></span></a>";
-                        html += "<a href='"+base_url+"integrante/remove/"+registros[i]["integrante_id"]+"/"+grupo_id+"' class='btn btn-danger btn-xs' title='Eliminar a Cliente de grupo'><span class='fa fa-trash'></span></a>";
+                        html += "<a class='btn btn-danger btn-xs' data-toggle='modal' data-target='#myModal"+registros[i]["integrante_id"]+"' title='Eliminar a Integrante de grupo'><span class='fa fa-trash'></span></a>";
+                        
+                        html += "<!------------------------ INICIO modal para confirmar eliminación ------------------->";
+                        html += "<div class='modal fade' id='myModal"+registros[i]["integrante_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModalLabel"+registros[i]["integrante_id"]+"'>";
+                        html += "<div class='modal-dialog' role='document'>";
+                        html += "<br><br>";
+                        html += "<div class='modal-content'>";
+                        html += "<div class='modal-header'>";
+                        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
+                        html += "</div>";
+                        html += "<div class='modal-body'>";
+                        html += "<!------------------------------------------------------------------->";
+                        html += "<h3><b> <span class='fa fa-trash'></span></b>";
+                        html += "¿Desea eliminar al Integrante <b> "+registros[i]["cliente_apellido"]+", "+registros[i]["cliente_nombre"]+"</b> ?";
+                        html += "</h3>";
+                        html += "<!------------------------------------------------------------------->";
+                        html += "</div>";
+                        html += "<div class='modal-footer aligncenter'>";
+                        html += "<a href='"+base_url+"integrante/remove/"+registros[i]["integrante_id"]+"/"+grupo_id+"' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                        html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<!------------------------ FIN modal para confirmar eliminación ------------------->";
+                        
+                        html += "<!------------------------ INICIO modal para registrar Garantia ------------------->";
+                        html += "<div class='modal fade' id='modalgarantia"+registros[i]["cliente_id"]+"' tabindex='-1' role='dialog' aria-labelledby='modalgarantia"+registros[i]["cliente_id"]+"'>";
+                        html += "<div class='modal-dialog' role='document'>";
+                        html += "<br><br>";
+                        html += "<div class='modal-content'>";
+                        html += "<div class='modal-header text-center'>";
+                        html += "<span style='font-size:12pt' class='text-bold'>NUEVA GARANTIA</span>";
+                        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
+                        html += "</div>";
+                        html += "<div class='modal-body'>";
+                        html += "<!------------------------------------------------------------------->";
+                        html += "<div class='col-md-12'>";
+                        html += "<label for='garantia_descripcion"+registros[i]["cliente_id"]+"' class='control-label'><span class='text-danger'>*</span>Descripción</label>";
+                        html += "<div class='form-group'>";
+                        html += "<input type='text' name='garantia_descripcion"+registros[i]["cliente_id"]+"' class='form-control ' id='garantia_descripcion"+registros[i]["cliente_id"]+"' required onkeyup='var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);' onclick='this.select();' />";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<div class='col-md-4'>";
+                        html += "<label for='garantia_cantidad"+registros[i]["cliente_id"]+"' class='control-label'><span class='text-danger'>*</span>Cantidad</label>";
+                        html += "<div class='form-group'>";
+                        html += "<input type='number' step='any' min='0' name='garantia_cantidad"+registros[i]["cliente_id"]+"' class='form-control' id='garantia_cantidad"+registros[i]["cliente_id"]+"' required />";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<div class='col-md-4'>";
+                        html += "<label for='garantia_precio"+registros[i]["cliente_id"]+"' class='control-label'><span class='text-danger'>*</span>Precio</label>";
+                        html += "<div class='form-group'>";
+                        html += "<input type='number' step='any' min='0' name='garantia_precio"+registros[i]["cliente_id"]+"' class='form-control' id='garantia_precio"+registros[i]["cliente_id"]+"' required onchange='eltotal("+registros[i]["cliente_id"]+")' />";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<div class='col-md-4'>";
+                        html += "<label for='garantia_total"+registros[i]["cliente_id"]+"' class='control-label'><span class='text-danger'>*</span>Total</label>";
+                        html += "<div class='form-group'>";
+                        html += "<input type='number' step='any' min='0' name='garantia_total"+registros[i]["cliente_id"]+"' class='form-control' id='garantia_total"+registros[i]["cliente_id"]+"' readonly />";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<div class='col-md-12'>";
+                        html += "<label for='garantia_observacion"+registros[i]["cliente_id"]+"' class='control-label'>Observación</label>";
+                        html += "<div class='form-group'>";
+                        html += "<input type='text' name='garantia_observacion"+registros[i]["cliente_id"]+"' class='form-control' id='garantia_observacion"+registros[i]["cliente_id"]+"' onkeyup='var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);' />";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<div id='garantias"+registros[i]["integrante_id"]+"'>";
+                        html += "</div>";
+                        html += "<!------------------------------------------------------------------->";
+                        html += "</div>";
+                        html += "<div class='modal-footer aligncenter'>";
+                        html += "<a onclick='registrargarantia("+registros[i]["cliente_id"]+", "+registros[i]["integrante_id"]+", "+grupo_id+")' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                        html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<!------------------------ FIN modal para Registrar Garantia ------------------->";
+                        
                         html += "</td>";
                         
                         html += "<tr>";
@@ -163,34 +243,91 @@ function registrarnuevointegrante(grupo_id, grupo_monto, origen){
 
 }
 
-/*
-function registrarnuevacategoria(){
-    var controlador = "";
-    var base_url  = document.getElementById('base_url').value;
-    var parametro = document.getElementById('nueva_categoria').value;
-    controlador = base_url+'producto/aniadircategoria/';
-    $('#modalcategoria').modal('hide');
+function eltotal(cliente_id){
+    var cantidad  = document.getElementById('garantia_cantidad'+cliente_id).value;
+    var precio    = document.getElementById('garantia_precio'+cliente_id).value;
+    $("#garantia_total"+cliente_id).val(cantidad*precio);
+}
+
+function registrargarantia(cliente_id, integrante_id, grupo_id){
+    var base_url    = document.getElementById('base_url').value;
+    var descripcion = document.getElementById('garantia_descripcion'+cliente_id).value;
+    var cantidad    = document.getElementById('garantia_cantidad'+cliente_id).value;
+    var precio      = document.getElementById('garantia_precio'+cliente_id).value;
+    var total       = document.getElementById('garantia_total'+cliente_id).value;
+    var observacion = document.getElementById('garantia_observacion'+cliente_id).value;
+    var controlador = base_url+"garantia/registrargarantia";
+    $('#modalgarantia'+cliente_id).modal('hide');
     $.ajax({url: controlador,
            type:"POST",
-           data:{parametro:parametro},
-           success:function(respuesta){
-               
-               var registros =  JSON.parse(respuesta);
-                
-               if (registros != null){
+           data:{integrante_id:integrante_id, descripcion:descripcion, cantidad:cantidad, precio:precio,
+                 total:total, observacion:observacion},
+            success:function(resul){
+                var registros =  JSON.parse(resul);
+                    
+                if (registros != null){
+                    if(registros == "ok"){
+                    
+                        mostrar_integrantes(grupo_id);
+                    }
+                }else{
+                    alert("Descripcion, Cantidad y Precio no deben estar vacios");
+                }
+        },
+        error:function(resul){
+          // alert("Algo salio mal...!!!");
+           
+        }
+    });
+}
+
+function tablagarantia(integrante_id){
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'garantia/get_garantiaintegrante/';
+     
+    $.ajax({url: controlador,
+        type:"POST",
+        data:{integrante_id:integrante_id},
+        success:function(respuesta){
+            var registros =  JSON.parse(respuesta);
+            if (registros != null){                   
+                   
+                    var n = registros.length;
+                    var suma = Number(0);
                     html = "";
-                    html += "<option value='"+registros["categoria_id"]+"' selected >";
-                    html += registros["categoria_nombre"];
-                    html += "</option>";
-                    $("#categoria_id").append(html);
-            }
+                    
+                    html += "<table class='table table-striped' id='mitabla'";
+                    html += "<tr>";
+                    html += "<th>CANT.</th>";
+                    html += "<th>DESCRIPCION</th>";
+                    html += "<th>PRECIO</th>";
+                    html += "<th>TOTAL</th>";
+                    html += "</tr>";
+                    html += "<tbody id='garantiaaas'>";
+                    for (var i = 0; i < n ; i++){
+                     	suma += Number(registros[i]["garantia_total"]);
+                        html += "<tr>";
+                        html += "<td>"+registros[i]["garantia_cantidad"]+"</td>";
+                        html += "<td><b>"+registros[i]["garantia_descripcion"]+"</b></td>";
+                        html += "<td><b>"+Number(registros[i]["garantia_precio"]).toFixed(2)+"</b></td>";
+                        html += "<td><b>"+Number(registros[i]["garantia_total"]).toFixed(2)+"</b></td>";
+                        html += "</tr>";
+                    }
+                        html += "<tr>";
+                        html += "<td></td>";
+                      
+                        html += "<td></td>";
+                        html += "<td></td>";
+                        html += "<th>"+suma.toFixed(2)+"</th>";
+                        html += "</tr>";
+                        html += "</table>";
+                        $("#garantias"+integrante_id).html(html);
+          }  
         },
         error:function(respuesta){
-           html = "";
-           $("#categoria_id").html(html);
-        }
-        
-    });   
+          
+       
+   }
+    });
 
 }
-*/

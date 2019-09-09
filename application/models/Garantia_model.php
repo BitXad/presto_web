@@ -94,4 +94,18 @@ class Garantia_model extends CI_Model
     {
         return $this->db->delete('garantia',array('garantia_id'=>$garantia_id));
     }
+    
+    function get_allgarantiaintegrante($integrante_id)
+    {
+        $garantia = $this->db->query("
+            SELECT
+                g.*
+            FROM
+                garantia g
+            WHERE
+                g.integrante_id=".$integrante_id."
+            ORDER BY `garantia_descripcion`
+        ")->result_array();
+        return $garantia;
+    }
 }

@@ -126,4 +126,51 @@ class Garantia extends CI_Controller{
         }
     }
     
+    /* * añadir nueva garantia */
+    function registrargarantia()
+    {
+        //if($this->acceso(103)) {
+            if ($this->input->is_ajax_request()) {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('descripcion','Descripcion','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('cantidad','Cantidad','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('precio','Precio','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())     
+                {
+                    $estado = 1;
+                    $params = array(
+                        'estado_id'     => $estado,
+                        'integrante_id' => $this->input->post('integrante_id'),
+                        'garantia_descripcion' => $this->input->post('descripcion'),
+                        'garantia_cantidad'    => $this->input->post('cantidad'),
+                        'garantia_precio'      => $this->input->post('precio'),
+                        'garantia_total'       => $this->input->post('total'),
+                        'garantia_observacion' => $this->input->post('observacion'),
+                    );
+                    $garantia_id = $this->Garantia_model->add_garantia($params);
+                    echo json_encode("ok");
+                }else{
+                    echo json_encode(null);
+                }
+            }else{                 
+                show_404();
+            }
+        //}
+    }
+
+    /* * get garatias de un integrante */
+    function get_garantiaintegrante()
+    {
+        //if($this->acceso(103)) {
+            if ($this->input->is_ajax_request()) {
+                $integrante_id = $this->input->post('integrante_id');
+                $datos = $this->Garantia_model->get_allgarantiaintegrante($integrante_id);
+                echo json_encode($datos);
+            }else{                 
+                show_404();
+            }
+        //}
+    }
+    
 }
+

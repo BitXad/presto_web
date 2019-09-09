@@ -264,9 +264,27 @@
       	<div class="box box-info">
             <div class="box-body">
                 <div class="row clearfix">
-                    <div style="display: inline-block">
+                    <div >
                         <div class="col-md-12">
-                            <label>GARANTIAS PRENDARIAS: <span class="normal">___________________________________________________________________________________________________________________________________</span></label>
+                            <label>GARANTIAS PRENDARIAS: <span class="normal">
+                                <?php
+                                if($garantias){
+                                    $tam = count($garantias);
+                                    $cont = 1;
+                                    foreach ($garantias as $garantia) {
+                                        if($cont == $tam){
+                                            echo $garantia['garantia_descripcion'];
+                                        }else{
+                                            echo $garantia['garantia_descripcion'].", ";
+                                        }
+                                        $cont++;
+                                    }
+                                    echo "<br>";
+                                }else{
+                                    echo "___________________________________________________________________________________________________________________________________";
+                                }
+                                ?></span></label>
+                            
                         </div>
                     </div>
                     <div style="display: inline-block">
