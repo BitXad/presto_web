@@ -73,25 +73,11 @@
             <?php echo form_open('grupo/add'); ?>
           	<div class="box-body">
                     <div class="row clearfix">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="asesor_id" class="control-label">Asesor(*)</label>
                             <div class="form-group">
                                 <?php
-                               // if($tipousuario_id == 1 or $tipousuario_id == 2){
-                                ?>
-                                <select name="asesor_id" class="form-control" required>
-                                    <option value="">- ASESOR -</option>    
-                                    <?php 
-                                    foreach($all_asesor as $asesor)
-                                    {
-                                        $selected = ($asesor['asesor_id'] == $this->input->post('asesor_id')) ? ' selected="selected"' : "";
-
-                                        echo '<option value="'.$asesor['asesor_id'].'" '.$selected.'>'.$asesor['asesor_nombre'].' '.$asesor['asesor_apellido'].'</option>';
-                                    } 
-                                    ?>
-                                </select>
-                                <?php
-                               /* }else{
+                                if($tipousuario_id == 3){
                                 ?>
                                 <select name="asesor_id" class="form-control" required>
                                     <?php 
@@ -107,11 +93,24 @@
                                     ?>
                                 </select>
                                 <?php
-                                }*/
+                                }else{
+                                ?><select name="asesor_id" class="form-control" required>
+                                    <option value="">- ASESOR -</option>    
+                                    <?php 
+                                    foreach($all_asesor as $asesor)
+                                    {
+                                        $selected = ($asesor['asesor_id'] == $this->input->post('asesor_id')) ? ' selected="selected"' : "";
+
+                                        echo '<option value="'.$asesor['asesor_id'].'" '.$selected.'>'.$asesor['asesor_nombre'].' '.$asesor['asesor_apellido'].'</option>';
+                                    } 
+                                    ?>
+                                </select>
+                                <?php
+                                }
                                 ?>
                             </div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-6">
                             <label for="grupo_nombre" class="control-label">Nombre/Grupo(*)</label>
                             <div class="form-group">
                                 <input type="text" name="grupo_nombre" value="<?php echo $this->input->post('grupo_nombre'); ?>" class="form-control" id="grupo_nombre" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
@@ -148,28 +147,28 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <label for="grupo_municipio" class="control-label">Municipio</label>
                                 <div class="form-group">
                                         <input type="text" name="grupo_municipio" value="<?php echo $this->input->post('grupo_municipio'); ?>" class="form-control" id="grupo_municipio" />
                                 </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <label for="grupo_provincia" class="control-label">Provincia</label>
                                 <div class="form-group">
                                         <input type="text" name="grupo_provincia" value="<?php echo $this->input->post('grupo_provincia'); ?>" class="form-control" id="grupo_provincia" />
                                 </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <label for="grupo_zona" class="control-label">Zona</label>
                                 <div class="form-group">
                                         <input type="text" name="grupo_zona" value="<?php echo $this->input->post('grupo_zona'); ?>" class="form-control" id="grupo_zona" />
                                 </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <label for="grupo_fecha" class="control-label">Fecha Creación</label>
                                 <div class="form-group">
                                     <input type="date" name="grupo_fecha" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="grupo_fecha"/>
@@ -214,6 +213,7 @@
                                         <option value="7">SEMANAL (7 DIAS)</option>
                                         <option value="14">BISEMANAL (14 DIAS)</option>
                                         <option value="15">QUINCENAL (15 DIAS)</option>
+                                        <option value="30">MENSUAL (28 DIAS)</option>                                                                                                               
                                         <option value="30">MENSUAL (30 DIAS)</option>                                                                                                               
                                     </select>
 
@@ -230,6 +230,12 @@
                                 <label for="grupo_monto" class="control-label">Monto Solicitado Bs</label>
                                 <div class="form-group">
                                         <input type="number" step="any" min="0" name="grupo_monto" value="<?php echo $this->input->post('grupo_monto'); ?>" class="form-control" id="grupo_monto" required/>
+                                </div>
+                        </div>
+                        <div class="col-md-3">
+                                <label for="grupo_tiempotolerancia" class="control-label">Tiempo de Tolerancia</label>
+                                <div class="form-group">
+                                        <input type="text" name="grupo_tiempotolerancia" value="<?php echo $this->input->post('grupo_tiempotolerancia'); ?>" class="form-control" id="grupo_tiempotolerancia" required/>
                                 </div>
                         </div>
                         <div class="col-md-3">

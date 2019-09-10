@@ -34,7 +34,7 @@
             <?php echo form_open('grupo/edit/'.$grupo['grupo_id']); ?>
             <div class="box-body">
                 <div class="row clearfix">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <label for="asesor_id" class="control-label">Asesor</label>
                         <div class="form-group">
                             <select name="asesor_id" class="form-control" required>
@@ -50,7 +50,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <label for="grupo_nombre" class="control-label">Nombre/Grupo(*)</label>
                         <div class="form-group">
                             <input type="text" name="grupo_nombre" value="<?php echo ($this->input->post('grupo_nombre') ? $this->input->post('grupo_nombre') : $grupo['grupo_nombre']); ?>" class="form-control" id="grupo_nombre" required/>
@@ -68,7 +68,7 @@
                             <input type="number" name="grupo_integrantes" value="<?php echo ($this->input->post('grupo_integrantes') ? $this->input->post('grupo_integrantes') : $grupo['grupo_integrantes']); ?>" class="form-control" id="grupo_integrantes" required/>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="grupo_departamento" class="control-label">Departamento</label>
                         <div class="form-group">
                             <?php
@@ -204,6 +204,7 @@
                             $sem = "";
                             $bis = "";
                             $qui = "";
+                            $men28 = "";
                             $men = "";
                             if($grupo['grupo_tiemporeunion'] == "1"){
                                 $dia = "selected";
@@ -216,6 +217,9 @@
                                 if($grupo['grupo_tiemporeunion'] == "15"){
                                 $qui = "selected";
                             }else
+                                if($grupo['grupo_tiemporeunion'] == "28"){
+                                $men28 = "selected";
+                            }else
                                 if($grupo['grupo_tiemporeunion'] == "30"){
                                 $men = "selected";
                             }
@@ -225,6 +229,7 @@
                                 <option <?php echo $sem;?> value="7">SEMANAL (7 DIAS)</option>
                                 <option <?php echo $bis;?> value="14">BISEMANAL (14 DIAS)</option>
                                 <option <?php echo $qui;?> value="15">QUINCENAL (15 DIAS)</option>
+                                <option <?php echo $men28;?> value="30">MENSUAL (28 DIAS)</option>                                                                                                               
                                 <option <?php echo $men;?> value="30">MENSUAL (30 DIAS)</option>                                                                                                               
                             </select>
 
@@ -240,6 +245,12 @@
                         <label for="grupo_monto" class="control-label">Monto Solicitado Bs</label>
                         <div class="form-group">
                             <input type="number" step="any" min="0" name="grupo_monto" value="<?php echo ($this->input->post('grupo_monto') ? $this->input->post('grupo_monto') : $grupo['grupo_monto']); ?>" class="form-control" id="grupo_monto" required/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="grupo_tiempotolerancia" class="control-label">Tiempo de Tolerancia</label>
+                        <div class="form-group">
+                            <input type="text" name="grupo_tiempotolerancia" value="<?php echo ($this->input->post('grupo_tiempotolerancia') ? $this->input->post('grupo_tiempotolerancia') : $grupo['grupo_tiempotolerancia']); ?>" class="form-control" id="grupo_tiempotolerancia" required/>
                         </div>
                     </div>
                     <div class="col-md-3">

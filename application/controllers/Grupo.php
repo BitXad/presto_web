@@ -33,7 +33,16 @@ class Grupo extends CI_Controller{
     {
         if($this->acceso(13)){
             date_default_timezone_set("America/La_Paz");
-            $data['grupo'] = $this->Grupo_model->get_all_grupos();
+            $tipousuario_id  = $this->session_data['tipousuario_id'];
+            if($tipousuario_id == 3){
+                $usuario_id  = $this->session_data['usuario_id'];
+                
+                $this->load->model('Asesor_model');
+                $asesor_id = $this->Asesor_model->get_asesorusuario($usuario_id);
+                $data['grupo'] = $this->Grupo_model->get_all_gruposasesor($asesor_id);
+            }else{
+                $data['grupo'] = $this->Grupo_model->get_all_grupos();
+            }
 
             $data['_view'] = 'grupo/index';
             $this->load->view('layouts/main',$data);
@@ -77,6 +86,7 @@ class Grupo extends CI_Controller{
                     'grupo_horareunion' => $this->input->post('grupo_horareunion'),
                     'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
                     'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
+                    'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
                 );
 
                 $grupo_id = $this->Grupo_model->add_grupo($params);
@@ -85,7 +95,7 @@ class Grupo extends CI_Controller{
             }
             else
             {
-                //$data['tipousuario_id']  = $this->session_data['tipousuario_id'];
+                $data['tipousuario_id']  = $this->session_data['tipousuario_id'];
                 $this->load->model('Asesor_model');
                 $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
 
@@ -139,6 +149,7 @@ class Grupo extends CI_Controller{
                         'grupo_horareunion' => $this->input->post('grupo_horareunion'),
                         'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
                         'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
+                        'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
                     );
 
                     $this->Grupo_model->update_grupo($grupo_id,$params);            
@@ -398,6 +409,7 @@ class Grupo extends CI_Controller{
                 'grupo_horareunion' => $this_grupo['grupo_horareunion'],
                 'grupo_tiemporeunion' => $this_grupo['grupo_tiemporeunion'],
                 'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
+                'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
             );
 
             $grupo_idnew = $this->Grupo_model->add_grupo($params);
@@ -406,7 +418,7 @@ class Grupo extends CI_Controller{
                 $param = array(
                     'cliente_id' => $integrante['cliente_id'],
                     'tipointeg_id' => $integrante['tipointeg_id'],
-                    'garantia_id' => $integrante['garantia_id'],
+                    //'garantia_id' => $integrante['garantia_id'],
                     'grupo_id' => $grupo_idnew,
                     'integrante_fechareg' => $integrante['integrante_fechareg'],
                     'integrante_horareg' => $integrante['integrante_horareg'],

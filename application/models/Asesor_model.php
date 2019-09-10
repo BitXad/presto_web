@@ -92,4 +92,21 @@ class Asesor_model extends CI_Model
         $asesor = $this->db->query($sql)->row_array();
         return $asesor['resultado'];
     }
+    
+     /* Get asesor ..... usuario */
+    function get_asesorusuario($usuario_id)
+    {
+        $asesor = $this->db->query("
+            SELECT
+                a.asesor_id
+            FROM
+                asesor a
+
+            WHERE
+                a.usuario_id = ?
+        ",array($usuario_id))->row_array();
+
+        return $asesor['asesor_id'];
+    }
+    
 }

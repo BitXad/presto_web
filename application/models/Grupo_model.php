@@ -128,5 +128,17 @@ class Grupo_model extends CI_Model
         return $this->db->query($sql)->result_array();
     }
     
+    /* Get all grupo de un asesor */
+    function get_all_gruposasesor($asesor_id)
+    {
+        $sql = "select * from grupo g
+                left join asesor a on a.asesor_id = g.asesor_id
+                left join usuario u on u.usuario_id = g.usuario_id
+                left join estado e on e.estado_id = g.estado_id
+                where g.asesor_id = $asesor_id";
+
+        $grupo = $this->db->query($sql)->result_array();
+        return $grupo;
+    }
     
 }

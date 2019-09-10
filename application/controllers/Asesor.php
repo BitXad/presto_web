@@ -112,6 +112,20 @@ class Asesor extends CI_Controller{
                         }
                 /* *********************FIN imagen***************************** */
 
+                $tipousuario = 3; //<--- esto porque es asesor de negocios
+                $paralogin = strtok($this->input->post('asesor_nombre'), " ");
+                $paramsuaurio = array(
+                        'tipousuario_id' => $tipousuario,
+                        'estado_id' => 1,
+                        'usuario_nombre' => $this->input->post('asesor_nombre')." ".$this->input->post('asesor_apellido'),
+                        'usuario_email' => $this->input->post('usuario_email'),
+                        'usuario_login' => $paralogin,
+                        'usuario_clave' => md5($paralogin.substr($this->input->post('asesor_apellido'),0,1)),
+                        //'usuario_imagen' => $foto,
+                );
+                $this->load->model('Usuario_model');
+                $usuario_id = $this->Usuario_model->add_usuario($paramsuaurio);
+                
                 $estado_id = 1;
                 $params = array(
                     'estado_id' => $estado_id,
@@ -126,9 +140,12 @@ class Asesor extends CI_Controller{
                     'asesor_fechanac' => $this->input->post('asesor_fechanac'),
                     'asesor_profesion' => $this->input->post('asesor_profesion'),
                     'asesor_especialidad' => $this->input->post('asesor_especialidad'),
+                    'usuario_id' => $usuario_id,
                 );
-
                 $asesor_id = $this->Asesor_model->add_asesor($params);
+                
+                
+                
                 redirect('asesor/index');
                 }
             }

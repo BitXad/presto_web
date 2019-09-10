@@ -69,7 +69,7 @@ class Verificar extends CI_Controller
                     redirect('cliente');
                 }
                 if ($session_data['tipousuario_id'] == 3) {
-                    redirect('');
+                    redirect('grupo');
                 }
 
             } else {
