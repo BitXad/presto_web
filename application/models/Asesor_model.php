@@ -109,4 +109,24 @@ class Asesor_model extends CI_Model
         return $asesor['asesor_id'];
     }
     
+    /*
+     * Get all asesor activo
+     */
+    function get_all_asesoractivo()
+    {
+        $asesor = $this->db->query("
+            SELECT
+                a.*, e.estado_color, e.estado_descripcion
+
+            FROM
+                asesor a
+            LEFT JOIN estado e on a.estado_id = e.estado_id
+            WHERE
+                a.estado_id = 1
+
+            ORDER BY a.asesor_nombre, a.asesor_apellido
+        ")->result_array();
+
+        return $asesor;
+    }
 }

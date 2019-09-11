@@ -105,11 +105,19 @@ class Grupo_model extends CI_Model
         return $this->db->query($sql);
         
     }
-
+    /* muestra todos los grupos para desembolso */
     function get_grupo_para_desembolso()
     {
-        
         $sql = "select * from grupo where estado_id = 5";
+        return $this->db->query($sql)->result_array();
+    }
+    /* muestra todos los grupos de un ASESOR para desembolso */
+    function get_grupo_para_desembolso_asesor($asesor_id)
+    {
+        $sql = "select *
+                from grupo
+                where estado_id = 5
+                      and asesor_id = $asesor_id";
         return $this->db->query($sql)->result_array();
     }
         

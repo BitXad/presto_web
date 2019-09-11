@@ -83,12 +83,10 @@
                                     <?php 
                                     foreach($all_asesor as $asesor)
                                     {
-                                        if(true){
-                                            
+                                        if($asesor['usuario_id'] == $usuario_id){
+                                            $selected = ($asesor['asesor_id'] == $this->input->post('asesor_id')) ? ' selected="selected"' : "";
+                                            echo '<option value="'.$asesor['asesor_id'].'" '.$selected.'>'.$asesor['asesor_nombre'].' '.$asesor['asesor_apellido'].'</option>';
                                         }
-                                        $selected = ($asesor['asesor_id'] == $this->input->post('asesor_id')) ? ' selected="selected"' : "";
-
-                                        echo '<option value="'.$asesor['asesor_id'].'" '.$selected.'>'.$asesor['asesor_nombre'].' '.$asesor['asesor_apellido'].'</option>';
                                     } 
                                     ?>
                                 </select>

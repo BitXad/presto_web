@@ -66,9 +66,16 @@ class Credito extends CI_Controller{
         if($this->acceso(5)){
             $usuario_id = $this->session_data['usuario_id'];
             $data['usuario_id'] = $usuario_id;
-
+            $tipousuario_id  = $this->session_data['tipousuario_id'];
+            
             $this->load->model('Grupo_model');
-            $data['grupo'] = $this->Grupo_model->get_grupo_para_desembolso();
+            if($tipousuario_id == 3){
+                $this->load->model('Asesor_model');
+                $asesor_id = $this->Asesor_model->get_asesorusuario($usuario_id);
+                $data['grupo'] = $this->Grupo_model->get_grupo_para_desembolso_asesor($asesor_id);
+            }else{
+                $data['grupo'] = $this->Grupo_model->get_grupo_para_desembolso();
+            }
 
             $data['credito'] = $this->Credito_model->get_todo_credito();
             $this->load->model('Tipo_credito_model');

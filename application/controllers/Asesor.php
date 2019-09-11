@@ -48,6 +48,8 @@ class Asesor extends CI_Controller{
             $this->load->library('form_validation');
             $this->form_validation->set_rules('asesor_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
             $this->form_validation->set_rules('asesor_apellido','Apellido','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            $this->form_validation->set_rules('usuario_login','Usuario','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            $this->form_validation->set_rules('usuario_clave','Contraseña','trim|required', array('required' => 'Este Campo no debe ser vacio'));
 
             if($this->form_validation->run())     
             {
@@ -113,14 +115,14 @@ class Asesor extends CI_Controller{
                 /* *********************FIN imagen***************************** */
 
                 $tipousuario = 3; //<--- esto porque es asesor de negocios
-                $paralogin = strtok($this->input->post('asesor_nombre'), " ");
+                //$paralogin = strtok($this->input->post('asesor_nombre'), " ");
                 $paramsuaurio = array(
                         'tipousuario_id' => $tipousuario,
                         'estado_id' => 1,
                         'usuario_nombre' => $this->input->post('asesor_nombre')." ".$this->input->post('asesor_apellido'),
                         'usuario_email' => $this->input->post('usuario_email'),
-                        'usuario_login' => $paralogin,
-                        'usuario_clave' => md5($paralogin.substr($this->input->post('asesor_apellido'),0,1)),
+                        'usuario_login' => $this->input->post('usuario_login'),
+                        'usuario_clave' => md5($this->input->post('usuario_clave')),
                         //'usuario_imagen' => $foto,
                 );
                 $this->load->model('Usuario_model');

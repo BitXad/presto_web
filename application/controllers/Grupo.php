@@ -96,8 +96,9 @@ class Grupo extends CI_Controller{
             else
             {
                 $data['tipousuario_id']  = $this->session_data['tipousuario_id'];
+                $data['usuario_id']  = $this->session_data['usuario_id'];
                 $this->load->model('Asesor_model');
-                $data['all_asesor'] = $this->Asesor_model->get_all_asesor();
+                $data['all_asesor'] = $this->Asesor_model->get_all_asesoractivo();
 
                 $this->load->model('Usuario_model');
                 $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
@@ -346,8 +347,12 @@ class Grupo extends CI_Controller{
                 $this->form_validation->set_rules('integrante_monto1','Monto','trim|required', array('required' => 'Este Campo no debe ser vacio'));
                 if($this->form_validation->run())     
                 {
+                    $estado_id = 1;
+                    $categoria_id = 0;
                     if($resultado == 0){
                         $params = array(
+                        'estado_id' => $estado_id,
+                        'estado_id' => $categoria_id,
                         'cliente_nombre' => $cliente_nombre,
                         'cliente_apellido' => $cliente_apellido,
 
@@ -408,8 +413,8 @@ class Grupo extends CI_Controller{
                 'grupo_diareunion' => $this_grupo['grupo_diareunion'],
                 'grupo_horareunion' => $this_grupo['grupo_horareunion'],
                 'grupo_tiemporeunion' => $this_grupo['grupo_tiemporeunion'],
-                'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
-                'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
+                'grupo_multaretrasodetalle' => $this_grupo['grupo_multaretrasodetalle'],
+                'grupo_tiempotolerancia' => $this_grupo['grupo_tiempotolerancia'],
             );
 
             $grupo_idnew = $this->Grupo_model->add_grupo($params);
