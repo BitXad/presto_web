@@ -154,4 +154,20 @@ class Cliente_model extends CI_Model
         return $cliente;
 
     }
+    /*
+     * Get all cliente libres
+     */
+    function get_all_clientelibres()
+    {
+        $cliente = $this->db->query("
+            SELECT * FROM `cliente`
+            WHERE cliente_id NOT IN 
+            (SELECT c.cliente_id from cliente c, grupo g, integrante i
+            WHERE c.cliente_id=i.cliente_id AND i.grupo_id=g.grupo_id and g.estado_id=5 )
+            GROUP BY cliente_id
+            ORDER BY cliente_nombre, cliente_apellido
+        ")->result_array();
+
+        return $cliente;
+    }
 }

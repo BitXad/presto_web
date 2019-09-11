@@ -210,7 +210,7 @@ class Grupo extends CI_Controller{
                     $data['grupo'] = $this->Grupo_model->get_grupo($grupo_id);
 
                     $this->load->model('Cliente_model');
-                    $data['all_cliente'] = $this->Cliente_model->get_all_cliente();
+                    $data['all_cliente'] = $this->Cliente_model->get_all_clientelibres();
 
                     $this->load->model('Cliente_model');
                     $data['integrantes'] = $this->Cliente_model->get_all_integrantes($grupo_id);
@@ -352,7 +352,7 @@ class Grupo extends CI_Controller{
                     if($resultado == 0){
                         $params = array(
                         'estado_id' => $estado_id,
-                        'estado_id' => $categoria_id,
+                        'categoria_id' => $categoria_id,
                         'cliente_nombre' => $cliente_nombre,
                         'cliente_apellido' => $cliente_apellido,
 

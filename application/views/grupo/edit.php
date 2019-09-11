@@ -192,7 +192,7 @@
                     <div class="col-md-3">
                         <label for="grupo_horareunion" class="control-label">Hora Reunión</label>
                         <div class="form-group">
-                            <input type="time" name="grupo_horareunion" value="<?php echo $grupo['grupo_horareunion']; ?>" class="form-control" id="grupo_horareunion" />
+                            <input type="timepicker" name="grupo_horareunion" value="<?php echo $grupo['grupo_horareunion']; ?>" class="form-control" id="grupo_horareunion" />
                         </div>
                     </div>
 
