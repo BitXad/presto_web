@@ -199,7 +199,7 @@
                         <div class="col-md-3">
                                 <label for="grupo_horareunion" class="control-label">Hora Reunión</label>
                                 <div class="form-group">
-                                    <input type="timepicker" name="grupo_horareunion" value="<?php echo date('H:i:s'); ?>" class="form-control" id="grupo_horareunion" />
+                                    <input  data-format="hh:mm:ss" type="time" name="grupo_horareunion" value="<?php echo date('H:i:s'); ?>" class="form-control" id="grupo_horareunion" />
                                 </div>
                         </div>
 
