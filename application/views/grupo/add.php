@@ -175,7 +175,7 @@
                         <div class="col-md-3">
                                 <label for="grupo_hora" class="control-label">Hora Creación</label>
                                 <div class="form-group">
-                                        <input type="time" name="grupo_hora" value="<?php echo date('H:i:s'); ?>" class="form-control" id="grupo_hora" />
+                                    <input type="time" step="any" name="grupo_hora" value="<?php echo date('H:i:s'); ?>" class="form-control" id="grupo_hora" />
                                 </div>
                         </div>
 
@@ -199,7 +199,7 @@
                         <div class="col-md-3">
                                 <label for="grupo_horareunion" class="control-label">Hora Reunión</label>
                                 <div class="form-group">
-                                    <input  data-format="hh:mm:ss" type="time" name="grupo_horareunion" value="<?php echo date('H:i:s'); ?>" class="form-control" id="grupo_horareunion" />
+                                    <input type="time" step="any" name="grupo_horareunion" value="<?php echo date('H:i:s'); ?>" class="form-control" id="grupo_horareunion" />
                                 </div>
                         </div>
 
