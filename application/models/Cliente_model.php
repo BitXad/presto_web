@@ -29,6 +29,22 @@ class Cliente_model extends CI_Model
 
         return $cliente;
     }
+
+    function get_integrante($cliente_id,$grupo_id)
+    {
+        $cliente = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                integrante
+
+            WHERE
+                cliente_id=".$cliente_id." and grupo_id=".$grupo_id."
+        ",array($cliente_id))->row_array();
+
+        return $cliente;
+    }
         
     /*
      * Get all cliente

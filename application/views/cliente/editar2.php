@@ -1,4 +1,5 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('resources/js/garantiascliente.js'); ?>" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         var estadocivil = "";
@@ -6,13 +7,19 @@
         if(estadocivil == 2 || estadocivil == 5){
             $("#conyujepareja").html("*");
             document.getElementById("cliente_conyuge").required = true;
+            document.getElementById("cliente_conyuge").readOnly = false;
             $("#telefonopareja").html("*");
             document.getElementById("conyuge_telef").required = true;
+            document.getElementById("conyuge_telef").readOnly = false;
+            document.getElementById("conyuge_ci").readOnly = false;
         }else{
             $("#conyujepareja").html("");
             document.getElementById("cliente_conyuge").required = false;
+            document.getElementById("cliente_conyuge").readOnly = true;
             $("#telefonopareja").html("");
             document.getElementById("conyuge_telef").required = false;
+            document.getElementById("conyuge_telef").readOnly = true;
+            document.getElementById("conyuge_ci").readOnly = true;
         }
     });
 </script>
@@ -23,14 +30,20 @@
         if(estadocivil == 2 || estadocivil == 5){
             $("#conyujepareja").html("*");
             document.getElementById("cliente_conyuge").required = true;
+            document.getElementById("cliente_conyuge").readOnly = false;
             $("#telefonopareja").html("*");
             document.getElementById("conyuge_telef").required = true;
+            document.getElementById("conyuge_telef").readOnly = false;
+            document.getElementById("conyuge_ci").readOnly = false;
             //cliente_conyuge.attributes.required = "required";
         }else{
             $("#conyujepareja").html("");
             document.getElementById("cliente_conyuge").required = false;
+            document.getElementById("cliente_conyuge").readOnly = true;
             $("#telefonopareja").html("");
             document.getElementById("conyuge_telef").required = false;
+            document.getElementById("conyuge_telef").readOnly = true;
+            document.getElementById("conyuge_ci").readOnly = true;
         }
     }
 </script>
@@ -62,6 +75,9 @@ function mostrar(a) {
         $('#cliente_codigo').val(cad);
     }
 </script>
+<!------------------ ESTILO DE LAS TABLAS ----------------->
+<link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+<!-------------------------------------------------------->
 <div class="row">
     <div class="col-md-12">
       	<div class="box box-info">
@@ -177,25 +193,19 @@ function mostrar(a) {
                                 <input type="text" name="cliente_celular" value="<?php echo ($this->input->post('cliente_celular') ? $this->input->post('cliente_celular') : $cliente['cliente_celular']); ?>" class="form-control" id="cliente_celular" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <label for="cliente_actividadeconomica" class="control-label"><span class="text-danger">*</span>Actividad Económica</label>
-                            <div class="form-group">
-                                <input type="text" name="cliente_actividadeconomica" value="<?php echo ($this->input->post('cliente_actividadeconomica') ? $this->input->post('cliente_actividadeconomica') : $cliente['cliente_actividadeconomica']); ?>" class="form-control" id="cliente_actividadeconomica" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="cliente_conyuge" class="control-label"><span id="conyujepareja" class="text-danger"></span>Pareja</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_conyuge" value="<?php echo $cliente['cliente_conyuge']; ?>" class="form-control" id="cliente_conyuge" onKeyUp='this.value = this.value.toUpperCase();' />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="conyuge_ci" class="control-label">Pareja Dcto.</label>
                             <div class="form-group">
-                                <input type="text" name="conyuge_ci" value="<?php echo $cliente['conyuge_ci']; ?>" class="form-control" id="cliente_ci" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                                <input type="text" name="conyuge_ci" value="<?php echo $cliente['conyuge_ci']; ?>" class="form-control" id="conyuge_ci" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="conyuge_telef" class="control-label"><span id="telefonopareja" class="text-danger"></span>Pareja Telef.:</label>
                             <div class="form-group">
                                 <input type="text" name="conyuge_telef" value="<?php echo $cliente['conyuge_telef']; ?>" class="form-control" id="conyuge_telef" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
@@ -207,7 +217,7 @@ function mostrar(a) {
                                 <input type="text" name="cliente_referencia1" value="<?php echo $cliente['cliente_referencia1']; ?>" class="form-control" id="cliente_referencia1" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="cliente_reftelef1" class="control-label"><span class="text-danger">*</span>Teléfono Ref. #1</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_reftelef1" value="<?php echo $cliente['cliente_reftelef1']; ?>" class="form-control" id="cliente_reftelef1" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
@@ -219,10 +229,22 @@ function mostrar(a) {
                                 <input type="text" name="cliente_referencia2" value="<?php echo $cliente['cliente_referencia2']; ?>" class="form-control" id="cliente_referencia2" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="cliente_reftelef2" class="control-label">Teléfono Ref. #2</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_reftelef2" value="<?php echo $cliente['cliente_reftelef2']; ?>" class="form-control" id="cliente_reftelef2" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_actividadeconomica" class="control-label"><span class="text-danger">*</span>Actividad Económica</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_actividadeconomica" value="<?php echo ($this->input->post('cliente_actividadeconomica') ? $this->input->post('cliente_actividadeconomica') : $cliente['cliente_actividadeconomica']); ?>" class="form-control" id="cliente_actividadeconomica" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cliente_refactividad" class="control-label">Referencia Actividad Económica</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_refactividad" value="<?php echo ($this->input->post('cliente_refactividad') ? $this->input->post('cliente_refactividad') : $cliente['cliente_refactividad']); ?>" class="form-control" id="cliente_refactividad" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -254,13 +276,19 @@ function mostrar(a) {
                                 <input type="text" name="cliente_pertenenciatiempo" value="<?php echo $cliente['cliente_pertenenciatiempo']; ?>" class="form-control" id="cliente_pertenenciatiempo" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="cliente_numhijos" class="control-label">Nro. de Hijos</label>
                             <div class="form-group">
                                 <input type="number" min="0" name="cliente_numhijos" value="<?php echo $cliente['cliente_numhijos']; ?>" class="form-control" id="cliente_numhijos" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-2">
+                            <label for="cliente_edadhijos" class="control-label">Edad Hijo(s)</label>
+                            <div class="form-group">
+                                <input type="text" name="cliente_edadhijos" value="<?php echo $cliente['cliente_edadhijos']; ?>" class="form-control" id="cliente_edadhijos" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
                             <label for="cliente_direccion" class="control-label"><span class="text-danger">*</span>Dirección</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_direccion" value="<?php echo ($this->input->post('cliente_direccion') ? $this->input->post('cliente_direccion') : $cliente['cliente_direccion']); ?>" class="form-control" id="cliente_direccion" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
@@ -434,7 +462,7 @@ function mostrar(a) {
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="estado_id" class="control-label">Estado</label>
                             <div class="form-group">
                                 <select name="estado_id" class="form-control">
@@ -448,8 +476,21 @@ function mostrar(a) {
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <label for="garantia" class="control-label">Garantia</label>
+                            <div class="form-group">
+                        <a  data-toggle='modal' data-target='#modalgarantia' class='btn btn-soundcloud btn-md' title='Ver/Registrar Garantia'><i class='fa fa-briefcase'></i> + Agregar</a>
+                        <input type="hidden" name="grupo_id" value="<?php echo $grupo_id; ?>" class="form-control" id="grupo_id" />
+                        <input type="hidden" name="integrante_id" value="<?php echo $integrante["integrante_id"]; ?>" class="form-control" id="integrante_id" />
+                        <input type="hidden" name="base_url" value="<?php echo base_url(); ?>" class="form-control" id="base_url" />
+                    </div></div>
+                    <div class="col-md-6">
+                        <label for="garantian" class="control-label"></label>
+                        <div id='garantias'>
+                        </div>
                     </div>
-                </div>
+                    </div>
+                </div></div>
           	<div class="box-footer">
             	<button type="submit" class="btn btn-success">
                     <i class="fa fa-check"></i> Guardar
@@ -461,3 +502,57 @@ function mostrar(a) {
       	</div>
     </div>
 </div>
+
+
+<!------------------------ INICIO modal para registrar Garantia ------------------->
+                        <div class='modal fade' id='modalgarantia' tabindex='-1' role='dialog' aria-labelledby='modalgarantia'>
+                        <div class='modal-dialog' role='document'>
+                        <br><br>
+                        <div class='modal-content'>
+                        <div class='modal-header text-center'>
+                        <span style='font-size:12pt' class='text-bold'>NUEVA GARANTIA</span>
+                        <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>
+                        </div>
+                        <div class='modal-body'>
+                        <!------------------------------------------------------------------->
+                        <div class='col-md-12'>
+                        <label for='garantia_descripcion' class='control-label'><span class='text-danger'>*</span>Descripción</label>
+                        <div class='form-group'>
+                        <input type='text' name='garantia_descripcion' class='form-control ' id='garantia_descripcion' required onkeyup='var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);' onclick='this.select();' />
+                        </div>
+                        </div>
+                        <div class='col-md-4'>
+                        <label for='garantia_cantidad' class='control-label'><span class='text-danger'>*</span>Cantidad</label>
+                        <div class='form-group'>
+                        <input type='number' step='any' min='0' name='garantia_cantidad' class='form-control' id='garantia_cantidad' required onkeyup='totaly()' />
+                        </div>
+                        </div>
+                        <div class='col-md-4'>
+                        <label for='garantia_precio' class='control-label'><span class='text-danger'>*</span>Precio</label>
+                        <div class='form-group'>
+                        <input type='number' step='any' min='0' name='garantia_precio' class='form-control' id='garantia_precio' required onkeyup='totaly()' />
+                        </div>
+                        </div>
+                        <div class='col-md-4'>
+                        <label for='garantia_total' class='control-label'><span class='text-danger'>*</span>Total</label>
+                        <div class='form-group'>
+                        <input type='number' step='any' min='0' name='garantia_total' class='form-control' id='garantia_total' readonly />
+                        </div>
+                        </div>
+                        <div class='col-md-8'>
+                        <label for='garantia_observacion' class='control-label'>Observación</label>
+                        <div class='form-group'>
+                        <input type='text' name='garantia_observacion' class='form-control' id='garantia_observacion' onkeyup='var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);' />
+                        </div>
+                        </div>
+                        
+                        <!------------------------------------------------------------------->
+                        </div>
+                        <div class='modal-footer aligncenter'>
+                        <a onclick='registragarantia(<?php echo $cliente["cliente_id"];?>,<?php echo $integrante["integrante_id"];?>,<?php echo $grupo_id;?>)' class='btn btn-success'><span class='fa fa-check'></span> Si </a>
+                        <a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <!------------------------ FIN modal para Registrar Garantia ------------------->

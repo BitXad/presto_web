@@ -26,6 +26,7 @@
     <div class="panel panel-primary col-md-8 no-print">
     <?php //echo form_open('grupo/agregar_integrante'); ?>
         <input type="hidden" name="grupo_id"  id="grupo_id" value="<?php echo $grupo['grupo_id']; ?>" >
+        <input type="hidden" name="grupo_monto"  id="grupo_monto" value="<?php echo $grupo['grupo_monto']; ?>" >
         
         <div class="col-md-5">
             <label for="cliente_id" class="control-label">Cliente/Deudor:</label>
@@ -37,7 +38,7 @@
                     {
                             $selected = ($cliente['cliente_id'] == $grupo['cliente_id']) ? ' selected="selected"' : "";
 
-                            echo '<option value="'.$cliente['cliente_id'].'" '.$selected.'>'.$cliente['cliente_apellido'].", ".$cliente['cliente_nombre'].' C.I.:'.$cliente['cliente_ci'].'</option>';
+                            echo '<option value="'.$cliente['cliente_id'].'" '.$selected.'>'.$cliente['cliente_nombre']." ".$cliente['cliente_apellido'].' C.I.:'.$cliente['cliente_ci'].'</option>';
                     } 
                     ?>
                 </select>

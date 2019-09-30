@@ -410,6 +410,7 @@ class Cliente extends CI_Controller{
         //if($this->acceso(4)){
             // check if the cliente exists before trying to edit it
             $data['cliente'] = $this->Cliente_model->get_cliente($cliente_id);
+            $data['integrante'] = $this->Cliente_model->get_integrante($cliente_id,$grupo_id);
             $data['grupo_id'] = $grupo_id;
 
             if(isset($data['cliente']['cliente_id']))
@@ -523,6 +524,8 @@ class Cliente extends CI_Controller{
                             'cliente_referencia2' => $this->input->post('cliente_referencia2'),
                             'cliente_reftelef2' => $this->input->post('cliente_reftelef2'),
                             'cliente_actividadeconomica' => $this->input->post('cliente_actividadeconomica'),
+                            'cliente_refactividad' => $this->input->post('cliente_refactividad'),
+                            'cliente_edadhijos' => $this->input->post('cliente_edadhijos'),
                     );
 
                     $this->Cliente_model->update_cliente($cliente_id,$params);            

@@ -22,8 +22,8 @@ function mostrar_integrantes(grupo_id){
                         html += "<tr>";
                       
                         html += "<td>"+(i+1)+"</td>";
-                        html += "<td id='horizontal'>";
-                        html += "<font size='1'>"+registros[i]["cliente_apellido"]+", "+registros[i]["cliente_nombre"]+"</font><br>";
+                        html += "<td>";
+                        html += "<font size='1'>"+registros[i]["cliente_nombre"]+" "+registros[i]["cliente_apellido"]+" </font>";
                         html += "</td>";
                         var direccion = "";
                         if(registros[i]["cliente_direccion"] != null){
@@ -150,6 +150,7 @@ function registrarnuevoclientedeudor(){
     var base_url  = document.getElementById('base_url').value;
     var cliente_nombre   = document.getElementById('cliente_nombre').value;
     var grupo_id         = document.getElementById('grupo_id').value;
+    var grupo_monto         = document.getElementById('grupo_monto').value;
     var cliente_apellido = document.getElementById('cliente_apellido').value;
     var integrante_monto1 = document.getElementById('integrante_monto1').value;
     controlador = base_url+'grupo/aniadir_newcliente';
@@ -175,7 +176,7 @@ function registrarnuevoclientedeudor(){
                         $("#cliente_nombre").val("");
                         $("#cliente_apellido").val("");
                         $("#aviso_clientenew").text("");
-                        registrarnuevointegrante(grupo_id, integrante_monto1, 1);
+                        registrarnuevointegrante(grupo_id, grupo_monto, 1);
                     }
                 }else{
                     $("#aviso_clientenew").text("Nombre(s), Apellido(s) y Monto no deben estar en blanco");
