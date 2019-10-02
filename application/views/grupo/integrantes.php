@@ -77,7 +77,7 @@
                 <!--<label for="cliente_id" class="control-label"> </label>-->
                 <div class="form-group">
                     <a href="<?php echo base_url('grupo'); ?>" type="submit" class="btn btn-danger btn-block">
-            		<i class="fa fa-floppy-o"></i> Salir
+            		<i class="fa fa-undo"></i> Salir
                     </a>        
 
                 </div>

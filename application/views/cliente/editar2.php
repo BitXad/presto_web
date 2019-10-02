@@ -1,5 +1,6 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/garantiascliente.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('resources/js/deudas.js'); ?>" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         var estadocivil = "";
@@ -184,7 +185,7 @@ function mostrar(a) {
                         <div class="col-md-3">
                             <label for="cliente_telefono" class="control-label">Teléfono</label>
                             <div class="form-group">
-                                <input type="text" name="cliente_telefono" value="<?php echo ($this->input->post('cliente_telefono') ? $this->input->post('cliente_telefono') : $cliente['cliente_telefono']); ?>" class="form-control" id="cliente_telefono" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                                <input type="text" name="cliente_telefono" value="<?php echo ($this->input->post('cliente_telefono') ? $this->input->post('cliente_telefono') : $cliente['cliente_telefono']); ?>" class="form-control" id="cliente_telefono" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -476,7 +477,10 @@ function mostrar(a) {
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-9"  style="width: 100%">
+
+                        </div>
+                        <div class="col-md-4">
                             <label for="garantia" class="control-label">Garantia</label>
                             <div class="form-group">
                         <a  data-toggle='modal' data-target='#modalgarantia' class='btn btn-soundcloud btn-md' title='Ver/Registrar Garantia'><i class='fa fa-briefcase'></i> + Agregar</a>
@@ -484,9 +488,19 @@ function mostrar(a) {
                         <input type="hidden" name="integrante_id" value="<?php echo $integrante["integrante_id"]; ?>" class="form-control" id="integrante_id" />
                         <input type="hidden" name="base_url" value="<?php echo base_url(); ?>" class="form-control" id="base_url" />
                     </div></div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <label for="garantian" class="control-label"></label>
                         <div id='garantias'>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                            <label for="deuda" class="control-label">Deudas</label>
+                            <div class="form-group">
+                        <a data-toggle='modal' data-target='#modaldeuda' class='btn btn-soundcloud btn-md'><i class='fa fa-file'></i> + Agregar</a>
+                    </div></div>
+                    <div class="col-md-8">
+                        <label for="garantian" class="control-label"></label>
+                        <div id='deudas'>
                         </div>
                     </div>
                     </div>
@@ -556,3 +570,47 @@ function mostrar(a) {
                         </div>
                         </div>
                         <!------------------------ FIN modal para Registrar Garantia ------------------->
+
+
+<!------------------------ INICIO modal para registrar Deuda ------------------->
+                        <div class='modal fade' id='modaldeuda' tabindex='-1' role='dialog' aria-labelledby='modaldeuda'>
+                        <div class='modal-dialog' role='document'>
+                        <br><br>
+                        <div class='modal-content'>
+                        <div class='modal-header text-center'>
+                        <span style='font-size:12pt' class='text-bold'>REGISTRA DEUDA</span>
+                        <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>
+                        </div>
+                        <div class='modal-body'>
+                        <!------------------------------------------------------------------->
+                        
+                        <div class='col-md-4'>
+                        <label for='deudainst_nombre' class='control-label'><span class='text-danger'>*</span>Nombre</label>
+                        <div class='form-group'>
+                         <input type='text' name='deudainst_nombre' class='form-control ' id='deudainst_nombre' required onkeyup='var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);' onclick='this.select();' />
+                        </div>
+                        </div>
+                        <div class='col-md-4'>
+                        <label for='deudainst_detalle' class='control-label'><span class='text-danger'>*</span>Detalle</label>
+                        <div class='form-group'>
+                         <input type='text' name='deudainst_detalle' class='form-control ' id='deudainst_detalle' required onkeyup='var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);' onclick='this.select();' />
+                        </div>
+                        </div>
+                        <div class='col-md-4'>
+                        <label for='deudainst_estado' class='control-label'><span class='text-danger'>*</span>Estado</label>
+                        <div class='form-group'>
+                         <input type='text' name='deudainst_estado' class='form-control ' id='deudainst_estado' required onkeyup='var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);' onclick='this.select();' />
+                        </div>
+                        </div>
+                       
+                        
+                        <!------------------------------------------------------------------->
+                        </div>
+                        <div class='modal-footer aligncenter'>
+                        <a onclick='registradeuda(<?php echo $cliente["cliente_id"];?>,<?php echo $integrante["integrante_id"];?>,<?php echo $grupo_id;?>)' class='btn btn-success'><span class='fa fa-check'></span> Si </a>
+                        <a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <!------------------------ FIN modal para Registrar Deuda ------------------->

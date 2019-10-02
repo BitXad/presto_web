@@ -45,6 +45,23 @@ class Cliente_model extends CI_Model
 
         return $cliente;
     }
+
+    function get_alldeuda($cliente_id)
+    {
+        $deuda = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                deuda_institucion
+
+            WHERE
+                  cliente_id = ".$cliente_id."
+
+        ")->result_array();
+
+        return $deuda;
+    }
         
     /*
      * Get all cliente

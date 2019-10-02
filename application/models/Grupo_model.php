@@ -91,6 +91,17 @@ class Grupo_model extends CI_Model
     {
         return $this->db->delete('grupo',array('grupo_id'=>$grupo_id));
     }
+
+     function delete_integrantes($grupo_id)
+    {
+        $sql = "DELETE
+                FROM
+                  integrante
+
+                where grupo_id = ".$grupo_id;
+        
+        return $this->db->query($sql);
+    }
     
     /*
      * funcion para agregar grupo

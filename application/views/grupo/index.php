@@ -64,7 +64,35 @@
                             <a href="<?php echo site_url('grupo/edit/'.$g['grupo_id']); ?>" class="btn btn-info btn-xs" title="Modifcar caracteristicas del grupo"><span class="fa fa-pencil"></span> Modif.</a> 
                             <a href="<?php echo site_url('grupo/integrantes/'.$g['grupo_id']); ?>" class="btn btn-facebook btn-xs" title="Modificar integrantes/montos solicitados"><span class="fa fa-users"></span> Modif.</a> 
                             <a href="<?php echo site_url('grupo/add_new/'.$g['grupo_id']); ?>" class="btn btn-soundcloud btn-xs" title="Registrar Nuevo Grupo con esta Información"><span class="fa fa-plus-circle"></span> Nuevo</a> 
-                            <!--<a href="<?php //echo site_url('grupo/remove/'.$g['grupo_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Borrar</a>-->
+                            <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal<?php echo $i; ?>"  title="Eliminar"><span class="fa fa-trash"></span> Borrar</a>
+                            <div class="modal fade" id="myModal<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i; ?>">
+                                      <div class="modal-dialog" role="document">
+                                            <br><br>
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                                 
+                                          </div>
+                                          <div class="modal-body">
+
+                                          
+
+                                           <h1><b> <em class="fa fa-trash"></em></b>
+                                               ¿Desea eliminar el grupo <b> <?php echo $g['grupo_nombre']; ?></b> ?
+                                           </h1>
+                                           
+                                          </div>
+                                          <div class="modal-footer aligncenter">
+
+
+                                                      <a href="<?php echo site_url('grupo/remove/'.$g['grupo_id']); ?>" class="btn btn-danger"><em class="fa fa-trash"></em> Si </a>
+
+                                                      <a href="#" class="btn btn-success" data-dismiss="modal"><em class="fa fa-times"></em> No </a>
+                                          </div>
+
+                                        </div>
+                                      </div>
+                                    </div>
                         </td>
                     </tr>
                     <?php } ?>
@@ -89,3 +117,5 @@
         </div>
     </div>
 </div>
+
+                                    

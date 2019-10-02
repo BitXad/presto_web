@@ -293,15 +293,30 @@
                         </div>
                     </div>
                     <div style="display: flex">
-                        <div class="col-md-4">
-                            <label>DEUDAS OTRAS INST.: <span class="normal">____________________________</span></label>
-                        </div>
-                        <div class="col-md-4">
-                            <label>DETALLES CRED.: <span class="normal">____________________________</span></label>
-                        </div>
-                        <div class="col-md-4">
-                            <label>ESTADO: <span class="normal">____________________________</span></label>
-                        </div>
+                        <div class="col-md-12">
+                        <table >
+                    <tr>
+                        <th width="400px">DEUDAS OTRAS INST.:</th>
+                        
+                        <th width="400px">DETALLES CRED.:</th>
+                        
+                        <th width="400px">ESTADO:</th>
+                    </tr>
+                    <tbody class="buscar" >
+                    <?php
+                    foreach($deudas as $d){ ?>
+                           
+                    <tr>
+                        <td><?php echo $d["deudainst_nombre"]; ?></td>
+                        
+                        <td><?php echo $d["deudainst_detalle"]; ?></td>
+                         
+                        <td><?php echo $d["deudainst_estado"]; ?></td>
+                    </tr>
+                    <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
                     </div>
                 </div>
             </div>

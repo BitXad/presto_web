@@ -56,7 +56,7 @@ class Grupo extends CI_Controller{
     {
         if($this->acceso(13)){
             $usuario_id  = $this->session_data['usuario_id'];
-            $estado_id = 5;
+            $estado_id = 4;
             if(isset($_POST) && count($_POST) > 0)     
             {
                 date_default_timezone_set('America/La_Paz');
@@ -235,9 +235,10 @@ class Grupo extends CI_Controller{
         if($this->acceso(13)){
             $grupo = $this->Grupo_model->get_grupo($grupo_id);
             // check if the grupo exists before trying to delete it
-            if(isset($grupo['grupo_id']))
+            if(isset($grupo['grupo_id']) && $grupo['estado_id']<5)
             {
                 $this->Grupo_model->delete_grupo($grupo_id);
+                $this->Grupo_model->delete_integrantes($grupo_id);
                 redirect('grupo/index');
             }
             else
@@ -349,12 +350,20 @@ class Grupo extends CI_Controller{
                 {
                     $estado_id = 1;
                     $categoria_id = 0;
+                    $subnombre = substr($cliente_nombre,0,2);
+                    $subapellido = substr($cliente_apellido,-1,1);
+                    $time = time();
+                    $rand = rand (1000,9999);
+                    $cad1 = $rand*$time;
+                    $cad2 = substr($cad1,0,3);
+                    $cad = $subnombre.$subapellido.$cad2;
                     if($resultado == 0){
                         $params = array(
                         'estado_id' => $estado_id,
                         'categoria_id' => $categoria_id,
                         'cliente_nombre' => $cliente_nombre,
                         'cliente_apellido' => $cliente_apellido,
+                        'cliente_codigo' => $cad,
 
                         );
                         $cliente_id = $this->Cliente_model->add_cliente($params);
@@ -381,7 +390,7 @@ class Grupo extends CI_Controller{
     {
         //if($this->acceso(13)){
             $usuario_id = 1;
-            $estado_id = 5;
+            $estado_id = 4;
             $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
             
             date_default_timezone_set('America/La_Paz');

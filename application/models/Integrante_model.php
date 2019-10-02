@@ -59,6 +59,12 @@ class Integrante_model extends CI_Model
         $this->db->insert('integrante',$params);
         return $this->db->insert_id();
     }
+
+    function add_deuda($params)
+    {
+        $this->db->insert('deuda_institucion',$params);
+        return $this->db->insert_id();
+    }
     
     /*
      * function to update integrante
@@ -127,6 +133,25 @@ class Integrante_model extends CI_Model
         ")->row_array();
 
         return $total['resultado'];
+    }
+    
+    function get_alldeudas($integrante_id)
+    {
+        $deuda = $this->db->query("
+            SELECT
+                d.*, i.integrante_id, c.cliente_id
+
+            FROM
+                deuda_institucion d, integrante i, cliente c
+
+            WHERE
+                d.cliente_id=c.cliente_id
+                and  c.cliente_id = i.cliente_id
+                and  i.integrante_id = ".$integrante_id."
+
+        ")->result_array();
+
+        return $deuda;
     }
     
     /* Get integrante by integrante_id */

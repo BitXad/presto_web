@@ -383,6 +383,7 @@ class Cliente extends CI_Controller{
                 if($integrante_id >0){
                     $this->load->model('Garantia_model');
                     $data['garantias'] = $this->Garantia_model->get_allgarantiaintegrante($integrante_id);
+                    $data['deudas'] = $this->Cliente_model->get_alldeuda($cliente_id);
                 }
                 /*
                 $this->load->model('Estado_model');

@@ -148,5 +148,46 @@ class Integrante extends CI_Controller{
                 show_error('The integrante you are trying to delete does not exist.');
         }
     }
+
+    function get_deudas()
+    {
+        //if($this->acceso(103)) {
+            if ($this->input->is_ajax_request()) {
+                $integrante_id = $this->input->post('integrante_id');
+                $datos = $this->Integrante_model->get_alldeudas($integrante_id);
+                echo json_encode($datos);
+            }else{                 
+                show_404();
+            }
+        //}
+    }
+
+    function registrardeudas()
+    {
+        //if($this->acceso(103)) {
+            if ($this->input->is_ajax_request()) {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('detalle','Detalle','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('estado','Estado','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())     
+                {
+                    
+                    $params = array(
+                        'cliente_id' => $this->input->post('cliente_id'),
+                        'deudainst_nombre' => $this->input->post('nombre'),
+                        'deudainst_detalle' => $this->input->post('detalle'),
+                        'deudainst_estado'    => $this->input->post('estado'),
+                    );
+                    $deuda_id = $this->Integrante_model->add_deuda($params);
+                    echo json_encode("ok");
+                }else{
+                    echo json_encode(null);
+                }
+            }else{                 
+                show_404();
+            }
+        //}
+    }
     
 }
