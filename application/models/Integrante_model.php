@@ -117,6 +117,22 @@ class Integrante_model extends CI_Model
 
         return $existe['resultado'];
     }
+
+    function get_monto_maximo($cliente_id)
+    {
+        $total = $this->db->query("
+            SELECT
+                cliente_montomax as resul
+
+            FROM
+                cliente 
+
+            WHERE
+                cliente_id = ".$cliente_id."
+        ")->row_array();
+
+        return $total['resul'];
+    }
     
     /* catidad de dinero solicitado por integrantes de un grupo */
     function get_montototal_grupo($grupo_id)

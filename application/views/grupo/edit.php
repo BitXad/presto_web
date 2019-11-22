@@ -50,10 +50,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="grupo_nombre" class="control-label">Nombre/Grupo(*)</label>
                         <div class="form-group">
                             <input type="text" name="grupo_nombre" value="<?php echo ($this->input->post('grupo_nombre') ? $this->input->post('grupo_nombre') : $grupo['grupo_nombre']); ?>" class="form-control" id="grupo_nombre" required/>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="grupo_ciclo" class="control-label">Ciclo</label>
+                        <div class="form-group">
+                            <input type="number" name="grupo_ciclo" value="<?php echo ($this->input->post('grupo_ciclo') ? $this->input->post('grupo_ciclo') : $grupo['grupo_ciclo']); ?>" class="form-control" id="grupo_ciclo" />
                         </div>
                     </div>
                     <div class="col-md-2">

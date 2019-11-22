@@ -210,7 +210,7 @@ function registrarnuevointegrante(grupo_id, grupo_monto, origen){
     $.ajax({url: controlador,
            type:"POST",
            data:{cliente_id:cliente_id, integrante_cargo:integrante_cargo, integrante_monto:integrante_monto,
-                 grupo_id:grupo_id, grupo_monto:grupo_monto},
+                 grupo_id:grupo_id, grupo_monto:grupo_monto, origen:origen},
            success:function(respuesta){
                
                var registros =  JSON.parse(respuesta);
@@ -222,6 +222,8 @@ function registrarnuevointegrante(grupo_id, grupo_monto, origen){
                         alert("Este Grupo ya esta lleno");
                     }else if(registros == "monto_excedido"){
                         alert("El monto ingresado sobrepasa al monto solicitado por el grupo");
+                    }else if(registros == "monto_maximos"){
+                        alert("El monto ingresado sobrepasa al premitido al integrante");
                     }else{
                         $('#cliente_id').find('option:first').attr('selected', 'selected').parent('select');
                         $('#integrante_cargo').find('option:first').attr('selected', 'selected').parent('select');
