@@ -10,6 +10,7 @@ class Grupo extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Grupo_model');
+        $this->load->model('Integrante_model');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
         }else {
@@ -87,6 +88,7 @@ class Grupo extends CI_Controller{
                     'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
                     'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
                     'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
+                    'grupo_ciclo' => 1,
                 );
 
                 $grupo_id = $this->Grupo_model->add_grupo($params);
@@ -151,6 +153,7 @@ class Grupo extends CI_Controller{
                         'grupo_tiemporeunion' => $this->input->post('grupo_tiemporeunion'),
                         'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
                         'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
+                        'grupo_ciclo' => $this->input->post('grupo_ciclo'),
                     );
 
                     $this->Grupo_model->update_grupo($grupo_id,$params);            
@@ -215,8 +218,8 @@ class Grupo extends CI_Controller{
                     $this->load->model('Cliente_model');
                     $data['integrantes'] = $this->Cliente_model->get_all_integrantes($grupo_id);
     //
-    //				$this->load->model('Estado_model');
-    //				$data['all_estado'] = $this->Estado_model->get_all_estado();
+    //              $this->load->model('Estado_model');
+    //              $data['all_estado'] = $this->Estado_model->get_all_estado();
 
                     $data['_view'] = 'grupo/integrantes';
                     $this->load->view('layouts/main',$data);
@@ -237,8 +240,8 @@ class Grupo extends CI_Controller{
             // check if the grupo exists before trying to delete it
             if(isset($grupo['grupo_id']) && $grupo['estado_id']<=5)
             {
-                $this->Grupo_model->delete_integrantes($grupo_id);
                 $this->Grupo_model->delete_grupo($grupo_id);
+                $this->Grupo_model->delete_integrantes($grupo_id);
                 redirect('grupo/index');
             }
             else
@@ -265,10 +268,16 @@ class Grupo extends CI_Controller{
                     $integrante_monto = $this->input->post('integrante_monto');
                     $grupo_id    = $this->input->post('grupo_id');
                     $grupo_monto = $this->input->post('grupo_monto');
+                    $origen = $this->input->post('origen');
+                    if ($origen==0) {
+                        $monto_maximo = 500;
+                    }else{
+                        $monto_maximo = $this->Integrante_model->get_monto_maximo($cliente_id);
+                    }
                     
                     $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
                     //$this->load->model('Cliente_model');
-                    $this->load->model('Integrante_model');
+                    
                     $num_integrantes = $this->Integrante_model->get_numintegrantes_grupo($grupo_id);
                     
                     $existe_integrante = $this->Integrante_model->get_existeintegrante($grupo_id, $cliente_id);
@@ -278,6 +287,9 @@ class Grupo extends CI_Controller{
                             $suma_monto = $this->Integrante_model->get_montototal_grupo($grupo_id);
                             $totalmonto = $suma_monto+$integrante_monto;
                             if(($suma_monto+$integrante_monto) <= $grupo_monto){
+                              //   comprara con el monto maximo del cliente
+                              if ($integrante_monto <= $monto_maximo+1500) {
+                             
                                 $integrante_fechareg =  date('Y-m-d');
                                 $integrante_horareg =  date('H-i-s');
                                 $params = array(
@@ -292,6 +304,9 @@ class Grupo extends CI_Controller{
                                 
                                 //$datos = $this->Cliente_model->get_all_integrantes($grupo_id);
                                 echo json_encode("ok");
+                              }else{
+                                 echo json_encode("monto_maximos");
+                              }
                             }else{
                                 echo json_encode("monto_excedido");
                             }
@@ -392,7 +407,8 @@ class Grupo extends CI_Controller{
             $usuario_id = 1;
             $estado_id = 4;
             $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
-            
+            $sql = "UPDATE grupo SET estado_id=14 WHERE grupo_id=".$grupo_id." ";
+            $this->db->query($sql);
             date_default_timezone_set('America/La_Paz');
             $grupo_fechahora = date("Y-m-d H:i:s");
             $cod1 = substr($this_grupo['grupo_codigo'], 0, 3);
@@ -424,6 +440,7 @@ class Grupo extends CI_Controller{
                 'grupo_tiemporeunion' => $this_grupo['grupo_tiemporeunion'],
                 'grupo_multaretrasodetalle' => $this_grupo['grupo_multaretrasodetalle'],
                 'grupo_tiempotolerancia' => $this_grupo['grupo_tiempotolerancia'],
+                'grupo_ciclo' => $this_grupo['grupo_ciclo']+1,
             );
 
             $grupo_idnew = $this->Grupo_model->add_grupo($params);
