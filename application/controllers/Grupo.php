@@ -235,10 +235,10 @@ class Grupo extends CI_Controller{
         if($this->acceso(13)){
             $grupo = $this->Grupo_model->get_grupo($grupo_id);
             // check if the grupo exists before trying to delete it
-            if(isset($grupo['grupo_id']) && $grupo['estado_id']<5)
+            if(isset($grupo['grupo_id']) && $grupo['estado_id']<=5)
             {
-                $this->Grupo_model->delete_grupo($grupo_id);
                 $this->Grupo_model->delete_integrantes($grupo_id);
+                $this->Grupo_model->delete_grupo($grupo_id);
                 redirect('grupo/index');
             }
             else

@@ -74,20 +74,14 @@
                                  
                                           </div>
                                           <div class="modal-body">
-
-                                          
-
                                            <h1><b> <em class="fa fa-trash"></em></b>
                                                ¿Desea eliminar el grupo <b> <?php echo $g['grupo_nombre']; ?></b> ?
                                            </h1>
                                            
                                           </div>
                                           <div class="modal-footer aligncenter">
-
-
-                                                      <a href="<?php echo site_url('grupo/remove/'.$g['grupo_id']); ?>" class="btn btn-danger"><em class="fa fa-trash"></em> Si </a>
-
-                                                      <a href="#" class="btn btn-success" data-dismiss="modal"><em class="fa fa-times"></em> No </a>
+                                              <a href="<?php echo site_url('grupo/remove/'.$g['grupo_id']); ?>" class="btn btn-success"><em class="fa fa-trash"></em> Si </a>
+                                              <a href="#" class="btn btn-danger" data-dismiss="modal"><em class="fa fa-times"></em> No </a>
                                           </div>
 
                                         </div>
