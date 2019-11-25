@@ -141,7 +141,7 @@
     </div><!--COL12-->
 
 </div><!--ROW-->
-<div class="row">
+<!--<div class="row">
   
     <div class="col-md-12">
         <div class="box">
@@ -187,12 +187,12 @@
                 
                   </tbody>
                 </table>
-                <input value="" id="grupo" hidden>
+                
             </div>
         </div>
     </div>
-</div>
-
+</div>-->
+<input value="" id="grupo" hidden>
 
 <!----------------------- datos credito individual --------------->
 <!----------------------- datos credito individual --------------->
