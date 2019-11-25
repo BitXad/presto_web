@@ -140,7 +140,7 @@ class Reunion_model extends CI_Model
                 c.cliente_ci, c.cliente_extencionci, c.cliente_telefono, c.cliente_celular,
                 cr.credito_id, cu.cuota_id, cu.cuota_monto, a.asistencia_registro,a.asistencia_pagado,
                 a.asistencia_retraso, a.asistencia_falta, a.asistencia_observacion, i.integrante_id,
-                a.asistencia_recibor, a.asistencia_recibof, a.asistencia_ahorro
+                a.asistencia_recibor, a.asistencia_recibof, a.asistencia_ahorro, i.integrante_montosolicitado
             FROM
                 integrante i
             LEFT JOIN cliente c on i.cliente_id = c.cliente_id

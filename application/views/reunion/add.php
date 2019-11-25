@@ -11,7 +11,7 @@
 						<label for="grupo_id" class="control-label">Grupo</label>
 						<div class="form-group">
 							<select name="grupo_id" class="form-control" required>
-								<option value="">select grupo</option>
+								<option value="">- GRUPO -</option>
 								<?php 
 								foreach($all_grupo as $grupo)
 								{
@@ -26,13 +26,13 @@
 					<div class="col-md-6">
 						<label for="reunion_fecha" class="control-label">Fecha</label>
 						<div class="form-group">
-							<input type="date" name="reunion_fecha" value="<?php echo $this->input->post('reunion_fecha'); ?>" class="form-control" id="reunion_fecha" />
+							<input type="date" name="reunion_fecha" value="<?php echo ($this->input->post('reunion_fecha') ? $this->input->post('reunion_fecha') : date("Y-m-d")); ?>" class="form-control" id="reunion_fecha" />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="reunion_hora" class="control-label">Hora</label>
 						<div class="form-group">
-							<input type="time" name="reunion_hora" value="<?php echo $this->input->post('reunion_hora'); ?>" class="form-control" id="reunion_hora" />
+							<input type="time" name="reunion_hora" value="<?php echo ($this->input->post('reunion_hora') ? $this->input->post('reunion_hora') : date("H:i:s")); ?>" class="form-control" id="reunion_hora" />
 						</div>
 					</div>
 				</div>
