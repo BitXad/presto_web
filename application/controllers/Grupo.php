@@ -272,7 +272,7 @@ class Grupo extends CI_Controller{
                     if ($origen==0) {
                         $monto_maximo = 500;
                     }else{
-                        $monto_maximo = $this->Integrante_model->get_monto_maximo($cliente_id);
+                        $monto_maximo = $this->Integrante_model->get_monto_maximo($cliente_id); 
                     }
                     
                     $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
@@ -301,7 +301,10 @@ class Grupo extends CI_Controller{
                                         'integrante_montosolicitado' => $integrante_monto,
                                         );
                                 $integrante_id = $this->Integrante_model->add_integrante($params);
-                                
+                                    if ($integrante_monto>$monto_maximo) {
+                                    $actualiza_max = "UPDATE cliente SET monto_max=".$integrante_monto." WHERE cliente_id=".$cliente_id." ";
+                                    $this->db->query($actualiza_max);
+                                    }                                
                                 //$datos = $this->Cliente_model->get_all_integrantes($grupo_id);
                                 echo json_encode("ok");
                               }else{
