@@ -269,11 +269,9 @@ class Grupo extends CI_Controller{
                     $grupo_id    = $this->input->post('grupo_id');
                     $grupo_monto = $this->input->post('grupo_monto');
                     $origen = $this->input->post('origen');
-                    if ($origen==0) {
-                        $monto_maximo = 500;
-                    }else{
-                        $monto_maximo = $this->Integrante_model->get_monto_maximo($cliente_id);
-                    }
+
+                    $monto_maximo = $this->Integrante_model->get_monto_maximo($cliente_id);
+                    
                     
                     $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
                     //$this->load->model('Cliente_model');
@@ -379,6 +377,7 @@ class Grupo extends CI_Controller{
                         'cliente_nombre' => $cliente_nombre,
                         'cliente_apellido' => $cliente_apellido,
                         'cliente_codigo' => $cad,
+                        'cliente_montomax' => 500,
 
                         );
                         $cliente_id = $this->Cliente_model->add_cliente($params);
