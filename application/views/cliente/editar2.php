@@ -277,16 +277,22 @@ function mostrar(a) {
                                 <input type="text" name="cliente_pertenenciatiempo" value="<?php echo $cliente['cliente_pertenenciatiempo']; ?>" class="form-control" id="cliente_pertenenciatiempo" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="cliente_numhijos" class="control-label">Nro. de Hijos</label>
                             <div class="form-group">
                                 <input type="number" min="0" name="cliente_numhijos" value="<?php echo $cliente['cliente_numhijos']; ?>" class="form-control" id="cliente_numhijos" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="cliente_edadhijos" class="control-label">Edad Hijo(s)</label>
                             <div class="form-group">
                                 <input type="text" name="cliente_edadhijos" value="<?php echo $cliente['cliente_edadhijos']; ?>" class="form-control" id="cliente_edadhijos" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cliente_montomax" class="control-label">Monto Máximo</label>
+                            <div class="form-group">
+                                <input type="number" step="any" min="0" name="cliente_montomax" value="<?php echo $cliente['cliente_montomax']; ?>" class="form-control" id="cliente_montomax" onclick="this.select();" />
                             </div>
                         </div>
                         <div class="col-md-5">
