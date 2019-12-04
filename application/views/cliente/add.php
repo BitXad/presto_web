@@ -297,6 +297,12 @@ function mostrar(a) {
                                 <input type="number" min="0" name="cliente_numhijos" value="<?php echo $this->input->post('cliente_numhijos'); ?>" class="form-control" id="cliente_numhijos" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <label for="cliente_montomax" class="control-label">Monto Máximo</label>
+                            <div class="form-group">
+                                <input type="number" step="any" min="0" name="cliente_montomax" value="<?php echo $this->input->post('cliente_montomax'); ?>" class="form-control" id="cliente_montomax"/>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <label for="cliente_direccion" class="control-label"><span class="text-danger">*</span>Dirección</label>
                             <div class="form-group">
