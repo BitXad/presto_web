@@ -36,17 +36,14 @@
 <div >
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="container">
+  <div class="container-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
         Presto
         <small>Version 2.0</small>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-        <li class="active">Dashboard</li>
-      </ol>
+      
     </section>
 
     <!-- Main content -->
@@ -101,8 +98,8 @@
             <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">New Members</span>
-              <span class="info-box-number">2,000</span>
+              <span class="info-box-text">Asesores</span>
+              <span class="info-box-number">14</span>
             </div>
             <!-- /.info-box-content -->
           </div>

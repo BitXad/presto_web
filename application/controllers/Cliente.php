@@ -320,6 +320,7 @@ class Cliente extends CI_Controller{
                             'cliente_referencia2' => $this->input->post('cliente_referencia2'),
                             'cliente_reftelef2' => $this->input->post('cliente_reftelef2'),
                             'cliente_actividadeconomica' => $this->input->post('cliente_actividadeconomica'),
+                            'cliente_edadhijos' => $this->input->post('cliente_edadhijos'),
                             'cliente_montomax' => $this->input->post('cliente_montomax'),
                     );
 
@@ -529,6 +530,7 @@ class Cliente extends CI_Controller{
                             'cliente_actividadeconomica' => $this->input->post('cliente_actividadeconomica'),
                             'cliente_refactividad' => $this->input->post('cliente_refactividad'),
                             'cliente_edadhijos' => $this->input->post('cliente_edadhijos'),
+                            'cliente_montomax' => $this->input->post('cliente_montomax'),
                     );
 
                     $this->Cliente_model->update_cliente($cliente_id,$params);            

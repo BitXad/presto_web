@@ -240,14 +240,52 @@ class Grupo extends CI_Controller{
             // check if the grupo exists before trying to delete it
             if(isset($grupo['grupo_id']) && $grupo['estado_id']<=5)
             {
-                $this->Grupo_model->delete_grupo($grupo_id);
                 $this->Grupo_model->delete_integrantes($grupo_id);
+                $this->Grupo_model->delete_grupo($grupo_id);
                 redirect('grupo/index');
             }
             else
                 show_error('The grupo you are trying to delete does not exist.');
         }
     }
+
+    function modificar_integrante()
+    {
+                    $integrante_id = $this->input->post('integrante_id');
+                    $cliente_id = $this->input->post('cliente_id');
+                    $grupo_id = $this->input->post('grupo_id');
+                    $integrante_cargo = $this->input->post('integrante_cargo');
+                    $integrante_monto = $this->input->post('integrante_monto');
+                    $integrante_montoviejo = $this->input->post('integrante_montoviejo');
+                    
+                    $grupo_monto = $this->input->post('grupo_monto');
+                    $monto_maximo = $this->Integrante_model->get_monto_maximo($cliente_id);
+                    $this_grupo = $this->Grupo_model->get_grupo($grupo_id);
+                    //$this->load->model('Cliente_model');
+                  
+                            $suma_monto = $this->Integrante_model->get_montototal_grupo($grupo_id);
+                            $totalmonto = $suma_monto+$integrante_monto;
+                            if(($suma_monto-$integrante_montoviejo+$integrante_monto) <= $grupo_monto){
+                              //   comprara con el monto maximo del cliente
+                              if ($integrante_monto <= $monto_maximo+1500) {
+                             
+                          
+                                $params = array(
+                                        'cliente_id' => $cliente_id,
+                                        'integrante_cargo'    => $integrante_cargo,
+                                        'integrante_montosolicitado' => $integrante_monto,
+                                        );
+                                $integrante_id = $this->Integrante_model->update_integrante($integrante_id,$params);
+                                
+                                //$datos = $this->Cliente_model->get_all_integrantes($grupo_id);
+                                echo json_encode("ok");
+                              }else{
+                                 echo json_encode("monto_maximos");
+                              }
+                            }else{
+                                echo json_encode("monto_excedido");
+                            }
+                        }
 
     /*
      * Agregando integrantes al grupo JSON
