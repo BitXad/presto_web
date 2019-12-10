@@ -10,7 +10,7 @@
     </center>
         
 </div>
-<div class="container table-responsive">
+<div class="container-wrapper">
 
 
     <div class="panel panel-primary col-md-4">

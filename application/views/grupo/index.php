@@ -78,7 +78,11 @@
                             <a href="<?php echo site_url('grupo/add_new/'.$g['grupo_id']); ?>" class="btn btn-soundcloud btn-xs" title="Registrar Nuevo Grupo con esta Información"><span class="fa fa-plus-circle"></span> Nuevo</a> 
                              <?php } ?>
                             <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal<?php echo $i; ?>"  title="Eliminar"><span class="fa fa-trash"></span> Borrar</a>
+<<<<<<< HEAD
                             <div style="white-space: normal !important;" class="modal fade" id="myModal<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i; ?>">
+=======
+                            <div class="modal fade" style="white-space: normal !important;" id="myModal<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i; ?>">
+>>>>>>> master
                                       <div class="modal-dialog" role="document">
                                             <br><br>
                                         <div class="modal-content">

@@ -41,6 +41,7 @@ function mostrar_integrantes(grupo_id){
                         //html += "<td>"+registros[i]["estado_descripcion"]+"</td>";
                         html += "<td class='no-print'>";
                         html += "<a href='"+base_url+"cliente/editar2/"+registros[i]["cliente_id"]+"/"+grupo_id+"' class='btn btn-info btn-xs' title='Modificar datos'><span class='fa fa-pencil'></span></a>";
+                        html += "<a class='btn btn-facebook btn-xs' data-toggle='modal' data-target='#modalclientedeudor"+registros[i]["integrante_id"]+"' title='Editar a Integrante de grupo'><span class='fa fa-refresh'></span></a>";
                         html += "<a onclick='tablagarantia("+registros[i]["integrante_id"]+")' data-toggle='modal' data-target='#modalgarantia"+registros[i]["cliente_id"]+"' class='btn btn-soundcloud btn-xs' title='Ver/Registrar Garantia'><i class='fa fa-briefcase'></i></a>";
                         html += "<a href='"+base_url+"cliente/declaracionj/"+registros[i]["cliente_id"]+"' class='btn btn-primary btn-xs' target='_blank' title='Declaración jurada'><span class='fa fa-list-ul'></span></a>";
                         html += "<a class='btn btn-danger btn-xs' data-toggle='modal' data-target='#myModal"+registros[i]["integrante_id"]+"' title='Eliminar a Integrante de grupo'><span class='fa fa-trash'></span></a>";
@@ -68,7 +69,45 @@ function mostrar_integrantes(grupo_id){
                         html += "</div>";
                         html += "</div>";
                         html += "<!------------------------ FIN modal para confirmar eliminación ------------------->";
-                        
+                        html += "<!------------------------ INICIO modal para Editar nuevo Cliente/Deudor ------------------->";
+                        html += "<div class='modal fade' id='modalclientedeudor"+registros[i]["integrante_id"]+"' tabindex='-1' role='dialog' aria-labelledby='labelmodalclientedeudor"+registros[i]["integrante_id"]+"'>";
+                        html += "<div class='modal-dialog' role='document'>";
+                        html += "<br><br>";
+                        html += "<div class='modal-content'>";
+                        html += "<div class='modal-header'>";
+                        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
+                        html += "</div>";
+                        html += "<div class='modal-body'>";
+                      
+                        html += "<div class='col-md-6'>";
+                        html += "<label for='integrante_cargo1' class='control-label'>Cargo:</label>";
+                        html += "<div class='form-group'>";
+
+                        //html += "<input type='text' step='any' min='0' name='integrante_monto' value='"+registros[i]["integrante_montosolicitado"]+"' class='form-control' id='integrante_monto"+registros[i]["integrante_id"]+"' required/>";
+
+                        html += "<select name='integrante_cargoedit' id='integrante_cargoedit"+registros[i]["integrante_id"]+"'  class='form-control' required>";
+                        html += "<option value='INTEGRANTE'>INTEGRANTE</option>";
+                        html += "<option value='PRESIDENTE(A)'>PRESIDENTE(A)</option>";
+                        html += "<option value='SECRETARIA(O)'>SECRETARIA(O)</option>";                        
+                        html += "</select>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<div class='col-md-5'>";
+                        html += "<label for='integrante_monto1' class='control-label'>Monto Bs</label>";
+                        html += "<div class='form-group'>";
+                        html += "<input type='number' step='any' min='0' name='integrante_montoedit' value='"+registros[i]["integrante_montosolicitado"]+"' class='form-control' id='integrante_montoedit"+registros[i]["integrante_id"]+"' required/>";
+                        html += "<input type='hidden' step='any' min='0' readonly name='integrante_montoviejo' value='"+registros[i]["integrante_montosolicitado"]+"' class='form-control' id='integrante_montoviejo"+registros[i]["integrante_id"]+"' required/>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<div class='modal-footer aligncenter'>";
+                        html += "<a onclick='modificarintegrante("+registros[i]["integrante_id"]+","+grupo_id+","+registros[i]["cliente_id"]+")' class='btn btn-success'><span class='fa fa-check'></span> Registrar </a>";
+                        html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<!------------------------ FIN modal para Editar nuevo Cliente/Deudor ------------------->";
                         html += "<!------------------------ INICIO modal para registrar Garantia ------------------->";
                         html += "<div class='modal fade' id='modalgarantia"+registros[i]["cliente_id"]+"' tabindex='-1' role='dialog' aria-labelledby='modalgarantia"+registros[i]["cliente_id"]+"'>";
                         html += "<div class='modal-dialog' role='document'>";
@@ -191,6 +230,44 @@ function registrarnuevoclientedeudor(){
 
 }
 /* hace el registro a un grupo de un integrante, previa verificacion.. */
+function modificarintegrante(integrante_id,grupo_id,cliente_id){
+    var base_url  = document.getElementById('base_url').value;
+    var grupo_monto         = document.getElementById('grupo_monto').value;
+    var integrante_cargo = document.getElementById('integrante_cargoedit'+integrante_id).value;
+    var integrante_monto = document.getElementById('integrante_montoedit'+integrante_id).value;
+    var integrante_montoviejo = document.getElementById('integrante_montoviejo'+integrante_id).value;
+    var controlador = base_url+'grupo/modificar_integrante';
+    
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{integrante_id:integrante_id,grupo_id:grupo_id,cliente_id:cliente_id,grupo_monto:grupo_monto,
+               integrante_cargo:integrante_cargo,integrante_monto:integrante_monto,integrante_montoviejo:integrante_montoviejo},
+           success:function(respuesta){
+               var registros =  JSON.parse(respuesta);
+               if (registros != null){
+                    if(registros == "monto_excedido"){
+                        alert("El monto ingresado sobrepasa al monto solicitado por el grupo");
+                    }else if(registros == "monto_maximos"){
+                        alert("El monto ingresado sobrepasa al premitido al integrante");
+                    }else{
+                        $('#modalclientedeudor'+integrante_id).modal('hide');
+                        mostrar_integrantes(grupo_id);
+
+                    }
+            }else{
+                alert("Debe seleccionar un cliente/monto Bs. no debe estar vacio");
+                    //$("#aviso_integrantegrupo").text("Nombre(s) y Apellido(s) no deben estar en blanco");
+                }
+    },
+        error:function(respuesta){
+           html = "";
+           
+        }
+        
+    }); 
+   
+}
+
 function registrarnuevointegrante(grupo_id, grupo_monto, origen){
     var controlador = "";
     var base_url  = document.getElementById('base_url').value;
