@@ -75,7 +75,7 @@ class Dashboard_model extends CI_Model
             WHERE
                 g.estado_id=e.estado_id
 
-            ORDER BY grupo_id ASC limit 20
+            ORDER BY grupo_id DESC limit 20
             
         ")->result_array();
 

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -32,8 +32,8 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body >
-<div >
+<body>
+<div>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="container-wrapper">
@@ -598,7 +598,7 @@
                   <tbody>
                     <?php foreach ($grupos20 as $c) {  ?>
                       <tr>
-                    <td><a href="#"><?php echo $c["grupo_id"] ?></a></td>
+                    <td><?php echo $c["grupo_id"] ?></td>
                     <td><?php echo $c["grupo_nombre"] ?></td>
                     <td><span  style="border-radius: 50px;padding-left: 5px;padding-right: 5px; background: <?php echo $c["estado_color"] ?>"><?php echo $c["estado_descripcion"] ?></span></td>
                     <td>
@@ -614,8 +614,8 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-              <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left"></a>
-              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right"></a>
+              <a href="grupo" class="btn btn-sm btn-facebook btn-flat pull-left">Grupos</a>
+              <!--<a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right"></a>-->
             </div>
             <!-- /.box-footer -->
           </div>
