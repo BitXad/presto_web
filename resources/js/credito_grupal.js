@@ -251,6 +251,7 @@ function mostrar_integrantes(){
             
             $("#credito_montototal").val(suma.toFixed(2));
             $("#grupo_integrantes").val(registros[0]["grupo_integrantes"]);
+            $("#grupo_numreunion").val(registros[0]["grupo_numreunion"]);
             $("#tipocredito_id").val("GRUPAL");
             $("#grupo").val(respuesta); 
             
@@ -268,27 +269,25 @@ function registrar_credito(){
     
     var base_url = document.getElementById('base_url').value;    
     var grupo_id = document.getElementById('grupo_id').value;
-    var controlador = base_url+'grupo/buscar_integrantes/'+grupo_id;
-    var integrante = JSON.parse(document.getElementById('grupo').value);
-    
-     
-    var tam = integrante.length;
-    
-    for(i=0;i<tam;i++){
-        $("#cliente_id").val(integrante[i].cliente_id);
-        $("#cliente_ci").val(integrante[i].cliente_ci);
-        $("#cliente_nombre").val(integrante[i].cliente_nombre);
-        $("#cliente_apellido").val(integrante[i].cliente_apellido);
-        $("#cliente_telefono").val(integrante[i].cliente_telefono);
-        $("#credito_monto").val(integrante[i].integrante_montosolicitado);        
-        //$("#credito_cuotas").val(integrante[i].grupo_cuotas);        
-        
-        finalizarindividual();
-        
-        //alert(integrante[i].cliente_nombre);
-        
+    //var controlador = base_url+'grupo/buscar_integrantes/'+grupo_id;
+    if(grupo_id >0){
+        var integrante = JSON.parse(document.getElementById('grupo').value);
+        var numreuniones = document.getElementById('credito_cuotas').value;
+        var tam = integrante.length;
+        for(i=0;i<tam;i++){
+            $("#cliente_id").val(integrante[i].cliente_id);
+            $("#cliente_ci").val(integrante[i].cliente_ci);
+            $("#cliente_nombre").val(integrante[i].cliente_nombre);
+            $("#cliente_apellido").val(integrante[i].cliente_apellido);
+            $("#cliente_telefono").val(integrante[i].cliente_telefono);
+            $("#credito_monto").val(integrante[i].integrante_montosolicitado);        
+            //$("#credito_cuotas").val(integrante[i].grupo_cuotas);        
+            finalizarindividual();
+            //alert(integrante[i].cliente_nombre);
+        }
+        alert('Credito registrado con éxito..!');
+    }else{
+        alert("Primero debe elegir un grupo!");
     }
-    alert('Credito registrado con éxito..!');
-    
 
 }

@@ -104,6 +104,7 @@ class Grupo extends CI_Controller{
                     'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
                     'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
                     'grupo_ciclo' => 1,
+                    'grupo_numreunion' => $this->input->post('grupo_numreunion'),
                 );
 
                 $grupo_id = $this->Grupo_model->add_grupo($params);
@@ -169,6 +170,7 @@ class Grupo extends CI_Controller{
                         'grupo_multaretrasodetalle' => $this->input->post('grupo_multaretrasodetalle'),
                         'grupo_tiempotolerancia' => $this->input->post('grupo_tiempotolerancia'),
                         'grupo_ciclo' => $this->input->post('grupo_ciclo'),
+                        'grupo_numreunion' => $this->input->post('grupo_numreunion'),
                     );
 
                     $this->Grupo_model->update_grupo($grupo_id,$params);            
@@ -493,6 +495,7 @@ class Grupo extends CI_Controller{
                 'grupo_multaretrasodetalle' => $this_grupo['grupo_multaretrasodetalle'],
                 'grupo_tiempotolerancia' => $this_grupo['grupo_tiempotolerancia'],
                 'grupo_ciclo' => $this_grupo['grupo_ciclo']+1,
+                'grupo_numreunion' => $this_grupo['grupo_numreunion'],
             );
 
             $grupo_idnew = $this->Grupo_model->add_grupo($params);
