@@ -169,12 +169,9 @@ function finalizarindividual()
    
     var cliente_id = document.getElementById('cliente_id').value;
     if(cliente_id == 0 || credito_monto=='' || credito_monto==null){
- alert("Debe ingresar Cliente y monto de Credito");
- 
-
-}else{
-
-
+        alert("Debe ingresar Cliente y monto de Credito");
+    }else{
+        
      $.ajax({url: controlador,
            type:"POST",
            data:{credito_monto:credito_monto,credito_interes:credito_interes,credito_comision:credito_comision,

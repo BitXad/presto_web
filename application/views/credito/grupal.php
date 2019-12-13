@@ -26,55 +26,48 @@
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <div class="row">
     <div class="col-md-12">
-    	
   	<div class="col-md-7">
-        <div class="panel" style="margin-bottom: 1px;">
-        <div class="panel-body">
-<!--          <center><b><u>CLIENTES</u></b></center>-->
-<!--------------------- cliente_id --------------------->
-<div class="container" hidden>
-    <input type="text" name="cliente_id" value="0" class="form-control" id="cliente_id" >
-    <input type="text" name="usuario_id" value="<?php echo $usuario_id; ?>" class="form-control" id="usuario_id" >
-</div>
+            <div class="panel" style="margin-bottom: 1px;">
+                <div class="panel-body">
+                    <!--          <center><b><u>CLIENTES</u></b></center>-->
+                    <!--------------------- cliente_id --------------------->
+                    <div class="container" hidden>
+                        <input type="text" name="cliente_id" value="0" class="form-control" id="cliente_id" >
+                        <input type="text" name="usuario_id" value="<?php echo $usuario_id; ?>" class="form-control" id="usuario_id" >
+                    </div>
+                    <!--------------------- fin cliente_id --------------------->
+                    <div class="col-md-12">
+                        <label for="grupo_id" class="control-label">GRUPO:</label>
+                        <div class="form-group">                               
+                            <select name="grupo_id" class="form-control" id="grupo_id" onchange="mostrar_integrantes()">
+                                <option value="0">-- GRUPO --</option>
+                                <?php foreach($grupo as $g){ ?>                    
+                                <option value="<?php echo $g['grupo_id']; ?>"><?php echo $g['grupo_nombre']; ?></option>                    
+                                <?php } ?>
+                            </select>
 
-<!--------------------- fin cliente_id --------------------->
+                        </div>
+                    </div>
         
-        <div class="col-md-12">
-            <label for="grupo_id" class="control-label">GRUPO:</label>
-            <div class="form-group">                               
-                <select name="grupo_id" class="form-control" id="grupo_id" onchange="mostrar_integrantes()">
-                    <option value="0">-- GRUPO --</option>
-                    <?php foreach($grupo as $g){ ?>                    
-                    <option value="<?php echo $g['grupo_id']; ?>"><?php echo $g['grupo_nombre']; ?></option>                    
-                    <?php } ?>
-                </select>
-                
-            </div>
-        </div>
-        
-        </div><!--BOX BODY-->
-         </div><!--BOX-->
-        <div class="panel" style="margin-bottom: 1px;">
-        <div class="panel-body">
-          <b>INTEGRANTES:</b>
-            	
-                <table class="table table-striped" id="mitabla">
-                <tr>
-						<th>#</th>
-						<th>INTEGRANTE</th>
-						<th>C.I.</th>
-						<th>CARGO</th>
-						<th>MONTO Bs</th>
-					</tr>
-					 <tbody class="buscar2" id="tabla_integrantes">
-                </table>
-    </div><!--BOX BODY-->
-    </div><!--BOX-->
-        
-        
-      
-    </div><!--COL7-->
-    <div class="col-md-5">
+                </div><!--BOX BODY-->
+            </div><!--BOX-->
+            <div class="panel" style="margin-bottom: 1px;">
+                <div class="panel-body">
+                    <b>INTEGRANTES:</b>
+                    <table class="table table-striped" id="mitabla">
+                        <tr>
+                            <th>#</th>
+                            <th>INTEGRANTE</th>
+                            <th>C.I.</th>
+                            <th>CARGO</th>
+                            <th>MONTO Bs</th>
+                        </tr>
+                        <tbody class="buscar2" id="tabla_integrantes"></tbody>
+                    </table>
+                </div><!--BOX BODY-->
+            </div><!--BOX-->
+        </div><!--COL7-->
+        <div class="col-md-5">
     	 <div class="panel" style="margin-bottom: 1px;">
         <div class="panel-body">
           <center><b><u>CREDITO</u></b></center>
@@ -128,9 +121,8 @@
                   </div>
                  </div>
                  <div class="col-md-12" id="boton" style='display:block;'>
-                     <br>	
-					<button class="btn btn-success btn-block" onclick="registrar_credito()"><i class="fa fa-save"></i> Registrar Credito</button>
-		
+                    <br>	
+                    <button class="btn btn-success btn-block" onclick="registrar_credito()"><i class="fa fa-money"></i> Desembolsar</button>
             	</div>
   <div class="row" id='loader'  style='display:none; text-align: center'>
   <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
