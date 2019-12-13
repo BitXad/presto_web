@@ -55,12 +55,13 @@ class Grupo_model extends CI_Model
     /*
      * Get all grupo
      */
-    function get_all_grupos()
+    function get_all_grupos($parametro)
     {
         $sql = "select * from grupo g
                 left join asesor a on a.asesor_id = g.asesor_id
                 left join usuario u on u.usuario_id = g.usuario_id
-                left join estado e on e.estado_id = g.estado_id";
+                left join estado e on e.estado_id = g.estado_id
+                where ".$parametro." ";
 
         $grupo = $this->db->query($sql)->result_array();
         return $grupo;
@@ -148,13 +149,13 @@ class Grupo_model extends CI_Model
     }
     
     /* Get all grupo de un asesor */
-    function get_all_gruposasesor($asesor_id)
+    function get_all_gruposasesor($asesor_id,$parametro)
     {
         $sql = "select * from grupo g
                 left join asesor a on a.asesor_id = g.asesor_id
                 left join usuario u on u.usuario_id = g.usuario_id
                 left join estado e on e.estado_id = g.estado_id
-                where g.asesor_id = $asesor_id";
+                where ".$parametro." and  g.asesor_id = ".$asesor_id." ";
 
         $grupo = $this->db->query($sql)->result_array();
         return $grupo;

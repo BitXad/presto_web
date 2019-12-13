@@ -11,6 +11,7 @@ class Grupo extends CI_Controller{
         parent::__construct();
         $this->load->model('Grupo_model');
         $this->load->model('Integrante_model');
+        $this->load->model('Estado_model');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
         }else {
@@ -33,20 +34,34 @@ class Grupo extends CI_Controller{
     function index()
     {
         if($this->acceso(13)){
-            date_default_timezone_set("America/La_Paz");
+            
+            
+            $data['estados'] = $this->Estado_model->get_estado_tipo(2);
+           
+            $data['_view'] = 'grupo/index';
+            $this->load->view('layouts/main',$data);
+        }
+    }
+
+    function buscar_grupos()
+    {
+        if($this->acceso(13)){
+            
+            $parametro  = $this->input->post('parametro');
             $tipousuario_id  = $this->session_data['tipousuario_id'];
             if($tipousuario_id == 3){
                 $usuario_id  = $this->session_data['usuario_id'];
                 
                 $this->load->model('Asesor_model');
                 $asesor_id = $this->Asesor_model->get_asesorusuario($usuario_id);
-                $data['grupo'] = $this->Grupo_model->get_all_gruposasesor($asesor_id);
+                $grupos = $this->Grupo_model->get_all_gruposasesor($asesor_id,$parametro);
+                
             }else{
-                $data['grupo'] = $this->Grupo_model->get_all_grupos();
+                $grupos = $this->Grupo_model->get_all_grupos($parametro);
+                
             }
-
-            $data['_view'] = 'grupo/index';
-            $this->load->view('layouts/main',$data);
+            echo json_encode($grupos);
+           
         }
     }
 

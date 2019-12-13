@@ -8,11 +8,17 @@ class Dashboard extends CI_Controller{
     function __construct()
     {
         parent::__construct();
+        $this->load->model('Dashboard_model');
         
     }
 
     function index()
     {
+    	$data['clientes'] = $this->Dashboard_model->get_clientes();
+        $data['grupos'] = $this->Dashboard_model->get_grupos();
+        $data['grupos20'] = $this->Dashboard_model->get_grupos20();
+        $data['asesores'] = $this->Dashboard_model->get_asesores();
+        $data['creditos'] = $this->Dashboard_model->get_creditos();
         $data['_view'] = 'dashboard';
         $this->load->view('layouts/main',$data);
     }
