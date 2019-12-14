@@ -248,6 +248,12 @@
                         </div>
                     </div>
                     <div class="col-md-3">
+                                <label for="grupo_numreunion" class="control-label">Num. Reuniones</label>
+                                <div class="form-group">
+                                        <input type="number" name="grupo_numreunion" value="<?php echo $grupo['grupo_numreunion']; ?>" class="form-control" id="grupo_numreunion" />
+                                </div>
+                        </div>
+                    <div class="col-md-3">
                         <label for="grupo_monto" class="control-label">Monto Solicitado Bs</label>
                         <div class="form-group">
                             <input type="number" step="any" min="0" name="grupo_monto" value="<?php echo ($this->input->post('grupo_monto') ? $this->input->post('grupo_monto') : $grupo['grupo_monto']); ?>" class="form-control" id="grupo_monto" required/>

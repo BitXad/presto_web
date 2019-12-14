@@ -33,7 +33,7 @@
                       <span class="input-group-addon"> 
                         Buscar 
                       </span>           
-                <input id="filtrar" onkeypress="buscargrupos()" type="text" class="form-control" placeholder="Ingresa el nombre del grupo, del asesor"  >
+                <input id="filtrar" onkeypress="buscargrupos(event)" type="text" class="form-control" placeholder="Ingresa el nombre del grupo, del asesor"  >
             </div>
         </div>
         <div class="col-md-4">

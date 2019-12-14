@@ -32,6 +32,16 @@
         }*/
         $('#grupo_codigo').val(cad1+cad2+anio+mes+dia+min);
     }
+
+    
+</script>
+<script type="text/javascript">
+    function numreunion(){
+        var tiempo = $("#grupo_tiemporeunion").val();
+        var meses = $("#grupo_tiempociclo").val();
+        var total = meses*28/tiempo;
+        $('#grupo_numreunion').val(total);
+    }
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -132,9 +142,9 @@
                             <div class="form-group">
                                 <!--<input type="text" name="grupo_departamento" value="<?php //echo $this->input->post('grupo_departamento'); ?>" class="form-control" id="grupo_departamento" />-->
                                 <select name="grupo_departamento" id="grupo_departamento" class="form-control">
+                                    <option value="COCHABAMBA">COCHABAMBA</option>
                                     <option value="BENI">BENI</option>
                                     <option value="CHUQUISACA">CHUQUISACA</option>
-                                    <option value="COCHABAMBA">COCHABAMBA</option>
                                     <option value="LA PAZ">LA PAZ</option>
                                     <option value="ORURO">ORURO</option>
                                     <option value="PANDO">PANDO</option>
@@ -206,15 +216,33 @@
                         <div class="col-md-3">
                                 <label for="grupo_tiemporeunion" class="control-label">Tiempo de Reunión</label>
                                 <div class="form-group">
-                                    <select name="grupo_tiemporeunion" id="grupo_tiemporeunion" class="form-control">
+                                    <select name="grupo_tiemporeunion" id="grupo_tiemporeunion" onchange="numreunion()" class="form-control">
                                         <option value="1">DIARIO (1 DIA)</option>
                                         <option value="7">SEMANAL (7 DIAS)</option>
                                         <option value="14">BISEMANAL (14 DIAS)</option>
-                                        <option value="15">QUINCENAL (15 DIAS)</option>
-                                        <option value="30">MENSUAL (28 DIAS)</option>                                                                                                               
-                                        <option value="30">MENSUAL (30 DIAS)</option>                                                                                                               
+                                        
+                                        <option value="28">MENSUAL (28 DIAS)</option>                                                                                                               
+                                                                                                                                              
                                     </select>
 
+                                </div>
+                        </div>
+
+                        <div class="col-md-3">
+                                <label for="grupo_tiempociclo" class="control-label">Tiempo de Ciclo</label>
+                                <div class="form-group">
+                                    <select name="grupo_tiempociclo" id="grupo_tiempociclo" onchange="numreunion()" class="form-control">
+                                        <option value="0">-TIEMPO DEL CICLO -</option>
+                                        <option value="6">6 MESES</option>
+                                        <option value="8">8 MESES</option>            
+                                    </select>                                                                                 
+                                </div>
+                        </div>
+
+                        <div class="col-md-3">
+                                <label for="grupo_numreunion" class="control-label">Num. Reuniones</label>
+                                <div class="form-group">
+                                        <input type="number" name="grupo_numreunion" value="" class="form-control" id="grupo_numreunion" />
                                 </div>
                         </div>
 
