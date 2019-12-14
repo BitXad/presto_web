@@ -158,7 +158,8 @@ function finalizarindividual()
     var credito_comision = document.getElementById('credito_comision').value;
     var credito_custodia = document.getElementById('credito_custodia').value;
     var credito_fechalimite = document.getElementById('credito_fechalimite').value;
-    var credito_cuotas = document.getElementById('credito_cuotas').value;
+    var credito_cuotas = document.getElementById('grupo_numreunion').value;
+    //var credito_cuotas = document.getElementById('credito_cuotas').value;
     var tipo_credito = 2;
     var tipo_interes = document.getElementById('tipoint_id').value;
     var tipo_garantia = document.getElementById('tipogarant_id').value;
@@ -258,21 +259,19 @@ function mostrar_integrantes(){
         },
         error:function(respuesta){
           
-       
-   }
+       }
     });
 
 }
 
-
 function registrar_credito(){
-    
     var base_url = document.getElementById('base_url').value;    
     var grupo_id = document.getElementById('grupo_id').value;
+    var grupo_numreunion = document.getElementById('grupo_numreunion').value;
     //var controlador = base_url+'grupo/buscar_integrantes/'+grupo_id;
-    if(grupo_id >0){
+    if(grupo_id >0 && grupo_numreunion >0){
         var integrante = JSON.parse(document.getElementById('grupo').value);
-        var numreuniones = document.getElementById('credito_cuotas').value;
+        //var num_reunion = document.getElementById('grupo_numreunion').value;
         var tam = integrante.length;
         for(i=0;i<tam;i++){
             $("#cliente_id").val(integrante[i].cliente_id);
@@ -285,9 +284,13 @@ function registrar_credito(){
             finalizarindividual();
             //alert(integrante[i].cliente_nombre);
         }
+        
         alert('Credito registrado con éxito..!');
     }else{
-        alert("Primero debe elegir un grupo!");
+        if(grupo_id <=0){
+            alert("Primero debe elegir un grupo!");
+        }else{
+            alert('El numero de reuniones debe ser mayor a cero');
+        }
     }
-
 }

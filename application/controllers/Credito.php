@@ -205,62 +205,57 @@ class Credito extends CI_Controller{
         $credito_horainicio = date("H:i:s");
         $cliente_id = $this->input->post('cliente_id');
         $intervalo = $this->input->post('intervalo');
-         $params = array(
-                'estado_id' => 9,
-                
-                'credito_cuotadia' => $this->input->post('cuota_parcial'),
-                'credito_cuotainteres' => $this->input->post('cuota_interes'),
-                'credito_cuotaintervalo' => $this->input->post('intervalo'),
-                'grupo_id' => $this->input->post('grupo_id'),
-                'usuario_id' => $usuario_id,
-                'tipocredito_id' => $this->input->post('tipo_credito'),
-                'cliente_id' => $cliente_id,
-                'credito_fechainicio' => $credito_fechainicio,
-                'credito_horainicio' => $credito_horainicio,
-                'credito_monto' => $this->input->post('credito_monto'),
-                'credito_saldo' => $this->input->post('credito_monto'),
-                'credito_interes' => $this->input->post('credito_interes'),
-                'credito_custodia' => $this->input->post('credito_custodia'),
-                'credito_comision' => $this->input->post('credito_comision'),
-                'credito_cuotas' => $this->input->post('credito_cuotas'),
-                'credito_fechalimite' => $this->input->post('credito_fechalimite'),
-                'credito_ultimopago' => $credito_fechainicio,
-                'tipogarant_id' => $this->input->post('tipo_garantia'),
-                'tipoint_id' => $this->input->post('tipo_interes'),
-            );
+        $params = array(
+            'estado_id' => 9,
+            'credito_cuotadia' => $this->input->post('cuota_parcial'),
+            'credito_cuotainteres' => $this->input->post('cuota_interes'),
+            'credito_cuotaintervalo' => $this->input->post('intervalo'),
+            'grupo_id' => $this->input->post('grupo_id'),
+            'usuario_id' => $usuario_id,
+            'tipocredito_id' => $this->input->post('tipo_credito'),
+            'cliente_id' => $cliente_id,
+            'credito_fechainicio' => $credito_fechainicio,
+            'credito_horainicio' => $credito_horainicio,
+            'credito_monto' => $this->input->post('credito_monto'),
+            'credito_saldo' => $this->input->post('credito_monto'),
+            'credito_interes' => $this->input->post('credito_interes'),
+            'credito_custodia' => $this->input->post('credito_custodia'),
+            'credito_comision' => $this->input->post('credito_comision'),
+            'credito_cuotas' => $this->input->post('credito_cuotas'),
+            'credito_fechalimite' => $this->input->post('credito_fechalimite'),
+            'credito_ultimopago' => $credito_fechainicio,
+            'tipogarant_id' => $this->input->post('tipo_garantia'),
+            'tipoint_id' => $this->input->post('tipo_interes'),
+        );
+        $credito_id = $this->Credito_model->add_credito($params);
             
-            $credito_id = $this->Credito_model->add_credito($params);
-            
-             $cli = array(
-                    
-                    'cliente_nombre' => $this->input->post('cliente_nombre'),
-                    'cliente_apellido' => $this->input->post('cliente_apellido'),
-                    'cliente_telefono' => $this->input->post('cliente_telefono'),
-                   
-                );
+        $cli = array(
+            'cliente_nombre' => $this->input->post('cliente_nombre'),
+            'cliente_apellido' => $this->input->post('cliente_apellido'),
+            'cliente_telefono' => $this->input->post('cliente_telefono'),
+        );
+        $this->Cliente_model->update_cliente($cliente_id,$cli);
+        
+        $modo =  $this->input->post('modo');
+        $cuotas =  $this->input->post('credito_cuotas');
+        $fechalimite = $this->input->post('credito_fechalimite');
+        $fechafin = new DateTime($fechalimite);
+        $fechahoy = new DateTime();
+        $credito_interes = $this->input->post('credito_interes');
+        $credito_custodia = $this->input->post('credito_custodia');
+        $credito_comision = $this->input->post('credito_comision');
 
-                $this->Cliente_model->update_cliente($cliente_id,$cli);   
-    $modo =  $this->input->post('modo');
-    $cuotas =  $this->input->post('credito_cuotas');
-    $fechalimite = $this->input->post('credito_fechalimite');
-    $fechafin = new DateTime($fechalimite);
-    $fechahoy = new DateTime();
-    $credito_interes = $this->input->post('credito_interes');
-    $credito_custodia = $this->input->post('credito_custodia');
-    $credito_comision = $this->input->post('credito_comision');
-            
-    $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
+        $sumainteres = $credito_interes + $credito_custodia + $credito_comision;
 
-    $diff = $fechahoy->diff($fechafin);
-    $diferencia = $diff->days;
-    $diferenciatotal = $diferencia+1;
-    $tipo_interes = $this->input->post('tipo_interes');
+        $diff = $fechahoy->diff($fechafin);
+        $diferencia = $diff->days;
+        $diferenciatotal = $diferencia+1;
+        $tipo_interes = $this->input->post('tipo_interes');
    
     //$patron = ($numcuota*0.5) + 0.5;
              //credito individual //
                     
-                        
-if ($tipo_interes==2) { //interes fijo//
+        if($tipo_interes==2){ //interes fijo//
                                                  
    
            if ($modo>=1) {
