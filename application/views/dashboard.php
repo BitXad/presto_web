@@ -51,7 +51,7 @@
       <!-- Info boxes -->
       <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
+          <a href="credito/grupal"><div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="fa fa-money"></i></span>
 
             <div class="info-box-content">
@@ -59,12 +59,12 @@
               <span class="info-box-number"><?php echo sizeof($creditos); ?><small> APROBADOS</small></span>
             </div>
             <!-- /.info-box-content -->
-          </div>
+          </div></a>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
+          <a href="cliente"><div class="info-box">
             <span class="info-box-icon bg-red"><i class="fa fa-user"></i></span>
 
             <div class="info-box-content">
@@ -72,7 +72,7 @@
               <span class="info-box-number"><?php echo sizeof($clientes); ?><small> REGISTRADOS</small></span>
             </div>
             <!-- /.info-box-content -->
-          </div>
+          </div></a>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
@@ -81,7 +81,7 @@
         <div class="clearfix visible-sm-block"></div>
 
         <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
+          <a href="grupo"><div class="info-box">
             <span class="info-box-icon bg-green"><i class="fa fa-users"></i></span>
 
             <div class="info-box-content">
@@ -89,12 +89,12 @@
               <span class="info-box-number"><?php echo sizeof($grupos); ?><small> ACTIVOS</small></span>
             </div>
             <!-- /.info-box-content -->
-          </div>
+          </div></a>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
+          <a href="asesor"><div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
             <div class="info-box-content">
@@ -102,7 +102,7 @@
               <span class="info-box-number"><?php echo sizeof($asesores); ?><small> ACTIVOS</small></span>
             </div>
             <!-- /.info-box-content -->
-          </div>
+          </div></a>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
@@ -249,7 +249,7 @@
           <!-- MAP & BOX PANE -->
           <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">Visitors Report</h3>
+              <h3 class="box-title">Reportes</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
