@@ -19,16 +19,16 @@
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
-<div class="row">
-    <div class="col-md-12">
-        <div class="box">
-            <div class="box-header">
+  <div class="box-header">
                 <h3 class="box-title">Grupos</h3>
                 <div class="box-tools">
                     <a href="<?php echo site_url('grupo/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-users"> </i> Registrar</a> 
                 </div>
-            </div>
-<div class="col-md-8">
+            </div>  
+<div class="row">
+    <div class="col-md-12">
+        
+        <div class="col-md-8">
             <div class="input-group">
                       <span class="input-group-addon"> 
                         Buscar 
@@ -46,8 +46,12 @@
                                         echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
                                     } 
                                     ?>
-                                </select>
+            </select>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="box">
             <div class="box-body  table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
@@ -70,8 +74,7 @@
                    </tbody> 
                 </table>
                                 
-            </div>
-        </div>
+          </div>
     </div>
 </div>
 
