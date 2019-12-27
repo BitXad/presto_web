@@ -518,4 +518,23 @@ class Grupo extends CI_Controller{
             redirect('grupo/integrantes/'.$grupo_idnew);
         //}
     }
+    /* * cambiar el estado de un grupo */
+    function cambiara_desembolsado()
+    {
+        //if($this->acceso(103)) {
+        if($this->input->is_ajax_request()){
+            $grupo_id = $this->input->post('grupo_id');
+            $estado_id = 7; //pasa de autorizado a desembolso = 7
+            $params = array(
+                'estado_id' => $estado_id,
+            );
+            $cliente_id = $this->Grupo_model->update_grupo($grupo_id, $params);
+            
+            echo json_encode("ok");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
 }

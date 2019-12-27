@@ -118,13 +118,14 @@
                     </select>
                   </div>
                  </div>-->
+                <div class="col-md-12" id='loader'  style='display:none; text-align: center; padding-top: 10px'>
+                    <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
+                </div>
                  <div class="col-md-12" id="boton" style='display:block;'>
                     <br>	
                     <button class="btn btn-success btn-block" onclick="registrar_credito()"><i class="fa fa-money"></i> Desembolsar</button>
             	</div>
-  <div class="row" id='loader'  style='display:none; text-align: center'>
-  <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
-  </div>
+  
     	</div><!--box-->
     	</div><!--boxBODY-->
     </div><!--COL5-->

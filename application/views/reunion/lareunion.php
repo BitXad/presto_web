@@ -1,16 +1,19 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/funciones_reunion.js'); ?>" type="text/javascript"></script>
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
+<input type="hidden" name="estegrupo_tiempotolerancia" id="estegrupo_tiempotolerancia" value="<?php echo $reunion['grupo_tiempotolerancia']; ?>" />
+<input type="hidden" name="estareunion_hora" id="estareunion_hora" value="<?php echo $reunion['reunion_hora']; ?>" />
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
-<div class="box-header">
-    <h3 class="box-title">GRUPO&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo $reunion['grupo_nombre']; ?></h3><br>
-    <h3 class="box-title">REUNION: <?php echo date("d/m/Y", strtotime($reunion['reunion_fecha']))." ".$reunion['reunion_hora']; ?></h3><br>
-    <h3 class="box-title">ASESOR&nbsp;&nbsp;&nbsp;: <?php echo $reunion['elasesor']; ?></h3>
+<div class="box-header" style="font-family: Arial; font-size: 12px">
+    <span class="text-bold">GRUPO&nbsp;&nbsp;&nbsp;&nbsp;</span>: <?php echo $reunion['grupo_nombre']; ?><br>
+    <span class="text-bold">REUNION</span>: <?php echo date("d/m/Y", strtotime($reunion['reunion_fecha']))." ".$reunion['reunion_hora']; ?><br>
+    <span class="text-bold">ASESOR&nbsp;&nbsp;</span>: <?php echo $reunion['elasesor']; ?><br>
+    <span style="font-size: 10px"><span class="text-bold">TOLERANCIA</span>: <?php echo $reunion['grupo_tiempotolerancia']; ?> MINUTOS</span>
 </div>
 <div class="row" id='loader'  style='display:none; text-align: center'>
-    <!--<img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >-->
+    <!--<img src="<?php //echo base_url("resources/images/loader.gif"); ?>"  >-->
 </div>
 <?php echo form_open('reunion/registrareunion'); ?>
 <input type="hidden" name="idreunion_id" id="idreunion_id" value="<?php echo $reunion['reunion_id']; ?>" />
@@ -24,11 +27,12 @@
                         <th>#</th>
                         <th>Integrante</th>
                         <th>Asistencia</th>
+                        <th>Monto Indv.</th>
                         <th>Cuota</th>
                         <th>Pagado</th>
                         <th>Ahorro</th>
-                        <th>Retraso/Recibo</th>
-                        <th>Faltas/Recibo</th>
+                        <th>Estado/Recibo</th>
+                        <th>Multas</th>
                         <th>Observaciones</th>
                     </tr>
                     <tbody class="buscar" id="tablaresultados">
@@ -85,17 +89,39 @@
                     <?php $i++; } */ ?>
                     </tbody>
                     <tr>
-                        <td class="text-right text-bold" style="" colspan="2">TOTAL:</td>
-                        <td>
-                            <span id="totala">A = 0</span><br>
-                            <span id="totalf">F = 0</span><br>
-                            <span id="totalp">P = 0</span><br>
-                            <span id="totalr">R = 0</span><br>
+                        <td class="text-right text-bold" style="" colspan="3"><!--TOTAL:</td>-->
+                        <!--<td>-->
+                            <table style="width: 100%">
+                                <tr>
+                                    <th rowspan="7">TOTAL:</th>
+                                </tr>
+                                <tr>
+                                    <td>Presentes </td><td><span id="totalp">0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Retrasos </td><td><span id="totalr">0</span></td>
+                                </tr>
+                                <tr style="font-size: 12px; background-color: #b8c9f1">
+                                    <td class="text-bold">Total Asistentes</td><td><span id="totalpr">0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Envios </td><td><span id="totale">0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Licencia </td><td><span id="totall">0</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Faltas </td><td><span id="totalf">0</span></td>
+                                </tr>
+                            </table>
                         </td>
-                        <td></td>
+                        <!--<td></td>-->
+                        <td><span id="totalmontoprestamo"><?php echo number_format($reunion['grupo_monto'], 2,".","," ); ?></span></td>
+                        <td><span name="totalapagar" id="totalapagar" class="text-right"></span></td>
                         <td><input type="number" step="any" min="0" name="totalpagado" id="totalpagado" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" step="any" min="0" name="totalahorro" id="totalahorro" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" name="totalretraso" id="totalretraso" value="0.00" class="text-right" readonly /></td>
+                        <td><input type="number" name="totalenvios" id="totalenvios" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" name="totalfaltas" id="totalfaltas" value="0.00" class="text-right" readonly /></td>
                         <td></td>
                     </tr>

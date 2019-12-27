@@ -259,16 +259,16 @@
                                 </div>
                         </div>
                         <div class="col-md-3">
-                                <label for="grupo_tiempotolerancia" class="control-label">Tiempo de Tolerancia</label>
+                                <label for="grupo_tiempotolerancia" class="control-label">Tiempo de Tolerancia(en minutos)</label>
                                 <div class="form-group">
-                                        <input type="text" name="grupo_tiempotolerancia" value="<?php echo $this->input->post('grupo_tiempotolerancia'); ?>" class="form-control" id="grupo_tiempotolerancia" required/>
+                                    <input type="number" min="0" name="grupo_tiempotolerancia" value="<?php echo $this->input->post('grupo_tiempotolerancia'); ?>" class="form-control" id="grupo_tiempotolerancia" required/>
                                 </div>
                         </div>
                         <div class="col-md-3">
                             <label for="grupo_multaretraso" class="control-label">Multa/Retraso(Bs)</label>
                             <div class="form-group" style=" display: flex" >
                                 <input style="width: 30%; display: flex; " type="number" step="any" min="0" name="grupo_multaretraso" value="<?php echo $this->input->post('grupo_multaretraso'); ?>" class="form-control" id="grupo_multaretraso" />
-                                <input style="width: 70%; display: inherit" type="text" name="grupo_multaretrasodetalle" value="<?php echo $this->input->post('grupo_multaretrasodetalle'); ?>" class="form-control" id="grupo_multaretrasodetalle" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+                                <input style="width: 70%; display: inherit" type="text" name="grupo_multaretrasodetalle" value="POR MINUTO" class="form-control" id="grupo_multaretrasodetalle" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                             </div>
                         </div>
                         <div class="col-md-3">

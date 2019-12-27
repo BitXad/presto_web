@@ -268,6 +268,7 @@ function registrar_credito(){
     var base_url = document.getElementById('base_url').value;    
     var grupo_id = document.getElementById('grupo_id').value;
     var grupo_numreunion = document.getElementById('grupo_numreunion').value;
+    document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
     //var controlador = base_url+'grupo/buscar_integrantes/'+grupo_id;
     if(grupo_id >0 && grupo_numreunion >0){
         var integrante = JSON.parse(document.getElementById('grupo').value);
@@ -284,13 +285,58 @@ function registrar_credito(){
             finalizarindividual();
             //alert(integrante[i].cliente_nombre);
         }
-        
+        //registra reunión y su número de reunion
+        registrar_reunion(grupo_numreunion);
+        pasara_desembolsado(grupo_id);
         alert('Credito registrado con éxito..!');
+        document.getElementById('loader').style.display = 'none';
+        location.reload();
     }else{
         if(grupo_id <=0){
             alert("Primero debe elegir un grupo!");
         }else{
             alert('El numero de reuniones debe ser mayor a cero');
         }
+        document.getElementById('loader').style.display = 'none';
     }
+}
+function registrar_reunion(grupo_numreunion){
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'reunion/registrar_reunion';   
+    /*var credito_monto = document.getElementById('credito_monto').value;
+    var credito_interes = document.getElementById('credito_interes').value;
+    var credito_comision = document.getElementById('credito_comision').value;
+    var credito_custodia = document.getElementById('credito_custodia').value;
+    var credito_fechalimite = document.getElementById('credito_fechalimite').value;
+    var credito_cuotas = document.getElementById('grupo_numreunion').value;
+    //var credito_cuotas = document.getElementById('credito_cuotas').value;
+    var tipo_credito = 2;
+    var tipo_interes = document.getElementById('tipoint_id').value;
+    var tipo_garantia = document.getElementById('tipogarant_id').value;
+    var cliente_nombre = document.getElementById('cliente_nombre').value;
+    var cliente_apellido = document.getElementById('cliente_apellido').value;
+    var cliente_telefono = document.getElementById('cliente_telefono').value;*/
+    var grupo_id = document.getElementById('grupo_id').value;
+    
+     $.ajax({url: controlador,
+           type:"POST",
+           data:{grupo_numreunion:grupo_numreunion, grupo_id:grupo_id},
+           success:function(respuesta){ 
+            //location.href = base_url+'credito/individual';
+             },
+            
+            });
+}
+function pasara_desembolsado(grupo_id){
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'grupo/cambiara_desembolsado';
+    
+     $.ajax({url: controlador,
+           type:"POST",
+           data:{grupo_id:grupo_id},
+           success:function(respuesta){ 
+            //location.href = base_url+'credito/individual';
+             },
+             
+            });
 }
