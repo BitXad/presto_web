@@ -118,7 +118,8 @@ class Reunion_model extends CI_Model
     {
         $reunion = $this->db->query("
             SELECT
-                r.*, g.grupo_nombre, concat (a.asesor_nombre, ' ', a.asesor_apellido) as elasesor
+                r.*, g.grupo_nombre, concat (a.asesor_nombre, ' ', a.asesor_apellido) as elasesor,
+                g.grupo_tiempotolerancia, g.grupo_monto
             FROM
                 reunion r
             LEFT JOIN grupo g on r.grupo_id = g.grupo_id
@@ -140,7 +141,8 @@ class Reunion_model extends CI_Model
                 c.cliente_ci, c.cliente_extencionci, c.cliente_telefono, c.cliente_celular,
                 cr.credito_id, cu.cuota_id, cu.cuota_monto, a.asistencia_registro,a.asistencia_pagado,
                 a.asistencia_retraso, a.asistencia_falta, a.asistencia_observacion, i.integrante_id,
-                a.asistencia_recibor, a.asistencia_recibof, a.asistencia_ahorro, i.integrante_montosolicitado
+                a.asistencia_recibor, a.asistencia_recibof, a.asistencia_ahorro, i.integrante_montosolicitado,
+                g.grupo_multaenvio
             FROM
                 integrante i
             LEFT JOIN cliente c on i.cliente_id = c.cliente_id

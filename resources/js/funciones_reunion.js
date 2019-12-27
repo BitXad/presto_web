@@ -16,9 +16,26 @@ function asistencia(asistencia, integrante_id, reunion_id){
                
                var registros =  JSON.parse(respuesta);
                if (registros != null){
-                    if("ok"){
-                       tablaresultadosreunion(reunion_id);
-                   }
+             /*       if(registros == "R"){
+                        var estegrupo_tiempotolerancia = document.getElementById('estegrupo_tiempotolerancia').value;
+                        var estareunion_hora           = document.getElementById('estareunion_hora').value;
+                        var d = new Date();
+                        */
+                        //var hora = moment(d).format("HH:mm:ss");
+                     //   var hora = new Date(estareunion_hora);
+                     //   var res = moment.duration(d.diff(hora)).humanize();
+                        /*var ms = moment(d,"DD/MM/YYYY HH:mm:ss").diff(moment(estareunion_hora,"DD/MM/YYYY HH:mm:ss"));
+                        var dh = moment.duration(ms);
+                        var s = dh.format("hh:mm:ss");*/
+                      //  alert(res);
+                        /*var res = moment(moment.duration(d.diff(estareunion_hora))).format("HH:mm:ss")
+                        dayObj2.minutes = moment(dayObj2.endDate).diff(moment(dayObj2.startDate), 'minutes');
+                        */
+                        
+                        //alert(s);
+                        //$("#asistencia_retraso"+integrante_id).val();
+                 //   }
+                   tablaresultadosreunion(reunion_id);
                }
         }
         
@@ -46,22 +63,24 @@ function tablaresultadosreunion(reunion_id)
                if (registros != null){
                     var n = registros.length; //tamaño del arreglo de la consulta
                     //$("#encontrados").val("- "+n+" -");
-                    var totala = 0;
-                    var totalf = 0;
                     var totalp = 0;
                     var totalr = 0;
+                    var totale = 0;
+                    var totalf = 0;
+                    var totall = 0;
+                    var totalapagar = 0;
                     var totalpagado = 0;
                     var totalahorro = 0;
                     var totalretraso = 0;
                     var totalfaltas = 0;
+                    var totalenvio = 0;
                     html = "";
                     for (var i = 0; i < n ; i++){
-                        totalpagado = Number(totalpagado) + Number(registros[i]['asistencia_pagado']);
                         totalahorro = Number(totalahorro) + Number(registros[i]['asistencia_ahorro']);
                         html += "<tr>";
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td>";
-                        html += registros[i]["elcliente"]+"<br>";
+                        html += "<span class='text-bold' style='font-size:12px'>"+registros[i]["elcliente"]+"</span><br>";
                         html += "<b>C.I.: </b>"+registros[i]["cliente_ci"]+" "+registros[i]["cliente_extencionci"]+"<br>"; 
                         var linea    = "";
                         var telefono = "";
@@ -78,47 +97,62 @@ function tablaresultadosreunion(reunion_id)
                         html += telefono+linea+celular;
                         html += "</td>";
                         html += "<td class='text-center'>";
-                        html += "<select name='asistencia"+i+"' id='asistencia"+i+"' required onchange='asistencia(this.value, "+registros[i]["integrante_id"]+", "+reunion_id+")' >";
+                        html += "<select name='asistencia"+registros[i]["integrante_id"]+"' id='asistencia"+registros[i]["integrante_id"]+"' required onchange='asistencia(this.value, "+registros[i]["integrante_id"]+", "+reunion_id+")' >";
                         html += "<option value=''>-</option>";
                         var selected1 = "";
                         var selected2 = "";
                         var selected3 = "";
                         var selected4 = "";
-                        if(registros[i]["asistencia_registro"] == 'A'){
+                        var selected5 = "";
+                        if(registros[i]["asistencia_registro"] == 'P'){
                             selected1="selected";
-                            totala = totala+1;
-                        }else if(registros[i]["asistencia_registro"] == 'F'){
-                            selected2="selected";
-                            totalf = totalf+1;
-                        }else if(registros[i]["asistencia_registro"] == 'P'){
-                            selected3="selected";
                             totalp = totalp+1;
                         }else if(registros[i]["asistencia_registro"] == 'R'){
-                            selected4="selected";
+                            selected2="selected";
                             totalr = totalr+1;
+                        }else if(registros[i]["asistencia_registro"] == 'E'){
+                            selected3="selected";
+                            totale = totale+1;
+                        }else if(registros[i]["asistencia_registro"] == 'F'){
+                            selected4="selected";
+                            totalf = totalf+1;
+                        }else if(registros[i]["asistencia_registro"] == 'L'){
+                            selected5="selected";
+                            totall = totall+1;
                         }
                         html += "<option ";
-                        html += selected1+" value='A'>A</option>";
+                        html += selected1+" value='P'>P</option>";
                         html += "<option ";
-                        html += selected2+" value='F'>F</option>";
+                        html += selected2+" value='R'>R</option>";
                         html += "<option ";
-                        html += selected3+" value='P'>P</option>";
+                        html += selected3+" value='E'>E</option>";
                         html += "<option ";
-                        html += selected4+" value='R'>R</option>";
+                        html += selected4+" value='F'>F</option>";
+                        html += "<option ";
+                        html += selected5+" value='L'>L</option>";
                         //html += "<option <?php echo $selected = (registros["asistencia_registro"] == 'F') ? ' selected='selected'' : ''; ?> value='F'>F</option>";
                         //html += "<option <?php echo $selected = (registros["asistencia_registro"] == 'P') ? ' selected='selected'' : ''; ?> value='P'>P</option>";
                         //html += "<option <?php echo $selected = (registros["asistencia_registro"] == 'R') ? ' selected='selected'' : ''; ?> value='R'>R</option>";
                         html += "</select>";
+                        html += "</td>";
+                        
+                        html += "<td class='text-right'>";
+                        html += Number(registros[i]['integrante_montosolicitado']).toFixed(2);
                         html += "</td>";
                         html += "<td class='text-right'>";
                         html += Number(registros[i]["cuota_monto"]).toFixed(2);
                         html += "<input type='hidden' name='cuota_monto"+i+"' id='cuota_monto"+i+"' value='"+Number(registros[i]["cuota_monto"]).toFixed(2)+"' class='text-right' />";
                         html += "</td>";
                         html += "<td>";
-                        var asistencia_pagado = "0.00";
+                        //var asistencia_pagado = "0.00";
+                        var asistencia_pagado = Number(registros[i]["cuota_monto"]).toFixed(2);
                         if(registros[i]["asistencia_pagado"] > 0){
+                            totalpagado = Number(totalpagado) + Number(registros[i]['asistencia_pagado']);
                             asistencia_pagado = registros[i]["asistencia_pagado"];
+                        }else{
+                            totalpagado = Number(totalpagado) + Number(registros[i]["cuota_monto"]);
                         }
+                        totalapagar = Number(totalapagar) + Number(registros[i]["cuota_monto"]);
                         html += "<input type='number' step='any' min='0' name='asistencia_pagado"+i+"' id='asistencia_pagado"+i+"' value='"+Number(asistencia_pagado).toFixed(2)+"' onchange='sumarpagados()' class='text-right' onclick='this.select();' />";
                         html += "</td>";
                         html += "<td>";
@@ -133,6 +167,24 @@ function tablaresultadosreunion(reunion_id)
                         }
                         html += "<input type='number' step='any' min='0' name='asistencia_retraso"+i+"' id='asistencia_retraso"+i+"' value='"+Number(retraso).toFixed(2)+"' onchange='sumaretrasos()' class='text-right' onclick='this.select();' />";
                         html += "<input type='number' name='asistencia_recibor"+i+"' id='asistencia_recibor"+i+"' class='text-right' value='"+registros[i]['asistencia_recibor']+"' />";
+                        }else 
+                        if(registros[i]["asistencia_registro"] == 'F'){
+                            totalfaltas = Number(totalfaltas) + Number(registros[i]['asistencia_falta']);
+                        var falta = "0.00";
+                        if(registros[i]["asistencia_falta"] > 0){
+                            falta = registros[i]["asistencia_falta"];
+                        }
+                        html += "<input type='number' step='any' min='0' name='asistencia_falta"+i+"' id='asistencia_falta"+i+"' value='"+Number(falta).toFixed(2)+"' onchange='sumarfaltas()' class='text-right' onclick='this.select();' />";
+                        html += "<input type='number' name='asistencia_recibof"+i+"' id='asistencia_recibof"+i+"' class='text-right' value='"+registros[i]['asistencia_recibof']+"' />";
+                        }else 
+                        if(registros[i]["asistencia_registro"] == 'E'){
+                            totalenvio = Number(totalenvio) + Number(registros[i]['grupo_multaenvio']);
+                        var envio = "0.00";
+                        if(registros[i]["grupo_multaenvio"] > 0){
+                            envio = registros[i]["grupo_multaenvio"];
+                        }
+                        html += "<input type='number' step='any' min='0' name='asistencia_envio"+i+"' id='asistencia_envio"+i+"' value='"+Number(envio).toFixed(2)+"' onchange='sumarenvios()' class='text-right' onclick='this.select();' />";
+                        html += "<input type='number' name='asistencia_reciboe"+i+"' id='asistencia_reciboe"+i+"' class='text-right' value='"+registros[i]['asistencia_recibof']+"' />";
                         }
                         html += "</td>";
                         html += "<td>";
@@ -161,14 +213,18 @@ function tablaresultadosreunion(reunion_id)
                    
                    
                    $("#tablaresultados").html(html);
-                   $("#totala").html("A = "+totala);
-                   $("#totalf").html("F = "+totalf);
-                   $("#totalp").html("P = "+totalp);
-                   $("#totalr").html("R = "+totalr);
-                   $("#numclientes").val(n);
+                   $("#totalp").html(totalp);
+                   $("#totalr").html(totalr);
+                   $("#totalpr").html(Number(totalp)+Number(totalr));
+                   $("#totale").html(totale);
+                   $("#totall").html(totalf);
+                   $("#totalf").html(totalf);
+                   //$("#numclientes").val(n);
                    /*$("#totalretraso").html(totalretraso);
                    $("#totalfaltas").html(totalfaltas);*/
                    document.getElementById('loader').style.display = 'none';
+                   //$("#totalmontoprestamo").html(Number(totalpagado).toFixed(2));
+                   $("#totalapagar").html(Number(totalapagar).toFixed(2));
                    $("#totalpagado").val(Number(totalpagado).toFixed(2));
                    $("#totalahorro").val(Number(totalahorro).toFixed(2));
                    $("#totalretraso").val(Number(totalretraso).toFixed(2));
@@ -199,13 +255,13 @@ function sumarpagados(){
         var pagado = $("#asistencia_pagado"+i).val();
         var ahorro = Number(pagado) - Number(cuota);
         if(ahorro >0){
-            $("#asistencia_ahorro"+i).val(ahorro);
+            $("#asistencia_ahorro"+i).val(Number(ahorro).toFixed(2));
             totalahorro = Number(totalahorro) + Number(ahorro);
         }
             totalpagado = Number(totalpagado) + Number(pagado);
     }
-    $("#totalpagado").val(totalpagado);
-    $("#totalahorro").val(totalahorro);
+    $("#totalpagado").val(Number(totalpagado).toFixed(2));
+    $("#totalahorro").val(Number(totalahorro).toFixed(2));
 }
 
 function sumaretrasos(){
@@ -226,6 +282,18 @@ function sumarfaltas(){
         var pagado = $("#asistencia_falta"+i).val();
         if(pagado){
             totalfaltas = Number(totalfaltas) + Number(pagado);
+        }
+    }
+    $("#totalfaltas").val(totalfaltas);
+}
+
+function sumarenvios(){
+    var numclientes = $("#numclientes").val();
+    var totalenvios = 0;
+    for (var i = 0; i < numclientes; i++) {
+        var pagado = $("#asistencia_envio"+i).val();
+        if(pagado){
+            totalenvios = Number(totalenvios) + Number(pagado);
         }
     }
     $("#totalfaltas").val(totalfaltas);

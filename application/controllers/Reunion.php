@@ -268,7 +268,7 @@ class Reunion extends CI_Controller{
 
                 $asistencia_id = $this->Asistencia_model->add_asistencia($params);
             }
-            $datos = "ok";
+            $datos = $asistencia;
             echo json_encode($datos);
         }
         else
@@ -309,5 +309,28 @@ class Reunion extends CI_Controller{
                 $this->load->view('layouts/main',$data);
             }else{ echo "La reunión que intenta imorimir no existe!.";}
         }
+    }
+    /* registra reunion y su respectivo numero.... */
+    function registrar_reunion()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            //$reunion_numero = $this->input->post('reunion_numero');
+            $grupo_id = $this->input->post('grupo_id');
+            $grupo_numreunion = $this->input->post('grupo_numreunion');
+            for ($index = 1; $index <= $grupo_numreunion; $index++) {
+                $params = array(
+                    'grupo_id' => $this->input->post('grupo_id'),
+                    'reunion_numero' => $index,
+                );
+                $reunion_id = $this->Reunion_model->add_reunion($params);
+            }
+            echo json_encode("ok");
+        }
+        else
+        {
+            show_404();
+        }
+        
     }
 }
