@@ -51,7 +51,7 @@
                 </select>
             </div>-->
             <div class="form-group has-feedback">
-                <input type="text" name="username" id="username" class="form-control input-lg" placeholder="Usuario" autocomplete="off">
+                <input type="text" name="username" id="username" class="form-control input-lg" placeholder="Usuario" autocomplete="off" autofocus>
                 <!--<span class="glyphicon glyphicon-user form-control-feedback"></span>-->
             </div>
             <div class="form-group has-feedback">
