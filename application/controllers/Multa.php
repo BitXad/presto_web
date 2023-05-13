@@ -114,7 +114,7 @@ class Multa extends CI_Controller{
             else
                 show_error('The multa you are trying to edit does not exist.');
         }
-    } 
+    }
 
     /*
      * Deleting multa
@@ -132,6 +132,40 @@ class Multa extends CI_Controller{
             }
             else
                 show_error('The multa you are trying to delete does not exist.');
+        }
+    }
+    function mismultas($cliente_id)
+    {
+        if($this->acceso(15)){
+            // check if the multa exists before trying to edit it
+            $data['multas'] = $this->Multa_model->get_all_multa_fromcliente($cliente_id);
+                /*if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'reunion_id' => $this->input->post('reunion_id'),
+                        'usuario_id' => $this->input->post('usuario_id'),
+                        'multa_monto' => $this->input->post('multa_monto'),
+                        'multa_fecha' => $this->input->post('multa_fecha'),
+                        'multa_hora' => $this->input->post('multa_hora'),
+                        'multa_detalle' => $this->input->post('multa_detalle'),
+                        'multa_numrec' => $this->input->post('multa_numrec'),
+                    );
+
+                    $this->Multa_model->update_multa($multa_id,$params);            
+                    redirect('multa/mismultas');
+                }
+                else
+                {*/
+            /*
+                    $this->load->model('Reunion_model');
+                    $data['all_reunion'] = $this->Reunion_model->get_all_reunion();
+
+                    $this->load->model('Usuario_model');
+                    $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+                    */
+            $data['_view'] = 'multa/mismultas';
+            $this->load->view('layouts/main',$data);
+               // }
         }
     }
     

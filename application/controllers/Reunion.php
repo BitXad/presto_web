@@ -286,9 +286,9 @@ class Reunion extends CI_Controller{
         {
             $reunion_id = $this->input->post('reunion_id');
             $grupo_id = $this->input->post('grupo_id');
-            
+            $reunion_numero = $this->input->post('reunion_numero');
             //$data['reunion'] = $this->Reunion_model->get_this_reunion($reunion_id);
-            $datos = $this->Reunion_model->get_this_clientesgrupo($reunion_id, $grupo_id);
+            $datos = $this->Reunion_model->get_this_clientesgrupo($reunion_id, $grupo_id, $reunion_numero);
             
             echo json_encode($datos);
         }

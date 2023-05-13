@@ -48,56 +48,61 @@ class Galeria_cliente extends CI_Controller{
         if($this->acceso(4)){
             $this->load->library('form_validation');
             
+            /* *********************INICIO imagen***************************** */
                 $foto="";
-                    if (!empty($_FILES['galeria_imagen']['name'])){
-                            $this->load->library('image_lib');
-                            $config['upload_path'] = './resources/images/clientes/';
-                            $img_full_path = $config['upload_path'];
+                if (!empty($_FILES['galeria_imagen']['name'])){
 
-                            $config['allowed_types'] = 'gif|jpeg|jpg|png';
-                            $config['max_size'] = 0;
-                            $config['max_width'] = 8900;
-                            $config['max_height'] = 8900;
+                    $this->load->library('image_lib');
+                    $config['upload_path'] = './resources/images/clientes/';
+                    $img_full_path = $config['upload_path'];
 
-                            $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
-                            $config['file_name'] = $new_name; //.$extencion;
-                            $config['file_ext_tolower'] = TRUE;
+                    //$config['allowed_types'] = 'gif|jpeg|jpg|png';
+                    $config['allowed_types'] = '*';
+                    $config['image_library'] = 'gd2';
+                    $config['max_size'] = 0;
+                    $config['max_width'] = 0;
+                    $config['max_height'] = 0;
 
-                            $this->load->library('upload', $config);
-                            $this->upload->do_upload('galeria_imagen');
+                    $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
+                    $config['file_name'] = $new_name; //.$extencion;
+                    $config['file_ext_tolower'] = TRUE;
 
-                            $img_data = $this->upload->data();
-                            $extension = $img_data['file_ext'];
-                            /* ********************INICIO para resize***************************** */
-                            if ($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
-                                $conf['image_library'] = 'gd2';
-                                $conf['source_image'] = $img_data['full_path'];
-                                $conf['new_image'] = './resources/images/clientes/';
-                                $conf['maintain_ratio'] = TRUE;
-                                $conf['create_thumb'] = FALSE;
-                                $conf['width'] = 800;
-                                $conf['height'] = 600;
-                                $this->image_lib->clear();
-                                $this->image_lib->initialize($conf);
-                                if(!$this->image_lib->resize()){
-                                    echo $this->image_lib->display_errors('','');
-                                }
-                            }
-                            /* ********************F I N  para resize***************************** */
-                            $confi['image_library'] = 'gd2';
-                            $confi['source_image'] = './resources/images/clientes/'.$new_name.$extension;
-                            $confi['new_image'] = './resources/images/clientes/'.$new_name."_thumb".$extension;
-                            $confi['maintain_ratio'] = TRUE;
-                            $confi['create_thumb'] = FALSE;
-                            $confi['width'] = 50;
-                            $confi['height'] = 50;
+                    $this->load->library('upload', $config);
+                    $this->upload->do_upload('galeria_imagen');
 
-                            $this->image_lib->clear();
-                            $this->image_lib->initialize($confi);
-                            $this->image_lib->resize();
-
-                            $foto = $new_name.$extension;
+                    $img_data = $this->upload->data();
+                    $extension = $img_data['file_ext'];
+                    /* ********************INICIO para resize***************************** */
+                    if ($img_data['file_ext'] == ".jpg" || $img_data['file_ext'] == ".png" || $img_data['file_ext'] == ".jpeg" || $img_data['file_ext'] == ".gif") {
+                        $conf['image_library'] = 'gd2';
+                        $conf['source_image'] = $img_data['full_path'];
+                        $conf['new_image'] = './resources/images/clientes/';
+                        $conf['maintain_ratio'] = TRUE;
+                        $conf['create_thumb'] = FALSE;
+                        $conf['width'] = 800;
+                        $conf['height'] = 600;
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($conf);
+                        if(!$this->image_lib->resize()){
+                            echo $this->image_lib->display_errors('','');
                         }
+                        $confi['image_library'] = 'gd2';
+                        $confi['source_image'] = './resources/images/clientes/'.$new_name.$extension;
+                        $confi['new_image'] = './resources/images/clientes/'."thumb_".$new_name.$extension;
+                        $confi['create_thumb'] = FALSE;
+                        $confi['maintain_ratio'] = TRUE;
+                        $confi['width'] = 100;
+                        $confi['height'] = 100;
+
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($confi);
+                        $this->image_lib->resize();
+                    }
+                    /* ********************F I N  para resize***************************** */
+
+
+                    $foto = $new_name.$extension;
+                }
                 /* *********************FIN imagen***************************** */
                 $params = array(
                     'cliente_id' => $cliente_id,
@@ -150,19 +155,22 @@ class Galeria_cliente extends CI_Controller{
     {
         if($this->acceso(4)){
             $galeria_cliente = $this->Galeria_cliente_model->get_galeria_cliente($galeria_id);
-            $directorio = $_SERVER['DOCUMENT_ROOT'].'/presto_web/resources/images/clientes/';
-            $foto1 = $galeria_cliente["galeria_imagen"];          
-                              unlink($directorio.$foto1);
-                              $mimagenthumb = str_replace(".", "_thumb.", $foto1);
-                              unlink($directorio.$mimagenthumb);
-            // check if the galeria_cliente exists before trying to delete it
+            $directorio = FCPATH.'resources\images\clientes\\';
+            $foto1 = $galeria_cliente["galeria_imagen"];
+            if(file_exists($directorio.$foto1)){
+                unlink($directorio.$foto1);
+                $mimagenthumb = "thumb_".$foto1;
+                if(file_exists($directorio.$mimagenthumb)){
+                    unlink($directorio.$mimagenthumb);
+                }
+            }
             if(isset($galeria_cliente['galeria_id']))
             {
                 $this->Galeria_cliente_model->delete_galeria_cliente($galeria_id);
                 redirect('galeria_cliente/index/'.$cliente_id);
             }
             else
-                show_error('The galeria_cliente you are trying to delete does not exist.');
+                show_error('El archivo que intenta eliminar no existe!.');
         }
     }
     

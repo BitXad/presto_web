@@ -76,4 +76,19 @@ class Multa_model extends CI_Model
     {
         return $this->db->delete('multa',array('multa_id'=>$multa_id));
     }
+    /*  */
+    function get_all_multa_fromcliente($cliente_id)
+    {
+        $multa = $this->db->query("
+            SELECT
+                m.*
+            FROM
+                multa m
+            WHERE
+                m.integrante_id = $cliente_id
+            ORDER BY m.multa_id
+        ")->result_array();
+
+        return $multa;
+    }
 }

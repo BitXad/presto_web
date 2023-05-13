@@ -106,13 +106,20 @@
                     $total = 0;
                       $cancelados = 0;
                     $cont = 0;
-                          foreach($cuota as $c){;
-                                 $cont = $cont+1;
-                                 $subtotal = $c['cuota_monto'];
-                                 $subcancelados = $c['cuota_montocancelado'];
-                                 $total = $subtotal + $total;
-                                 $cancelados = $subcancelados + $cancelados;
-                                 $saldito = $credito[0]['credito_monto']-$cancelados;
+                    $saldito = 0;
+                    $saldoporcancelar = 0;
+                    $cuotasaldo = 0;
+                        foreach($cuota as $c){;
+                            $cont = $cont+1;
+                            $subtotal = $c['cuota_monto'];
+                            $subcancelados = $c['cuota_montocancelado'];
+                            $total = $subtotal + $total;
+                            $cancelados = $subcancelados + $cancelados;
+                            $cuotasaldo += $c['cuota_saldocapital'];
+                            if($c['estado_id'] == 9){
+                                $saldoporcancelar += $c['cuota_monto'];
+                            }
+                                 
                                  ?>
                   <tr  >
 
@@ -147,6 +154,10 @@
                      
                    </tr>
                    <tr>
+                        <?php
+                        $saldoporcancelar = $saldoporcancelar+$cuotasaldo;
+                        $saldito = $saldoporcancelar;
+                        ?>
                     <th colspan="10"> SALDO A CANCELAR <?php echo number_format($saldito, 2, ".", ",") ?> <br>
                         <?php echo num_to_letras($saldito); ?></th>    
                       

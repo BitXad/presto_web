@@ -1,7 +1,7 @@
 $(document).on("ready",inicio);
 function inicio(){
     var reunion_id = document.getElementById('idreunion_id').value;
-       tablaresultadosreunion(reunion_id);
+    tablaresultadosreunion(reunion_id);
        //sumarpagados();
 }
 
@@ -45,16 +45,16 @@ function asistencia(asistencia, integrante_id, reunion_id){
 function tablaresultadosreunion(reunion_id)
 {
     var controlador = "";
-    //var parametro = "";
     var base_url = document.getElementById('base_url').value;
     var grupo_id = document.getElementById('idgrupo_id').value;
+    var reunion_numero = document.getElementById('estareunion_numero').value;
     
-    controlador = base_url+'reunion/getreunion';       
+    controlador = base_url+'reunion/getreunion';
     document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
     
     $.ajax({url: controlador,
            type:"POST",
-           data:{reunion_id:reunion_id, grupo_id:grupo_id},
+           data:{reunion_id:reunion_id, grupo_id:grupo_id, reunion_numero:reunion_numero},
            success:function(respuesta){
                
                // $("#encontrados").val("- 0 -");
@@ -121,21 +121,20 @@ function tablaresultadosreunion(reunion_id)
                             totall = totall+1;
                         }
                         html += "<option ";
-                        html += selected1+" value='P'>P</option>";
+                        html += selected1+" value='P'>PRESENTE</option>";
                         html += "<option ";
-                        html += selected2+" value='R'>R</option>";
+                        html += selected2+" value='R'>RETRASO</option>";
                         html += "<option ";
-                        html += selected3+" value='E'>E</option>";
+                        html += selected3+" value='E'>ENVIO</option>";
                         html += "<option ";
-                        html += selected4+" value='F'>F</option>";
+                        html += selected4+" value='F'>FALTA</option>";
                         html += "<option ";
-                        html += selected5+" value='L'>L</option>";
+                        html += selected5+" value='L'>LICENCIA</option>";
                         //html += "<option <?php echo $selected = (registros["asistencia_registro"] == 'F') ? ' selected='selected'' : ''; ?> value='F'>F</option>";
                         //html += "<option <?php echo $selected = (registros["asistencia_registro"] == 'P') ? ' selected='selected'' : ''; ?> value='P'>P</option>";
                         //html += "<option <?php echo $selected = (registros["asistencia_registro"] == 'R') ? ' selected='selected'' : ''; ?> value='R'>R</option>";
                         html += "</select>";
                         html += "</td>";
-                        
                         html += "<td class='text-right'>";
                         html += Number(registros[i]['integrante_montosolicitado']).toFixed(2);
                         html += "</td>";
@@ -153,7 +152,7 @@ function tablaresultadosreunion(reunion_id)
                             totalpagado = Number(totalpagado) + Number(registros[i]["cuota_monto"]);
                         }
                         totalapagar = Number(totalapagar) + Number(registros[i]["cuota_monto"]);
-                        html += "<input type='number' step='any' min='0' name='asistencia_pagado"+i+"' id='asistencia_pagado"+i+"' value='"+Number(asistencia_pagado).toFixed(2)+"' onchange='sumarpagados()' class='text-right' onclick='this.select();' />";
+                        html += "<input type='number' step='any' min='0' name='asistencia_pagado"+i+"' id='asistencia_pagado"+i+"' value='"+Number(asistencia_pagado).toFixed(2)+"' onchange='sumarpagados(); calcularahorro("+i+");' class='text-right' onclick='this.select();' />";
                         html += "</td>";
                         html += "<td>";
                         html += "<input type='number' step='any' min='0' name='asistencia_ahorro"+i+"' id='asistencia_ahorro"+i+"' value='"+Number(registros[i]["asistencia_ahorro"]).toFixed(2)+"' class='text-right' readonly />";
@@ -188,7 +187,14 @@ function tablaresultadosreunion(reunion_id)
                         }
                         html += "</td>";
                         html += "<td>";
-                        if(registros[i]["asistencia_registro"] == 'F'){
+                        html += "<a href='"+base_url+"multa/mismultas/"+registros[i]["cliente_id"]+"' class='btn btn-primary'><i class='fa fa-file-text'></i></a>";
+                        html += "</td>";
+                        html += "<td class='text-right'>";
+                        html += "<span id='mitotalapagar'>";
+                        html += registros[i]["cuota_monto"];
+                        html += "</span>";
+                        
+                        /*if(registros[i]["asistencia_registro"] == 'F'){
                             totalfaltas = Number(totalfaltas) + Number(registros[i]['asistencia_falta']);
                         var falta = "0.00";
                         if(registros[i]["asistencia_falta"] > 0){
@@ -196,7 +202,7 @@ function tablaresultadosreunion(reunion_id)
                         }
                         html += "<input type='number' step='any' min='0' name='asistencia_falta"+i+"' id='asistencia_falta"+i+"' value='"+Number(falta).toFixed(2)+"' onchange='sumarfaltas()' class='text-right' onclick='this.select();' />";
                         html += "<input type='number' name='asistencia_recibof"+i+"' id='asistencia_recibof"+i+"' class='text-right' value='"+registros[i]['asistencia_recibof']+"' />";
-                        }
+                        }*/
                         html += "</td>";
                         html += "<td>";
                         var observacion = "";
@@ -206,6 +212,9 @@ function tablaresultadosreunion(reunion_id)
                         html += "<input style='width: 100%' type='text' name='observacion"+i+"' id='observacion"+i+"' value='"+observacion+"' />";
                         html += "<input type='hidden' name='integrante_id"+i+"' id='integrante_id"+i+"' value='"+registros[i]['integrante_id']+"' />";
                         html += "<input type='hidden' name='asistencia_cuota"+i+"' id='asistencia_cuota"+i+"' value='"+registros[i]['cuota_monto']+"' />";
+                        html += "</td>";
+                        html += "<td>";
+                        html += "<a class='btn btn-success btn-xs'><i class='fa fa-dollar'></i></a>";
                         html += "</td>";
                         
                         html += "</tr>";
@@ -246,6 +255,11 @@ function tablaresultadosreunion(reunion_id)
 
 }
 
+function calcularahorro(i){
+    var cuota_monto = $("#cuota_monto"+i).val();
+    var cuota_pagada = $("#asistencia_pagado"+i).val();
+    $("#asistencia_ahorro"+i).val(Number(cuota_pagada)-Number(cuota_monto));
+}
 function sumarpagados(){
     var numclientes = $("#numclientes").val();
     var totalpagado = 0;

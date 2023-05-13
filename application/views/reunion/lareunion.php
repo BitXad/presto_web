@@ -3,6 +3,7 @@
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <input type="hidden" name="estegrupo_tiempotolerancia" id="estegrupo_tiempotolerancia" value="<?php echo $reunion['grupo_tiempotolerancia']; ?>" />
 <input type="hidden" name="estareunion_hora" id="estareunion_hora" value="<?php echo $reunion['reunion_hora']; ?>" />
+<input type="hidden" name="estareunion_numero" id="estareunion_numero" value="<?php echo $reunion['reunion_numero']; ?>" />
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
@@ -25,15 +26,17 @@
                 <table class="table table-striped" id="mitabla">
                     <tr>
                         <th>#</th>
-                        <th>Integrante</th>
-                        <th>Asistencia</th>
-                        <th>Monto Indv.</th>
-                        <th>Cuota</th>
-                        <th>Pagado</th>
-                        <th>Ahorro</th>
-                        <th>Estado/Recibo</th>
-                        <th>Multas</th>
-                        <th>Observaciones</th>
+                        <th>INTEGRANTE</th>
+                        <th>ASISTENCIA</th>
+                        <th>MONTO IND.</th>
+                        <th>CUOTA</th>
+                        <th>PAGADO</th>
+                        <th>AHORRO</th>
+                        <th>MULTAS POR PAGAR</th>
+                        <th>OTRAS<br>MULTAS</th>
+                        <th>TOTAL</th>
+                        <th>OBSERVACIONES</th>
+                        <th></th>
                     </tr>
                     <tbody class="buscar" id="tablaresultados">
                     <?php /*$i=0;
@@ -121,7 +124,7 @@
                         <td><input type="number" step="any" min="0" name="totalpagado" id="totalpagado" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" step="any" min="0" name="totalahorro" id="totalahorro" value="0.00" class="text-right" readonly /></td>
                         <td><input type="number" name="totalretraso" id="totalretraso" value="0.00" class="text-right" readonly /></td>
-                        <td><input type="number" name="totalenvios" id="totalenvios" value="0.00" class="text-right" readonly /></td>
+                        <td><!--<input type="number" name="totalenvios" id="totalenvios" value="0.00" class="text-right" readonly />--></td>
                         <td><input type="number" name="totalfaltas" id="totalfaltas" value="0.00" class="text-right" readonly /></td>
                         <td></td>
                     </tr>

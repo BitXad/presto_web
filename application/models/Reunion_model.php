@@ -133,7 +133,7 @@ class Reunion_model extends CI_Model
     /*
      * Get integrantes 
      */
-    function get_this_clientesgrupo($reunion_id, $grupo_id)
+    function get_this_clientesgrupo($reunion_id, $grupo_id, $reunion_numero)
     {
         $cliente = $this->db->query("
             SELECT
@@ -147,7 +147,7 @@ class Reunion_model extends CI_Model
                 integrante i
             LEFT JOIN cliente c on i.cliente_id = c.cliente_id
             LEFT JOIN credito cr on c.cliente_id = cr.cliente_id
-            LEFT JOIN cuota cu on cr.credito_id = cu.cuota_id
+            LEFT JOIN cuota cu on cr.credito_id = cu.credito_id
             LEFT JOIN asistencia a on i.integrante_id = a.integrante_id
             LEFT JOIN grupo g on i.grupo_id = g.grupo_id
             LEFT JOIN reunion r on g.grupo_id = r.grupo_id
@@ -155,6 +155,8 @@ class Reunion_model extends CI_Model
                 i.grupo_id = $grupo_id
                 and a.reunion_id = r.reunion_id
                 and r.reunion_id = $reunion_id
+                and r.reunion_numero = $reunion_numero
+                and cu.cuota_numero  = $reunion_numero
         ")->result_array();
 
         return $cliente;
